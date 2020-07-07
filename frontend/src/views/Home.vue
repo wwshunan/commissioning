@@ -39,6 +39,22 @@
               }
             ]
           },
+          {
+              title: 'Log',
+              icon: 'fa fa-list-ul',
+              child: [
+                  {
+                      href: '/log/beam-time',
+                      title: 'Beam Time',
+                      icon: 'fa fa-clock-o'
+                  },
+                  {
+                      href: '/log/check',
+                      title: 'Lattice Check',
+                      icon: 'fa fa-check'
+                  }
+              ]
+          }
         ],
           sidebar_width: '250px',
           collapsed: false

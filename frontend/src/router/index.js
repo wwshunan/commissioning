@@ -14,7 +14,17 @@ const routes = [
         path: '/lattice/setting',
         name: 'LatticeSetting',
         component: () => import( '../views/Lattice.vue')
-      }
+      },
+      {
+        path: '/log/check',
+        name: 'LatticeCheck',
+        component: () => import( '../views/LatticeCheck.vue')
+      },
+      {
+        path: '/log/beam-time',
+        name: 'UsageTime',
+        component: () => import( '../views/UsageTime.vue')
+      },		  
     ]
   },
 ]
