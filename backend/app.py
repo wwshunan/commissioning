@@ -44,7 +44,6 @@ def remove_dict_null(data):
 @app.route('/lattice-upload', methods=['POST'])
 def lattice_upload():
     f = request.files['file']
-    print(unquote(f.filename))
     f.save(unquote(f.filename))
     #f.save(secure_filename(unquote(f.filename)))
     lattice_data = load_lattice(unquote(f.filename))
@@ -137,9 +136,12 @@ def stop_time_accumulate():
 @app.route('/log/snapshot', methods=['POST'])
 def snapshot():
     loop_num = 6
+    data = request.get_json()
+    selected_sections = data['selected_sections']
+    cache.set('selected_sections', selected_sections)
     snapshots = {}
     for i in range(loop_num):
-        pv_values = get_pv_values()
+        pv_values = get_pv_values(selected_sections)
         for k in pv_values:
             if k not in snapshots:
                 snapshots[k] = {}
@@ -181,10 +183,10 @@ def snapshot_checkout():
     newest_snapshot = Snapshot.query.order_by(
         Snapshot.timestamp.desc()
     ).limit(1).first()
-    print(newest_snapshot)
 
     data = newest_snapshot.to_json()
-    diffs = checkout(data)
+    selected_sections = cache.get('selected_sections')
+    diffs = checkout(data, selected_sections)
     return jsonify({
         'diffs': diffs
     })

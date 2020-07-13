@@ -1,48 +1,35 @@
 from epics import PV
-import time
-import numpy as np
-import os
+import json
 
-bpm_fnames = ['x.txt', 'y.txt', 'phase.txt']
-bpm_fnames = [os.path.join('lattice/monitor/bpm', fname)
-              for fname in bpm_fnames]
-magnet_fnames = ['MEBT-magnets-mon.txt', 'CM1-magnets-mon.txt', 'CM2-magnets-mon.txt',
-                 'CM3-magnets-mon.txt', 'CM4-magnets-mon.txt', 'HEBT-magnets-mon.txt']
-magnet_fnames = [os.path.join('lattice/monitor/magnets', fname)
-                 for fname in magnet_fnames]
-amp_fnames = ['MEBT-amp-mon.txt', 'cm1-amp-mon.txt', 'cm2-amp-mon.txt',
-              'cm3-amp-mon.txt', 'cm4-amp-mon.txt']
-amp_fnames = [os.path.join('lattice/monitor/amp', fname)
-              for fname in amp_fnames]
-phase_fnames = ['MEBT-phase-mon.txt', 'cm1-phase-mon.txt', 'cm2-phase-mon.txt',
-                'cm3-phase-mon.txt', 'cm4-phase-mon.txt']
-phase_fnames = [os.path.join('lattice/monitor/phase', fname)
-                for fname in phase_fnames]
+bypass_fname = 'lattice/monitor/bypass.txt'
+def get_pv_values(sections):
 
-pv_fnames = {
-    'amps': amp_fnames,
-    'phases': phase_fnames,
-    'magnets': magnet_fnames,
-    'bpms': bpm_fnames
-}
-
-def get_pv_values():
     vals = {}
-    for label in pv_fnames:
-        vals[label] = get_one_type_values(pv_fnames[label])
+    with open('lattice/monitor/monitor_pvs.json') as f:
+        data = json.load(f)
+
+    with open(bypass_fname) as f:
+        bypass_pvs = f.read()
+    bypass_pvs = bypass_pvs.split('\n')
+    for s in sections:
+        for record_type in data[s]:
+            if record_type not in vals:
+                vals[record_type] = {}
+            if record_type == 'bpms':
+                for k_list in data[s][record_type].values():
+                    for e in k_list:
+                        if e['value'] in bypass_pvs:
+                            continue
+                        vals[record_type][e['name']] = PV(e['value']).get()
+            else:
+                for e in data[s][record_type]:
+                    if e['value'] in bypass_pvs:
+                        continue
+                    vals[record_type][e['name']] = PV(e['value']).get()
     return vals
 
-def get_one_type_values(fnames):
-    vals = {}
-    for fname in fnames:
-        with open(fname) as fobj:
-            for each_line in fobj:
-                name, pv_name = each_line.split()
-                vals[name] = PV(pv_name).get()
-    return vals
-
-def checkout(stored):
-    current_vals = get_pv_values()
+def checkout(stored, sections):
+    current_vals = get_pv_values(sections)
     phase_tol = 1
     amp_tol = 0.2
     magnet_tol = 0.2
@@ -63,3 +50,6 @@ def checkout(stored):
             ):
                 diffs[k][name] = diff
     return diffs
+
+if __name__ == '__main__':
+    pass
