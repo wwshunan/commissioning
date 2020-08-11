@@ -1,8 +1,8 @@
 from werkzeug.utils import secure_filename
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from lattice import load_lattice, generate_info, set_lattice, set_sync_phases
-from snapshot_log import get_pv_values, checkout
+from backend.lattice import load_lattice, generate_info, set_lattice, set_sync_phases
+from backend.snapshot_log import get_pv_values, checkout
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy, declarative_base
 import os
@@ -12,12 +12,13 @@ from flask_nameko import FlaskPooledClusterRpcProxy
 from urllib.parse import unquote
 import numpy as np
 import time
+import json
 
 app = Flask(__name__)
 
 config = {
-    "DEBUG": True,          # some Flask specific configs
-    "CACHE_TYPE": "simple", # Flask-Caching related configs
+    "DEBUG": True,  # some Flask specific configs
+    "CACHE_TYPE": "simple",  # Flask-Caching related configs
     "CACHE_DEFAULT_TIMEOUT": 0,
     "SQLALCHEMY_DATABASE_URI": 'sqlite:///lattice.db',
     "SQLALCHEMY_TRACK_MODIFICATIONS": False,
@@ -33,6 +34,7 @@ Base = declarative_base()
 
 CORS(app, resources=r'/*')
 
+
 def remove_dict_null(data):
     copied_keys = tuple(data.keys())
     for key in copied_keys:
@@ -41,11 +43,12 @@ def remove_dict_null(data):
         if not data[key]:
             data.pop(key)
 
+
 @app.route('/lattice-upload', methods=['POST'])
 def lattice_upload():
     f = request.files['file']
     f.save(unquote(f.filename))
-    #f.save(secure_filename(unquote(f.filename)))
+    # f.save(secure_filename(unquote(f.filename)))
     lattice_data = load_lattice(unquote(f.filename))
     remove_dict_null(lattice_data)
     lattice_info = generate_info(lattice_data)
@@ -54,6 +57,7 @@ def lattice_upload():
     return jsonify({
         'lattice': lattice_info
     })
+
 
 @app.route('/lattice-setting', methods=['POST'])
 def lattice_setting():
@@ -78,12 +82,13 @@ def lattice_setting():
                         cavity_name = element
                         cavity_values = element_collections[element]
                         cavity = Cavity(cavity_name=cavity_name, section_name=section_name,
-                                         amp=cavity_values['amp'], phase=cavity_values['phase'],
-                                         operation=operation)
+                                        amp=cavity_values['amp'], phase=cavity_values['phase'],
+                                        operation=operation)
                         db.session.add(cavity)
         db.session.commit()
     resp = jsonify(success=True)
     return resp
+
 
 @app.route('/lattice-query', methods=['POST'])
 def lattice_query():
@@ -119,19 +124,67 @@ def lattice_query():
     })
     return resp
 
-@app.route('/log/start', methods=['POST'])
+
+@app.route('/log/start', methods=['GET'])
 def start_time_accumulate():
-    time_break_id = rpc.usage_time_service.start()
-    cache.set('time_break_id', time_break_id)
-    rpc.usage_time_service.accumulate_time.call_async(time_break_id)
+    interrupt_id, time_break_id = rpc.usage_time_service.start()
+    cache.set('interrupt', interrupt_id)
+    cache.set('time_break', time_break_id)
+    with open('slaves/timing-id.txt', 'w') as fobj:
+        fobj.write('{}\t{}\n'.format(interrupt_id, time_break_id))
+    rpc.usage_time_service.accumulate_time.call_async(interrupt_id, time_break_id)
     return jsonify(status='Success')
+
 
 @app.route('/log/stop', methods=["GET"])
 def stop_time_accumulate():
-    time_break_id = cache.get('time_break_id')
-    usage_time = rpc.usage_time_service.stop(time_break_id)
-    usage_time = float(usage_time) / 3600
-    return jsonify({'usage_time': round(usage_time, 3)})
+    #time_break_id = cache.get('time_break')
+    with open('slaves/timing-id.txt') as fobj:
+        time_break_id = fobj.readlines()[0].split()[1]
+    status = rpc.usage_time_service.stop(time_break_id)
+    # usage_time = json.loads(usage_time)
+    # usage_time = float(usage_time['0.0']['beam_time']) / 3600
+    # return jsonify({'usage_time': round(usage_time, 3)})
+    return status
+
+
+@app.route('/log/interrupt', methods=["GET"])
+def interrupt_timing():
+    with open('slaves/timing-id.txt') as fobj:
+        interrupt_id = fobj.readlines()[0].split()[0]
+    usage_time = rpc.usage_time_service.interrupt(interrupt_id)
+    usage_time = json.loads(usage_time)
+    for duty_factor in usage_time:
+        for acct in ['ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']:
+            if usage_time[duty_factor]['count'] == 0:
+                usage_time[duty_factor][acct] = 0
+            else:
+                usage_time[duty_factor][acct] /= usage_time[duty_factor]['count']
+        usage_time[duty_factor].pop('count')
+        usage_time[duty_factor]['beam_time'] = round(usage_time[duty_factor]['beam_time'] / 3600, 3)
+
+    return jsonify({'usage_time': usage_time})
+
+@app.route('/log/time-query', methods=['POST'])
+def time_query():
+    post_data = request.get_json()
+    print(post_data)
+    start_date = datetime.strptime(post_data['startDate'], "%Y-%m-%dT")
+    to_date = datetime.strptime(post_data['toDate'], "%Y-%m-%dT")
+    query_condition = Timing.query.filter(
+        Timing.timestamp >= start_date).filter(Timing.timestamp <= to_date)
+
+    timing_info = []
+    timings = query_condition.all()
+    #timing_data = [datetime.strptime(t.timestamp, '')]
+    for t in timings:
+        print(type(t.timestamp))
+        timing_info.append(t.to_json())
+    print(timing_info)
+    return jsonify({
+        'usage_time': timing_info
+    })
+
 
 @app.route('/log/snapshot', methods=['POST'])
 def snapshot():
@@ -142,6 +195,7 @@ def snapshot():
     snapshots = {}
     for i in range(loop_num):
         pv_values = get_pv_values(selected_sections)
+        print(pv_values)
         for k in pv_values:
             if k not in snapshots:
                 snapshots[k] = {}
@@ -178,6 +232,7 @@ def snapshot():
     resp = jsonify(status='Success')
     return resp
 
+
 @app.route('/log/snapshot-checkout', methods=['GET'])
 def snapshot_checkout():
     newest_snapshot = Snapshot.query.order_by(
@@ -190,6 +245,28 @@ def snapshot_checkout():
     return jsonify({
         'diffs': diffs
     })
+
+
+def save_timing(timing_data):
+    print(timing_data)
+    for dutyfactor in timing_data:
+        for acct in ['ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']:
+            if timing_data[dutyfactor]['count'] == 0:
+                timing_data[dutyfactor][acct] = 0
+            else:
+                timing_data[dutyfactor][acct] /= timing_data[dutyfactor]['count']
+
+        timing_item = Timing(
+            dutyfactor=dutyfactor,
+            times=timing_data[dutyfactor]['beam_time'],
+            acct1=timing_data[dutyfactor]['ACCT1'],
+            acct2=timing_data[dutyfactor]['ACCT2'],
+            acct3=timing_data[dutyfactor]['ACCT3'],
+            acct4=timing_data[dutyfactor]['ACCT4'],
+        )
+        db.session.add(timing_item)
+    db.session.commit()
+
 
 class Snapshot(db.Model):
     __tablename__ = 'snapshots'
@@ -218,6 +295,7 @@ class Snapshot(db.Model):
     def __repr__(self):
         return 'Snapshot {}'.format(self.id)
 
+
 class BPM(db.Model):
     __tablename__ = 'bpms'
     id = db.Column(db.Integer, primary_key=True)
@@ -234,6 +312,7 @@ class BPM(db.Model):
 
     def __repr__(self):
         return self.name
+
 
 class Amp(db.Model):
     __tablename__ = 'amps'
@@ -252,6 +331,7 @@ class Amp(db.Model):
     def __repr__(self):
         return self.name
 
+
 class Phase(db.Model):
     __tablename__ = 'phases'
     id = db.Column(db.Integer, primary_key=True)
@@ -268,6 +348,7 @@ class Phase(db.Model):
 
     def __repr__(self):
         return self.name
+
 
 class SnapshotMagnet(db.Model):
     __tablename__ = 'snapshot_magnets'
@@ -286,6 +367,7 @@ class SnapshotMagnet(db.Model):
     def __repr__(self):
         return self.name
 
+
 class Operation(db.Model):
     __tablename__ = 'operations'
     id = db.Column(db.Integer, primary_key=True)
@@ -297,6 +379,7 @@ class Operation(db.Model):
     def __repr__(self):
         return '<Operation {}>'.format(self.timestamp)
 
+
 class Magnet(db.Model):
     __tablename__ = 'magnets'
     id = db.Column(db.Integer, primary_key=True)
@@ -307,6 +390,7 @@ class Magnet(db.Model):
 
     def __repr__(self):
         return '<Magnet {} {}>'.format(self.section_name, self.magnet_name)
+
 
 class Cavity(db.Model):
     __tablename__ = 'cavities'
@@ -320,8 +404,32 @@ class Cavity(db.Model):
     def __repr__(self):
         return '<Cavity {} {}>'.format(self.section_name, self.cavity_name)
 
+
+class Timing(db.Model):
+    __tablename__ = 'timing'
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    dutyfactor = db.Column(db.Float(16))
+    times = db.Column(db.Float(16))
+    acct1 = db.Column(db.Float(16))
+    acct2 = db.Column(db.Float(16))
+    acct3 = db.Column(db.Float(16))
+    acct4 = db.Column(db.Float(16))
+
+    def __repr__(self):
+        return 'Timing at {}'.format(self.timestamp)
+
+    def to_json(self):
+        return {
+            'timestamp': self.timestamp + timedelta(hours=8),
+            'duty_factor': self.dutyfactor,
+            'beam_time': self.times,
+            'acct1': self.acct1,
+            'acct2': self.acct2,
+            'acct3': self.acct3,
+            'acct4': self.acct4
+        }
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
-
-
