@@ -24,6 +24,11 @@ const routes = [
         path: '/log/beam-time',
         name: 'UsageTime',
         component: () => import( '../views/UsageTime.vue')
+      },	
+      {
+        path: '/commissioning/sequencer',
+        name: 'UsageTime',
+        component: () => import( '../views/Sequencer.vue')
       },		  
     ]
   },

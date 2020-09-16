@@ -3,16 +3,23 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from backend.lattice import load_lattice, generate_info, set_lattice, set_sync_phases
 from backend.snapshot_log import get_pv_values, checkout
+#from backend.sequencer.sequence import Sequence
+#from backend.sequencer.callable_task import CallableTask
+from sequencer.task_impl import ADSTask, ADSSequence
+from sequencer.task_state import TaskState
+from backend.sequencer.task_user_interface import TaskUserInterface
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy, declarative_base
-import os
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from collections import OrderedDict
 from flask_nameko import FlaskPooledClusterRpcProxy
 from urllib.parse import unquote
+from flask_socketio import SocketIO, emit
+from event_manager import *
 import numpy as np
-import time
-import json
+import os, time, json, importlib
+import eventlet
 
 app = Flask(__name__)
 
@@ -28,12 +35,46 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 db = SQLAlchemy(app)
-rpc = FlaskPooledClusterRpcProxy(app)
+eventlet.monkey_patch()
+socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
+#rpc = FlaskPooledClusterRpcProxy(app)
 
 Base = declarative_base()
 
 CORS(app, resources=r'/*')
 
+results = {
+    'NOT_STARTED': "<span>NOT_STARTED</span>",
+    'FINISHED': "<span style='color: green; '>FINISHED</span>",
+    'FINISHED_FAULTY': "<span style='color: red; '>FINISHED_FAULTY</span>",
+    'SKIPPED': "<span style='color: yellow; '>SKIPPED</span>",
+}
+
+event_manager = EventManager()
+
+class UserCode(TaskUserInterface):
+    def __init__(self, task):
+        self.module = 'sequencer.user_codes.tasks'
+        self.task = task
+
+    def execUserCode(self):
+        mod = importlib.import_module(self.module)
+        user_code = getattr(mod, self.task.user_code)
+        try:
+            user_code()
+            status = TaskState.OK.name
+        except:
+            status = TaskState.FAILURE.name
+        finally:
+            socketio.emit('finished', {
+                'status': status,
+                'id': self.task.id,
+                'name': self.task.name
+            })
+
+@socketio.on('connect')
+def task_connect():
+    print('connected!')
 
 def remove_dict_null(data):
     copied_keys = tuple(data.keys())
@@ -168,7 +209,6 @@ def interrupt_timing():
 @app.route('/log/time-query', methods=['POST'])
 def time_query():
     post_data = request.get_json()
-    print(post_data)
     start_date = datetime.strptime(post_data['startDate'], "%Y-%m-%dT")
     to_date = datetime.strptime(post_data['toDate'], "%Y-%m-%dT")
     query_condition = Timing.query.filter(
@@ -267,6 +307,136 @@ def save_timing(timing_data):
         db.session.add(timing_item)
     db.session.commit()
 
+@app.route('/commissioning/sequence-execute', methods=['POST'])
+def sequence_execute():
+    #EVENT_STARTUP = 'Event_Startup'
+    #EVENT_FINISHED = 'Event_Finished'
+    #event_manager = EventManager()
+    #event_manager.add_event_worker(EVENT_STARTUP, )
+    sequence = request.get_json()
+    seq = db.session.query(Task).filter(Task.id == sequence['id']).first()
+    worker_num = 1
+    if seq.parallelizable:
+        worker_num = 5
+    executor = ThreadPoolExecutor(max_workers=worker_num)
+    sequence = sequence_instantiate(seq, executor)
+    sequence.execUserCode()
+    return jsonify({
+        "status": "OK"
+    })
+
+def create_sequence(data, sequence_name, task_level):
+    children = []
+    tasks = data[sequence_name]["tasks"]
+    next_task_level = task_level + 1
+    for task in tasks:
+        task_id = task["task_id"]
+        child = data[task_id]
+        if child["task_type"] == "task":
+            children.append(Task(
+                task_type="task",
+                name=child["name"],
+                description=child["description"],
+                skippable=child["skippable"],
+                interactive=child["interactive"],
+                user_code=child["user_code"],
+            ))
+        else:
+            sequence = Task(
+                task_type="seq",
+                name=child["name"],
+                description=child["description"],
+                task_level=task_level,
+                children=create_sequence(data, task_id, next_task_level)
+            )
+            children.append(sequence)
+    return children
+
+def insert_tasks():
+    with open('sequencer/task_data.json') as f:
+        data = json.load(f)
+    for task_name in data:
+        if data[task_name]["task_type"] == "seq":
+            sequence = Task(
+                task_type="seq",
+                name=data[task_name]["name"],
+                description=data[task_name]["description"],
+                task_level=0,
+                children=create_sequence(data, task_name, task_level=1)
+            )
+            db.session.add(sequence)
+    db.session.commit()
+
+def sequence_instantiate(seq, executor):
+    sequence = ADSSequence(taskName=seq.name,
+                        parallelizable=seq.parallelizable,
+                        executor=executor)
+    tasks = []
+    for task in seq.children:
+        if task.task_type == 'task':
+            t = ADSTask(taskName=task.name)
+            user_code = UserCode(task)
+            t.setUserCode(user_code)
+            sequence.addTask(t)
+            #tasks.append(t)
+        else:
+            #t = Sequence(taskName=task.name,
+            #             parallelizable=task.parallelizable,
+            #             server=server)
+            #tasks.append(t)
+            subsequence = sequence_instantiate(task, executor)
+            sequence.addTask(subsequence)
+            #subtasks = subtasks_instantiate(task, server)
+            #tasks.extend(subtasks)
+    #return tasks
+    return sequence
+
+def get_tasks(seq):
+    sequence = {
+        'id': seq.id,
+        'name': seq.name,
+        'description': seq.description,
+        'directive': 'RUN',
+        'result': results["NOT_STARTED"],
+        'children': []
+    }
+    for task in seq.children:
+        if task.task_type == 'task':
+            t = {
+                'id': task.id,
+                'name': task.name,
+                'description': task.description,
+                'directive': 'RUN',
+                'result': results["FINISHED"],
+            }
+        else:
+            t = get_tasks(task)
+        sequence["children"].append(t)
+    return sequence
+
+@app.route('/commissioning/load-sequences')
+def load_sequences():
+    sequences = []
+    sequences_root = db.session.query(Task).filter((Task.task_type == 'seq')
+                                                   & (Task.task_level == 0)).all()
+    for seq in sequences_root:
+        sequences.append(get_tasks(seq))
+    return jsonify({
+        'sequences': sequences
+    })
+
+
+def execute_sequence(sequence_name):
+    server = None
+    tasks = []
+    seq = db.session.query(Task).filter(Task.name==sequence_name).first()
+    tasks.append(sequence)
+    subtasks = subtasks_instantiate(seq, server)
+    tasks.extend(subtasks)
+    for t in tasks:
+        if isinstance(t, Sequence):
+            continue
+        t.userCode.execUserCode()
 
 class Snapshot(db.Model):
     __tablename__ = 'snapshots'
@@ -430,6 +600,23 @@ class Timing(db.Model):
             'acct4': self.acct4
         }
 
+class Task(Base):
+    __tablename__ = 'task'
+    id = db.Column(db.Integer, primary_key=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    task_type = db.Column(db.String(64))
+    name = db.Column(db.String(64))
+    description = db.Column(db.String(64))
+    task_level = db.Column(db.Integer, default=-1)
+    skippable = db.Column(db.Boolean, unique=False, default=True)
+    interactive = db.Column(db.Boolean, unique=False, default=True)
+    parallelizable = db.Column(db.Boolean, default=False)
+    user_code = db.Column(db.String(32), default="")
+    children = db.relationship('Task',
+                               backref=db.backref('parent', remote_side=[id]))
+
+    def __repr__(self):
+        return self.name
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    socketio.run(app, debug=True, host='0.0.0.0')

@@ -54,7 +54,19 @@
                       icon: 'fa fa-check'
                   }
               ]
+          },
+            {
+                title: 'Commissioning',
+                icon: 'fa fa-list-ul',
+                child: [
+                    {
+                        href: '/commissioning/sequencer',
+                        title: 'Sequencer',
+                        icon: 'fa fa-yin-yang'
+                    },
+              ]
           }
+
         ],
           sidebar_width: '250px',
           collapsed: false
