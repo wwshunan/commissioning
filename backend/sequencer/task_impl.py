@@ -4,13 +4,16 @@ from .task_parameter import TaskParameter
 from .abstract_task_impl import AbstractTaskImpl
 from datetime import datetime
 import threading
+from .priority_item import PrioritizedItem
 
 class ADSTask(AbstractTaskImpl, CallableTask):
     def __init__(self, taskName='', description='', sequence=None,
                  runnable_code=None, reference=None, parameter=None,
                  repititionNumber=1, repititionCount=0, sequenceName='',
                  skippable=False, interactive=False, taskBreakPoint=False,
-                 skipTaskState=False, skippableState=False, deviceName=''):
+                 skipTaskState=False, skippableState=False, deviceName='',
+                 id=1):
+        self.id = id
         self.parameter = parameter
         self.deviceName = deviceName
         self.sequenceName = sequenceName
@@ -165,7 +168,7 @@ class ADSTask(AbstractTaskImpl, CallableTask):
         pass
 
     def execUserCode(self):
-        self.runnable_code()
+        return self.runnable_code()
 
     def execPostUserCode(self):
         pass
@@ -178,8 +181,9 @@ class ADSSequence(AbstractTaskImpl, Sequence):
                  sequence=None, reference=None, taskName='',
                  repititionNumber=1, repititionCount=0, description='',
                  skippable=False, interactive=False, taskBreakPoint=False,
-                 skipTaskState=False, skippableState=False,
-                 parallelizable=False, executor=None):
+                 skipTaskState=False, skippableState=False, id=1,
+                 parallelizable=False, event_manager=None):
+        self.id = id
         self.parameter = parameter
         self.deviceName = deviceName
         self.sequenceName = sequenceName
@@ -196,7 +200,8 @@ class ADSSequence(AbstractTaskImpl, Sequence):
         self.skipTaskState = skipTaskState
         self.skippableState = skippableState
         self.parallelizable=parallelizable
-        self.executor=executor
+        #self.executor=executor
+        self.event_manager = event_manager
         self.tasks = []
 
     def getDeviceName(self):
@@ -336,9 +341,13 @@ class ADSSequence(AbstractTaskImpl, Sequence):
         pass
 
     def execUserCode(self):
-        executor = self.executor
+        #executor = self.executor
+        event_manager = self.event_manager
         for task in self.getFlattenedTaskList():
-            executor.submit(task.userCode.execUserCode)
+            print(task.id)
+            task_item = PrioritizedItem(1, task.userCode.execUserCode)
+            event_manager.send_task(task_item)
+            #executor.submit(task.userCode.execUserCode)
 
     def execPostUserCode(self):
         pass

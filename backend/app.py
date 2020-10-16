@@ -7,13 +7,14 @@ from backend.snapshot_log import get_pv_values, checkout
 #from backend.sequencer.callable_task import CallableTask
 from sequencer.task_impl import ADSTask, ADSSequence
 from sequencer.task_state import TaskState
+from sequencer.priority_item import PrioritizedItem
 from backend.sequencer.task_user_interface import TaskUserInterface
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy, declarative_base
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from collections import OrderedDict
 from flask_nameko import FlaskPooledClusterRpcProxy
+from flask_redis import FlaskRedis
 from urllib.parse import unquote
 from flask_socketio import SocketIO, emit
 from event_manager import *
@@ -35,6 +36,7 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 db = SQLAlchemy(app)
+redis_client = FlaskRedis(app)
 eventlet.monkey_patch()
 socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 #rpc = FlaskPooledClusterRpcProxy(app)
@@ -51,6 +53,9 @@ results = {
 }
 
 event_manager = EventManager()
+event_manager.start()
+
+sequence_to_execute = None
 
 class UserCode(TaskUserInterface):
     def __init__(self, task):
@@ -61,7 +66,7 @@ class UserCode(TaskUserInterface):
         mod = importlib.import_module(self.module)
         user_code = getattr(mod, self.task.user_code)
         try:
-            user_code()
+            result = user_code()
             status = TaskState.OK.name
         except:
             status = TaskState.FAILURE.name
@@ -71,6 +76,7 @@ class UserCode(TaskUserInterface):
                 'id': self.task.id,
                 'name': self.task.name
             })
+            return status
 
 @socketio.on('connect')
 def task_connect():
@@ -307,19 +313,64 @@ def save_timing(timing_data):
         db.session.add(timing_item)
     db.session.commit()
 
-@app.route('/commissioning/sequence-execute', methods=['POST'])
-def sequence_execute():
-    #EVENT_STARTUP = 'Event_Startup'
-    #EVENT_FINISHED = 'Event_Finished'
-    #event_manager = EventManager()
-    #event_manager.add_event_worker(EVENT_STARTUP, )
+@app.route('/commissioning/task-stop', methods=['POST'])
+def task_stop():
+    stop_event = PrioritizedItem(0, 'stop')
+    event_manager.send_task(stop_event)
+    return jsonify({
+        'status': 'OK'
+    })
+
+@app.route('/commissioning/task-step', methods=['POST'])
+def task_step():
+    task_id = request.get_json()['id']
+    sequence = sequence_to_execute
+    tasks = sequence.getFlattenedTaskList()
+    manager = sequence.event_manager
+    print(type(tasks))
+    i = 0
+    for t in tasks:
+        if t.id == task_id:
+            task = t
+            if i < len(tasks) - 1:
+                next_task_id = tasks[i+1].id
+            else:
+                next_task_id = tasks[i].id
+            break
+        i += 1
+    task_item = PrioritizedItem(1, task.userCode.execUserCode)
+    manager.send_task(task_item)
+    socketio.emit('next_task', {
+        'next_task_id': next_task_id
+    })
+    return jsonify({
+        'stauts': 'OK'
+    })
+
+@app.route('/commissioning/sequence-init', methods=['POST'])
+def sequence_init():
+    global sequence_to_execute
+    # EVENT_STARTUP = 'Event_Startup'
+    # EVENT_FINISHED = 'Event_Finished'
+    # event_manager.add_event_worker(EVENT_STARTUP, )
     sequence = request.get_json()
     seq = db.session.query(Task).filter(Task.id == sequence['id']).first()
     worker_num = 1
     if seq.parallelizable:
         worker_num = 5
-    executor = ThreadPoolExecutor(max_workers=worker_num)
-    sequence = sequence_instantiate(seq, executor)
+
+    event_manager.set_worker_num = worker_num
+    # executor = ThreadPoolExecutor(max_workers=worker_num)
+    sequence = sequence_instantiate(seq, event_manager)
+    sequence_to_execute = sequence
+    return jsonify({
+        'status': 'OK'
+    })
+
+@app.route('/commissioning/sequence-execute', methods=['POST'])
+def sequence_execute():
+    #sequence = sequence_instantiate(seq, executor)
+    sequence = sequence_to_execute
     sequence.execUserCode()
     return jsonify({
         "status": "OK"
@@ -367,14 +418,15 @@ def insert_tasks():
             db.session.add(sequence)
     db.session.commit()
 
-def sequence_instantiate(seq, executor):
-    sequence = ADSSequence(taskName=seq.name,
-                        parallelizable=seq.parallelizable,
-                        executor=executor)
+def sequence_instantiate(seq, event_manager):
+    sequence = ADSSequence(id=seq.id,
+                           taskName=seq.name,
+                           parallelizable=seq.parallelizable,
+                           event_manager=event_manager)
     tasks = []
     for task in seq.children:
         if task.task_type == 'task':
-            t = ADSTask(taskName=task.name)
+            t = ADSTask(id=task.id, taskName=task.name)
             user_code = UserCode(task)
             t.setUserCode(user_code)
             sequence.addTask(t)
@@ -384,7 +436,7 @@ def sequence_instantiate(seq, executor):
             #             parallelizable=task.parallelizable,
             #             server=server)
             #tasks.append(t)
-            subsequence = sequence_instantiate(task, executor)
+            subsequence = sequence_instantiate(task, event_manager)
             sequence.addTask(subsequence)
             #subtasks = subtasks_instantiate(task, server)
             #tasks.extend(subtasks)
@@ -421,6 +473,7 @@ def load_sequences():
                                                    & (Task.task_level == 0)).all()
     for seq in sequences_root:
         sequences.append(get_tasks(seq))
+    print(sequences)
     return jsonify({
         'sequences': sequences
     })

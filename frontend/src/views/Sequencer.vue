@@ -1,41 +1,58 @@
 <template>
    <div class="container">
-       <b-form-group label="执行序列选择" label-for="sequenceSelection">
-           <b-form-select v-model="selected" :options="options"
-                          :select-size="4" id="sequenceSelection"></b-form-select>
-           <b-button variant="secondary mt-2"
-                     @click.prevent="on_load">Load</b-button>
-       </b-form-group>
-       <b-form-group label="已选择执行序列" label-for="sequenceSelection">
-           <JqxTreeGrid ref="myTreeGrid"
-                        :width="width"
-                        :editable="true"
-                        :columns="columns"
-                        :theme="theme"
-                        selection-mode="singlecell"
-                        :source="dataAdapter">
-           </JqxTreeGrid>
-
-           <div>
-               <b-btn-group>
+       <FlashMessage :position="'right bottom'"></FlashMessage>
+       <div class="row">
+           <div class="col-md-4">
+               <b-form-group label="执行序列选择" label-for="sequenceSelection">
+                   <b-form-select v-model="selected" :options="options"
+                                  :select-size="4" id="sequenceSelection"></b-form-select>
                    <b-button variant="secondary mt-2"
-                             @click.prevent="execute">execute</b-button>
-                   <b-button variant="secondary mt-2"
-                             @click.prevent="step">step</b-button>
-                   <b-button variant="secondary mt-2"
-                             @click.prevent="next">next</b-button>
-               </b-btn-group>
+                             @click.prevent="on_load">Load</b-button>
+               </b-form-group>
            </div>
-       </b-form-group>
-       <b-form-group label="任务执行结果">
-           <b-card class="scrollbar">
-               <b-card-text v-for="r in task_results"
-                            :class="set_color(r.status)"
-                            :key="r.id">
-                   {{r.id}} {{r.name}} {{r.status}}
-               </b-card-text>
-           </b-card>
-       </b-form-group>
+       </div>
+       <div class="row">
+           <div class="col-md-5">
+               <b-form-group label="已选择执行序列" label-for="sequenceSelection">
+                   <JqxTreeGrid ref="myTreeGrid"
+                                :width="width"
+                                :editable="true"
+                                :columns="columns"
+                                :theme="theme"
+                                selection-mode="singlecell"
+                                :source="dataAdapter">
+                   </JqxTreeGrid>
+
+                   <div>
+                       <b-btn-group>
+                           <b-button variant="secondary mt-2"
+                                     @click.prevent="execute">execute</b-button>
+                           <b-button variant="secondary mt-2"
+                                     @click.prevent="step">step</b-button>
+                           <b-button variant="secondary mt-2"
+                                     @click.prevent="next">next</b-button>
+                           <b-button variant="secondary mt-2"
+                                     @click.prevent="stop">stop</b-button>
+                       </b-btn-group>
+                   </div>
+
+               </b-form-group>
+           </div>
+       </div>
+
+       <div class="row">
+           <div class="col-md-8">
+               <b-form-group label="任务执行结果">
+                   <b-card class="scroll">
+                       <b-card-text v-for="r in task_results"
+                                    :class="set_color(r.status)"
+                                    :key="r.id">
+                           {{r.id}} {{r.name}} {{r.status}}
+                       </b-card-text>
+                   </b-card>
+               </b-form-group>
+           </div>
+       </div>
    </div>
 </template>
 
@@ -59,9 +76,9 @@
                 task_results: [],
                 selected: null,
                 selected_sequence: null,
+                width: "800px",
                 options: [],
                 sequences: [],
-                width: 800,
                 theme: 'material',
                 dataAdapter: new jqx.dataAdapter(this.source),
                 columns: [
@@ -154,29 +171,82 @@
                 }
                 this.options = sequence_options;
             },
-            on_load() {
+            async on_load() {
                 this.selected_sequence = this.sequences.filter((x) => {
                     return x.name===this.selected
                 });
                 this.source.localdata = this.selected_sequence;
                 this.dataAdapter.dataBind();
                 this.$refs.myTreeGrid.updateBoundData();
-            },
-            ready: function () {
-                // expand row with 'EmployeeKey = 32'
-                this.$refs.myTreeGrid.expandRow(32);
+                this.$refs.myTreeGrid.expandAll();
+                let sequence_id = this.selected_sequence[0].id;
+                this.$refs.myTreeGrid.selectRow(sequence_id);
+                const path = 'http://127.0.0.1:5000/commissioning/sequence-init';
+                const payload = {'id': this.selected_sequence[0].id};
+                const response = await axios.post(path, payload);
+                if (response.data.status === 'OK') {
+                    this.flashMessage.success({
+                        title: '序列装载',
+                        message: '序列装载成功，准备执行'
+                    })
+                }
             },
             async execute() {
                 const path = 'http://127.0.0.1:5000/commissioning/sequence-execute';
-                const payload = {'id': this.selected_sequence[0].id};
-                //const payload = {'id': 'xxx'}
-                const response = await axios.post(path, payload);
+                const response = await axios.post(path);
+                if (this.selected_sequence[0].children !== undefined) {
+                    let task_id = this.selected_sequence[0].children[0].id;
+                    this.$refs.myTreeGrid.clearSelection();
+                    this.$refs.myTreeGrid.selectRow(task_id);
+                }
+                if (response.data.status === 'OK') {
+                    this.flashMessage.success({
+                        title: '序列执行',
+                        message: '序列正在执行'
+                    })
+                }
 
+            },
+            stop() {
+                const path = 'http://127.0.0.1:5000/commissioning/task-stop';
+                const response = axios.post(path);
+            },
+            traverse_tasks(task_list) {
+                let task_ids = [];
+                task_list.forEach((e) => {
+                    if (e.children !== undefined) {
+                        let children = this.traverse_tasks(e.children);
+                        task_ids.push(...children);
+                    }
+                    else {
+                        task_ids.push(e.id);
+                    }
+                });
+                return task_ids
+            },
+            next_task(current_task_id) {
+                let task_ids = this.traverse_tasks(this.selected_sequence);
+                for (let i=0;i < task_ids.length; i++) {
+                    if ((task_ids[i] === current_task_id) && (i+1 !== task_ids.length)){
+                        this.$refs.myTreeGrid.clearSelection();
+                        this.$refs.myTreeGrid.selectRow(task_ids[i+1]);
+                    }
+                }
+            },
+            async step() {
+                const path = 'http://127.0.0.1:5000/commissioning/task-step';
+                const select_row = this.$refs.myTreeGrid.getSelection();
+                const payload = {'id': select_row[0].id};
+                const response = await axios.post(path, payload);
+                if (select_row[0].children !== undefined) {
+
+                }
+                //this.$refs.myTreeGrid.selectRow()
             },
             task_listen() {
                 socket.on('finished', (data)=>{
-                    console.log('xxx');
-                    this.task_results.push(data)
+                    this.task_results.push(data);
+                    this.next_task(data.id);
                 });
             }
         }
@@ -185,4 +255,8 @@
 <style scoped>
     @import '../../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
     @import '../../node_modules/jqwidgets-scripts/jqwidgets/styles/jqx.material.css';
+    .scroll {
+        max-height: 200px;
+        overflow-y: auto;
+    }
 </style>

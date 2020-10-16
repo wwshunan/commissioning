@@ -11,12 +11,14 @@ import VueSideBarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import 'vue-datetime/dist/vue-datetime.css'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import FlashMessage from '@smartweb/vue-flash-message';
 
 Vue.config.productionTip = false
 
 Vue.use(VueSideBarMenu)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(FlashMessage)
 
 new Vue({
   router,
