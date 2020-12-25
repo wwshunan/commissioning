@@ -74,7 +74,7 @@ def cavity_info_append(section, amp, phase):
     section.append(cavity_info)
 
 def load_lattice(filename):
-    tracewin_file = open(filename, 'r', encoding="utf-8")
+    tracewin_file = open(filename, 'r', encoding="utf-8", errors='ignore')
     synch_phase_file = open('../../phasescan/synch-phases/phases.dat', 'w')
     tracewin_phases = []
     mebt_quads = []

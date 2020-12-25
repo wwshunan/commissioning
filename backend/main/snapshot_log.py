@@ -1,11 +1,14 @@
 from epics import PV
 import json
+import os
 
-bypass_fname = 'lattice/monitor/bypass.txt'
+base_dir = os.path.dirname(os.path.abspath(__file__))
+bypass_fname = os.path.join(base_dir, 'lattices/monitor/bypass.txt')
 def get_pv_values(sections):
 
     vals = {}
-    with open('lattice/monitor/monitor_pvs.json') as f:
+    monitor_filename = os.path.join(base_dir, 'lattices/monitor/monitor_pvs.json')
+    with open(monitor_filename) as f:
         data = json.load(f)
 
     with open(bypass_fname) as f:

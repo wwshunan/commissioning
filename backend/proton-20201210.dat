@@ -1,0 +1,698 @@
+;------------------------------------
+; TraceWin Version: 2.16.4.14
+; OS: Win8 (64-bit)
+; Date: Thu Dec 10 09:50:34 2020
+; User: SHLIU
+; Computer: DESKTOP-TKK3KFI
+;------------------------------------
+
+;------------------------------------
+; TraceWin Version: 2.16.4.14
+; OS: Win8 (64-bit)
+; Date: Thu Dec 10 09:49:29 2020
+; User: SHLIU
+; Computer: DESKTOP-TKK3KFI
+;------------------------------------
+
+;------------------------------------
+; TraceWin Version: 2.16.4.14
+; OS: Win10 (64-bit)
+; Date: Wed Dec 09 11:31:25 2020
+; User: SHLIU
+; Computer: DESKTOP-TKK3KFI
+;------------------------------------
+
+
+
+;verification @ 12/6/2018
+;verification @ 11/26/2018
+;verification @ 7/13/2018
+;FREQ 162.5  0.166384
+DRIFT 161.65 17 0 0 0
+
+;superpose_map 0 0.24 0.32 0.01 -0.13 0.04
+superpose_map 0 0 0 0 0 0
+;ERROR_QUAD_NCPL_STAT 1 0 0.24 0.32 -0.13 0.04
+;MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 30.6006 0 0 0 quad1 0
+;superpose_map 188.48 0.3 0.36 0 -0.35 0.31
+superpose_map 188.48 0 0 0 0 0
+;ERROR_QUAD_NCPL_STAT 1 0 0.3 0.36 -0.35 0.31
+MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 -72.3483 0 0 0 quad2 0
+superpose_map 375.9 0 0 0 0 0
+;superpose_map 375.9 0.12 0.44 0 0.05 -0.04
+;ERROR_QUAD_NCPL_STAT 1 0 0.12 0.44 0.05 -0.04
+MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 64.9299 0 0 0 quad1 0
+superpose_map 625.9 0 0 0 0 0
+;MATCH_FAM_FIELD 6 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 240 -90 20 0 0 0 0 buncher 0
+DRIFT 77 25 0 0 0
+
+;;MATCH_FAM_GRAD 6 0
+QUAD 80 0 25 0 0 0 0 0 0
+
+DRIFT 122.5 25 0 0 0
+
+;slit
+DRIFT 1e-006 25 0 0 0
+
+DRIFT 373.5 25 0 0 0;cali from outside devitation about 8mm, so cut 2mm inside 
+
+;wire
+DRIFT 1e-006 25 0 0 0
+
+DRIFT 3 25 0 0 0;based on measurement changes from 69.5 to 3
+
+superpose_map 0 0 0 0 0 0
+MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 -46.7757 0 0 0 quad1 0
+superpose_map 168.29 0 0 0 0 0
+MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 71.8781 0 0 0 quad1 0
+superpose_map 350.72 0 0 0 0 0
+MATCH_FAM_GRAD 6 0
+FIELD_MAP 90 300 0 25 -38.2136 0 0 0 quad1 0
+superpose_map 608.72 0 0 0 0 0
+;MATCH_FAM_FIELD 6 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 240 -90 20 0 0 0 0 buncher 0
+
+DRIFT 295 25 0 0 0
+
+set_twiss 6 -0.080 0.72089  -0.0819 0.721146 -1.567693 8.63007195 0 0 0 0 0 0
+DRIFT 1e-006 25 0 0 0
+
+
+
+FREQ 162.5
+;.............CM outwall...............zxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...
+lattice 3 1
+
+;set_adv 50
+;.................cryomodule 1.................
+;CELL 1
+DRIFT 85 20 0 0 0
+superpose_map 0 0 0 0 0 0
+;MATCH_FAM_GRAD 6 0
+FIELD_MAP 70 350 0 20 0.293002 1 0 0 sol_yuan 0
+superpose_map 345.0 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -33 20 -0 0 0 0 hwr010 0
+
+
+;CELL 2 
+DRIFT 85.13 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.292972 1 0 0 sol_yuan 0
+superpose_map 345.1 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -32 20 -0 0 0 0 hwr010 0
+
+;CELL 3
+DRIFT 84.73 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.292764 1 0 0 sol_yuan 0
+superpose_map 345.17 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -31 20 -0 0 0 0 hwr010 0
+
+
+;CELL 4 
+DRIFT 84.67 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.292591 1 0 0 sol_yuan 0
+superpose_map 344.89 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -30 20 -0 0 0 0 hwr010 0
+
+
+;CELL 5
+DRIFT 85.08 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.2423 1 0 0 sol_yuan 0
+superpose_map 344.74 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -25 20 -0 0 0 0 hwr010 0
+
+
+;CELL 6
+DRIFT 85.16 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.345 1 0 0 sol_yuan 0
+superpose_map 345.5 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -30 20 -0 0 0 0 hwr010 0
+
+
+lattice_end
+
+DRIFT 49.816 20 0 0 0;calibration results@ 2019.12.09
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+DRIFT 49.816 20 0 0 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM1 section end;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM2 section;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+DRIFT 0.06 100 0 0 0;calibration results@ 2018.9.27
+FREQ 162.5
+lattice 3 1
+
+;set_adv 50
+
+;.................CM2........................
+;CELL 1.........1.105m
+DRIFT 84.76 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.334 1 0 0 sol_yuan 0
+superpose_map 346.88 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -28 20 -0 0 0 0 hwr010 0
+
+;CELL 2 
+DRIFT 82.77 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.240917 1 0 0 sol_yuan 0
+superpose_map 340.315 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -24 20 -0 0 0 0 hwr010 0
+
+;CELL 3
+DRIFT 80.2 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.29147 1 0 0 sol_yuan 0
+SET_SYNC_PHASE 
+superpose_map 344.49 0 0 0 0 0
+FIELD_MAP 7700 210 -26 20 -0 0 0 0 hwr010 0
+
+;CELL 4
+DRIFT 88.33 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.292761 1 0 0 sol_yuan 0
+superpose_map 342.34 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -24 20 -0 0 0 0 hwr010 0
+
+;CELL 5 
+DRIFT 94.43 20 0 0 0
+superpose_map 0 0 0 0 0 0
+;match_fam_grad 1 0 
+FIELD_MAP 70 350 0 20 0.25 1 0 0 sol_yuan 0
+superpose_map 346.45 0 0 0 0 0
+SET_SYNC_PHASE
+;match_fam_phase 1 0 
+FIELD_MAP 7700 210 -23 20 -0 0 0 0 hwr010 0
+
+;CELL 6 
+DRIFT 94.8 20 0 0 0
+superpose_map 0 0 0 0 0 0
+;match_fam_grad 1 0 
+FIELD_MAP 70 350 0 20 0.32909 1 0 0 sol_yuan 0
+superpose_map 346.345 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0 
+FIELD_MAP 7700 210 -25 20 -0 0 0 0 hwr010 0
+
+
+lattice_end
+
+DRIFT 49.943 20 0 0 0;calibration results@ 2019.12.09
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+DRIFT 49.943 20 0 0 0
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM2 section end;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM3 section ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+FREQ 162.5
+;.............CM outwall..................
+
+lattice 3 1
+
+;set_adv 50
+;.................cryomodule 1.................
+;CELL 1
+DRIFT 85 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.293 1 0 0 sol 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -60 20 -0 0 0 0 hwr010 0
+
+
+;CELL 2 
+DRIFT 85 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.22001 1 0 0 sol 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -20 20 -0 0 0 0 hwr010 0
+
+;CELL 3
+DRIFT 85 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.265836 1 0 0 sol_yuan 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -20 20 -0 0 0 0 hwr010 0
+
+
+;CELL 4 
+DRIFT 85 20 0 0 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.27178 1 0 0 sol_yuan 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 210 -20 20 -0 0 0 0 hwr010 0
+
+;CELL 5
+DRIFT 85 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.22 1 0 0 sol 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -20 20 -0 0 0 0 hwr010 0
+
+;CELL 6
+DRIFT 85 20 0 0 0
+;match_fam_grad 1 0
+superpose_map 0 0 0 0 0 0
+FIELD_MAP 70 350 0 20 0.289975 1 0 0 sol 0
+superpose_map 345 0 0 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 210 -40 20 -0 0 0 0 hwr010 0
+
+
+lattice_end
+
+DRIFT 542.5 20 0 0 0
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM3 section end;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CM4 section;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+FREQ 162.5
+lattice 5 1
+
+;set_adv 50
+;.................CM4........................
+;CELL 1.........1.105m
+DRIFT 42.5 20 0 0 0
+;match_fam_grad 1 0
+FIELD_MAP 70 350 0 20 0.29322 1 0 0 sol 0
+DRIFT 20 20 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 330 -25 20 -0 0 0 0 hwr015 0
+DRIFT 42.5 20 0 0 0
+
+;CELL 2 
+DRIFT 42.5 20 0 0 0
+;match_fam_grad 1 0
+FIELD_MAP 70 350 0 20 0.274114 1 0 0 sol_yuan 0
+DRIFT 20 20 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0 
+FIELD_MAP 7700 330 -20 20 -0 0 0 0 hwr015 0
+DRIFT 42.5 20 0 0 0
+
+;CELL 3
+DRIFT 42.5 20 0 0 0
+FIELD_MAP 70 350 0 20 0.273234 1 0 0 sol 0
+DRIFT 20 20 0 0 0
+SET_SYNC_PHASE 
+FIELD_MAP 7700 330 -20 20 -0 0 0 0 hwr015 0
+DRIFT 42.5 20 0 0 0
+
+;CELL 4
+DRIFT 42.5 20 0 0 0
+;match_fam_grad 1 0
+FIELD_MAP 70 350 0 20 0.273234 1 0 0 sol 0
+DRIFT 20 20 0 0 0
+SET_SYNC_PHASE 
+;match_fam_phase 1 0
+FIELD_MAP 7700 330 -20 20 -0 0 0 0 hwr015 0
+DRIFT 42.5 20 0 0 0
+
+ 
+;CELL 5 
+DRIFT 42.5 20 0 0 0
+;match_fam_grad 1 0
+FIELD_MAP 70 350 0 20 0.273234 1 0 0 sol 0
+DRIFT 20 20 0 0 0
+SET_SYNC_PHASE
+;match_fam_phase 1 0
+FIELD_MAP 7700 330 -20 20 -0 0 0 0 hwr015 0
+DRIFT 42.5 20 0 0 0
+lattice_end
+
+DRIFT 267.5 20 0 0 0
+
+
+end
+
+; Structure file
+DRIFT 0 40 0 0 0
+;set_size_max 1 26 20 20 0 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;bending HEBT;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+DRIFT 140.4 20 0 0 0 ; 3 port
+DRIFT 35 20 0 0 0 ; fast Valve
+DRIFT 76.4 20 0 0 0 ;CF40 to CF 100
+
+DRIFT 84 30 0 0 0 ;ACCT4 ?
+
+DRIFT 100.25 40 0 0 0 ; 100.5-0.25=100.25 HEBT_BPM1  with flange and bellows 
+
+ADJUST 6 2 0 0.1 18
+;MATCH_FAM_GRAD 6 0
+QUAD 130 0 42.5 0 0 0 0 0 0
+DRIFT 100.05 50 0 0 0 ; 100+0.25-0.2==100.05 
+ADJUST 6 2 0 -18 -0.1
+;MATCH_FAM_GRAD 6 0
+QUAD 130 -0 42.5 0 0 0 0 0 0
+
+;;;;;;;;;Pro_match end;;;;;;;;;;
+;;;;;;;;;Achromat section;;;;;;;;;
+DRIFT 250.07 50 0 0 0  ; 250+0.2-0.13=250.07 Drift before dipole 
+
+DRIFT 752.36 50 50 0 0 ; 752.49+0.13-0.26=752.36 T0_D1
+
+DRIFT 614.6 50 0 0 0 ; vacuum chamber
+
+DRIFT 100 50 0 0 0 
+
+DRIFT 217.5 50 0 0 0
+DRIFT 90 50 0 0 0
+DRIFT 100 50 0 0 0
+DRIFT 144.6 50 0 0 0
+DRIFT 250 50 0 0 0 ; 430-180=250 vacuum chamber
+diag_size 6 23 23
+DRIFT 0 50 0 0 0 ; FC entrance
+end
+
+;START_ACHROMAT
+DRIFT 0 50 0 0 0
+EDGE 0 800 100 0 0 50 0
+BEND -45 800 0 50 0
+EDGE 45 800 100 0 0 50 0
+
+DRIFT 425.042 50 0 0 0 ;425-0.06*sqrt(2)+0.09*sqrt(2)=425.042 drift with valve 
+ADJUST 4 2 0 1 13
+;MATCH_FAM_GRAD 4 1
+QUAD 350 4.94763 50 0 0 0 0 0 0
+
+DRIFT 424.915 50 0 0 0 ;425-0.09*sqrt(2)+0.03*sqrt(2)=424.915
+;0.03*sqrt(2)=0.04242640687119285146405066172629
+
+EDGE 45 800 100 0 0 50 0
+BEND -45 800 0 50 0
+EDGE 0 800 100 0 0 50 0
+
+DRIFT 141.2 50 0 0 0
+DIAG_ACHROMAT 4 -11 1 1
+;set_achromat 4 1 1
+
+DRIFT 120 50 0 0 0 ;DCCT ?
+DRIFT 113.6 60 0 0 0 ; 113.2-0.03+0.43=113.6
+
+ADJUST 6 2 0 1 13
+;MATCH_FAM_GRAD 6 0
+QUAD 200 3.12745 60 0 0 0 0 0 0
+DRIFT 109.23 50 0 0 0 ; 110-0.43-0.34=109.23
+ADJUST 6 2 0 -13 -1
+;MATCH_FAM_GRAD 6 0
+QUAD 200 -7.99686 60 0 0 0 0 0 0
+DRIFT 110.61 50 0 0 0 ; 110+0.34+0.27=110.61
+ADJUST 6 2 0 1 13
+;MATCH_FAM_GRAD 6 0
+QUAD 250 25.583 60 0 0 0 0 0 0
+
+DRIFT 124.85 75 0 0 0 ; 126-0.27-0.88=124.85 Valve
+DRIFT 81 75 0 0 0 ; BPM
+
+DRIFT 150 77 0 0 0 ; 
+
+DRIFT 513.1 150 0 0 0 ; vaccum chamber
+
+DRIFT 127.4 150 0 0 0 ; lead valve
+DRIFT 376 150 0 0 0 ;  shielding wall
+DRIFT 585 200 0 0 0 ;  shielding wall
+DRIFT 841.4 250 0 0 0 ; 
+
+DRIFT 266.5 130 0 0 0    ; collimator
+DRIFT 86.62 151 0 0 0    ; 150.51+0.88-64.77=86.62
+
+DIAG_SIZE 6 70 70
+;set_size 1 70 70 0 0
+DRIFT 0 150 0 0 0
+end
+
+;;;DRIFT 1000 150 ; dump length
+DRIFT	20	150	0
+DRIFT	20	147	0
+DRIFT	20	144	0
+DRIFT	20	141	0
+DRIFT	20	138	0
+DRIFT	20	135	0
+DRIFT	20	132	0
+DRIFT	20	129	0
+DRIFT	20	126	0
+DRIFT	20	123	0
+DRIFT	20	120	0
+DRIFT	20	117	0
+DRIFT	20	114	0
+DRIFT	20	111	0
+DRIFT	20	108	0
+DRIFT	20	105	0
+DRIFT	20	102	0
+DRIFT	20	99	0
+DRIFT	20	96	0
+DRIFT	20	93	0
+DRIFT	20	90	0
+DRIFT	20	87	0
+DRIFT	20	84	0
+DRIFT	20	81	0
+DRIFT	20	78	0
+DRIFT	20	75	0
+DRIFT	20	72	0
+DRIFT	20	69	0
+DRIFT	20	66	0
+DRIFT	20	63	0
+DRIFT	20	60	0
+DRIFT	20	57	0
+DRIFT	20	54	0
+DRIFT	20	51	0
+DRIFT	20	48	0
+DRIFT	20	45	0
+DRIFT	20	42	0
+DRIFT	20	39	0
+DRIFT	20	36	0
+DRIFT	20	33	0
+DRIFT	20	30	0
+DRIFT	20	27	0
+DRIFT	20	24	0
+DRIFT	20	21	0
+DRIFT	20	18	0
+DRIFT	20	15	0
+DRIFT	20	12	0
+DRIFT	20	9	0
+DRIFT	20	6	0
+DRIFT	20	3	0
+DRIFT	20	0.01	0
+
+
+
+DRIFT 0.001 150 
+
+end
+
+
+
+
+;;;;;;;;偏转段;;;;;;;;;;;;;;;;;;;;;;;;
+;; Structure file
+DRIFT 0.0001 40 0 0 0
+;set_size_max 1 26 20 20 0 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;bending HEBT;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+DRIFT 107.4 20 0 0 0 ; 3 port
+DRIFT 35 20 0 0 0 ; fast Valve
+DRIFT 76.4 20 0 0 0 ;CF40 to CF 100
+
+DRIFT 84 30 0 0 0 ;ACCT4 ?
+
+DRIFT 100 40 0 0 0;HEBT_BPM1  with flange and bellows
+
+MATCH_FAM_GRAD 7 0
+QUAD 130 12.3501 42.5 0 0 0 0 0 0
+DRIFT 100 50 0 0 0
+;end
+MATCH_FAM_GRAD 7 0
+QUAD 130 -10.8714 42.5 0 0 0 0 0 0
+
+;;;;;;;;;Pro_match end;;;;;;;;;;
+;;;;;;;;;Achromat section;;;;;;;;;
+DRIFT 250 50 0 0 0  ;Drift before dipole 
+
+
+;START_ACHROMAT
+DRIFT 1e-005 50 0 0 0
+EDGE 0 800 100 0 0 50 0
+BEND -45 800 0 100 0
+EDGE 45 800 100 0 0 50 0
+
+DRIFT 425 50 0 0 0 ; drift with valve
+;MATCH_FAM_GRAD 4 1
+QUAD 350 4.91951 50 0 0 0 0 0 0
+
+DRIFT 425 50 0 0 0
+
+
+EDGE 45 800 100 0 0 50 0
+BEND -45 800 0 100 0
+EDGE 0 800 100 0 0 50 0
+
+DRIFT 141.2 50 0 0 0
+;set_achromat 4 1 1
+
+DRIFT 120 50 0 0 0 ;DCCT ?
+;end
+
+DRIFT 113.2 60 0 0 0 ; CF100 to CF150 
+
+DRIFT 0.001 60 0 0 0
+;end
+MATCH_FAM_GRAD 7 0
+QUAD 200 3.94523 60 0 0 0 0 0 0
+DRIFT 110 50 0 0 0
+MATCH_FAM_GRAD 7 0
+QUAD 200 -6.95903 60 0 0 0 0 0 0
+DRIFT 110 50 0 0 0
+MATCH_FAM_GRAD 7 0
+QUAD 250 11.6895 60 0 0 0 0 0 0
+DRIFT 126 60 0 0 0
+
+DRIFT 81 75 0 0 0 ; Valve
+DRIFT 150 75 0 0 0 ; BPM
+
+DRIFT 111.4 77 0 0 0 ; 
+
+DRIFT 260 150 0 0 0 ; 
+
+DRIFT 136 150 0 0 0 ; 
+
+
+DRIFT 167.2 150 0 0 0 ; lead valve
+DRIFT 376 150 0 0 0 ;  shielding wall
+DRIFT 585 200 0 0 0 ;  shielding wall
+DRIFT 841.4 250 0 0 0 ; 
+
+DRIFT 100 130 0 0 0    ; collimator
+DRIFT 81.8 140 0 0 0    ; 
+DRIFT 320 151 0 0 0    ; 
+
+set_size 1 70 70 0 0
+DRIFT 0.001 150 0 0 0
+end
+
+;;;DRIFT 1000 150 ; dump length
+DRIFT	20	150	0
+DRIFT	20	147	0
+DRIFT	20	144	0
+DRIFT	20	141	0
+DRIFT	20	138	0
+DRIFT	20	135	0
+DRIFT	20	132	0
+DRIFT	20	129	0
+DRIFT	20	126	0
+DRIFT	20	123	0
+DRIFT	20	120	0
+DRIFT	20	117	0
+DRIFT	20	114	0
+DRIFT	20	111	0
+DRIFT	20	108	0
+DRIFT	20	105	0
+DRIFT	20	102	0
+DRIFT	20	99	0
+DRIFT	20	96	0
+DRIFT	20	93	0
+DRIFT	20	90	0
+DRIFT	20	87	0
+DRIFT	20	84	0
+DRIFT	20	81	0
+DRIFT	20	78	0
+DRIFT	20	75	0
+DRIFT	20	72	0
+DRIFT	20	69	0
+DRIFT	20	66	0
+DRIFT	20	63	0
+DRIFT	20	60	0
+DRIFT	20	57	0
+DRIFT	20	54	0
+DRIFT	20	51	0
+DRIFT	20	48	0
+DRIFT	20	45	0
+DRIFT	20	42	0
+DRIFT	20	39	0
+DRIFT	20	36	0
+DRIFT	20	33	0
+DRIFT	20	30	0
+DRIFT	20	27	0
+DRIFT	20	24	0
+DRIFT	20	21	0
+DRIFT	20	18	0
+DRIFT	20	15	0
+DRIFT	20	12	0
+DRIFT	20	9	0
+DRIFT	20	6	0
+DRIFT	20	3	0
+DRIFT	20	0.01	0
+
+
+
+DRIFT 0.001 150 
+
+end
+
+
+
+
+
+

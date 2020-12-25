@@ -1,7 +1,7 @@
 from epics import PV
 import json
 
-bypass_fname = 'lattice/monitor/bypass.txt'
+bypass_fname = 'main/lattice/monitor/bypass.txt'
 def get_pv_values(sections):
 
     vals = {}

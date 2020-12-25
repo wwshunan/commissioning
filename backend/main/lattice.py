@@ -16,12 +16,12 @@ cavity_names = {
 phase_fname = '../../phasescan/synch-phases/phases.dat'
 
 config_files = {
-    'MEBT': 'lattice/MEBT-map.dat',
-    'CM1': 'lattice/CM1-map.dat',
-    'CM2': 'lattice/CM2-map.dat',
-    'CM3': 'lattice/CM3-map.dat',
-    'CM4': 'lattice/CM4-map.dat',
-    'HEBT': 'lattice/HEBT-map.dat'
+    'MEBT': 'lattices/MEBT-map.dat',
+    'CM1': 'lattices/CM1-map.dat',
+    'CM2': 'lattices/CM2-map.dat',
+    'CM3': 'lattices/CM3-map.dat',
+    'CM4': 'lattices/CM4-map.dat',
+    'HEBT': 'lattices/HEBT-map.dat'
 }
 
 def read_info(section, config_file):

@@ -110,7 +110,7 @@ def start_time_accumulate():
     #interrupt_id, time_break_id = rpc.usage_time_service.start()
     cache.set('interrupt', interrupt_id)
     cache.set('time_break', time_break_id)
-    with open('slaves/timing-id.txt', 'w') as fobj:
+    with open('timing-id.txt', 'w') as fobj:
         fobj.write('{}\t{}\n'.format(interrupt_id, time_break_id))
     accumulate_time.delay(interrupt_id, time_break_id)
     return jsonify(status='Success')
@@ -118,7 +118,7 @@ def start_time_accumulate():
 
 @bp.route('/log/stop', methods=["GET"])
 def stop_time_accumulate():
-    with open('slaves/timing-id.txt') as fobj:
+    with open('timing-id.txt') as fobj:
         time_break_id = fobj.readlines()[0].split()[1]
     redis_client.set(time_break_id, 'true')
     return 'SUCCESS'
@@ -126,7 +126,7 @@ def stop_time_accumulate():
 
 @bp.route('/log/interrupt', methods=["GET"])
 def interrupt_timing():
-    with open('slaves/timing-id.txt') as fobj:
+    with open('timing-id.txt') as fobj:
         interrupt_id = fobj.readlines()[0].split()[0]
 
     redis_client.set(interrupt_id, 'true')

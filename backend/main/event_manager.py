@@ -37,7 +37,6 @@ class EventManager(object):
                 if self.worker_num == 1:
                     result = self.serial_task(task)
                     print(result)
-                    print('xxx')
                     #result = self.__task_process(task)
                 else:
                     #self.__task_process(task)

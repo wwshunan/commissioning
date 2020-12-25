@@ -1,4 +1,561 @@
-Started at 2020-12-08 15:09:28
+Started at 2020-12-10 18:36:53
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 245-019-710
+ * Debugger PIN: 741-013-353
+Started at 2020-12-10 18:38:18
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+Started at 2020-12-10 18:41:18
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(58797) wsgi starting up on http://0.0.0.0:5000
+(58797) accepted ('127.0.0.1', 39078)
+127.0.0.1 - - [10/Dec/2020 18:41:25] "GET /log/interrupt HTTP/1.1" 200 410 1.216149
+(58797) accepted ('127.0.0.1', 39552)
+127.0.0.1 - - [10/Dec/2020 21:42:22] "GET /socket.io/?EIO=3&transport=polling&t=NPCuswN HTTP/1.1" 200 423 0.000346
+(58797) accepted ('127.0.0.1', 39554)
+127.0.0.1 - - [10/Dec/2020 21:42:22] "GET /commissioning/load-sequences HTTP/1.1" 200 1707 0.019218
+(58797) accepted ('127.0.0.1', 39556)
+127.0.0.1 - - [10/Dec/2020 21:42:22] "GET /socket.io/?EIO=3&transport=polling&t=NPCusyD&sid=429aa9eeaa4a411fa3e5512f41ad7cb7 HTTP/1.1" 200 235 0.012109
+127.0.0.1 - - [10/Dec/2020 21:42:39] "POST /lattice-upload HTTP/1.1" 200 3337 0.006114
+127.0.0.1 - - [10/Dec/2020 21:43:17] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001760
+127.0.0.1 - - [10/Dec/2020 21:43:18] "POST /lattice-setting HTTP/1.1" 200 220 0.815495
+(58797) accepted ('127.0.0.1', 41506)
+127.0.0.1 - - [11/Dec/2020 09:20:43] "OPTIONS /log/time-query HTTP/1.1" 200 347 0.001091
+127.0.0.1 - - [11/Dec/2020 09:20:43] "POST /log/time-query HTTP/1.1" 200 221 0.008557
+127.0.0.1 - - [11/Dec/2020 09:20:50] "OPTIONS /log/time-query HTTP/1.1" 200 347 0.001758
+127.0.0.1 - - [11/Dec/2020 09:20:50] "POST /log/time-query HTTP/1.1" 200 221 0.007873
+(58797) accepted ('127.0.0.1', 41530)
+(58797) accepted ('127.0.0.1', 41532)
+127.0.0.1 - - [11/Dec/2020 09:25:38] "GET /socket.io/?EIO=3&transport=websocket&sid=429aa9eeaa4a411fa3e5512f41ad7cb7 HTTP/1.1" 200 0 42195.804632
+127.0.0.1 - - [11/Dec/2020 09:25:38] "GET /log/stop HTTP/1.1" 200 178 0.001437
+(58797) accepted ('127.0.0.1', 41664)
+127.0.0.1 - - [11/Dec/2020 09:27:18] "GET /log/start HTTP/1.1" 200 190 0.040239
+(58797) accepted ('127.0.0.1', 41692)
+127.0.0.1 - - [11/Dec/2020 09:27:37] "GET /log/interrupt HTTP/1.1" 200 344 1.063410
+127.0.0.1 - - [11/Dec/2020 09:28:46] "GET /log/stop HTTP/1.1" 200 178 0.001400
+(58797) accepted ('127.0.0.1', 41756)
+127.0.0.1 - - [11/Dec/2020 09:31:26] "GET /log/start HTTP/1.1" 200 190 0.005407
+(58797) accepted ('127.0.0.1', 41766)
+127.0.0.1 - - [11/Dec/2020 09:31:36] "GET /log/interrupt HTTP/1.1" 200 344 1.424712
+127.0.0.1 - - [11/Dec/2020 09:31:45] "GET /log/interrupt HTTP/1.1" 200 344 1.944457
+(58797) accepted ('127.0.0.1', 41798)
+127.0.0.1 - - [11/Dec/2020 09:33:58] "GET /log/stop HTTP/1.1" 200 178 0.002197
+127.0.0.1 - - [11/Dec/2020 09:34:52] "GET /log/start HTTP/1.1" 200 190 0.005563
+(58797) accepted ('127.0.0.1', 41874)
+127.0.0.1 - - [11/Dec/2020 09:35:23] "GET /log/interrupt HTTP/1.1" 200 344 1.731799
+127.0.0.1 - - [11/Dec/2020 09:35:49] "GET /log/stop HTTP/1.1" 200 178 0.002372
+set_lattice
+Started at 2020-12-11 09:47:29
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 275-376-410
+(1050) wsgi starting up on http://0.0.0.0:5000
+Started at 2020-12-11 09:49:34
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(3080) wsgi starting up on http://0.0.0.0:5000
+(3080) accepted ('127.0.0.1', 35608)
+127.0.0.1 - - [11/Dec/2020 09:50:41] "GET /log/start HTTP/1.1" 200 190 0.039837
+(3080) accepted ('127.0.0.1', 35656)
+127.0.0.1 - - [11/Dec/2020 09:51:03] "GET /log/interrupt HTTP/1.1" 200 344 2.929676
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(3805) wsgi starting up on http://0.0.0.0:5000
+(3805) accepted ('127.0.0.1', 35662)
+127.0.0.1 - - [11/Dec/2020 09:54:16] "GET /log/stop HTTP/1.1" 200 178 0.003051
+127.0.0.1 - - [11/Dec/2020 09:55:31] "GET /log/start HTTP/1.1" 200 190 0.052065
+(3805) accepted ('127.0.0.1', 35696)
+127.0.0.1 - - [11/Dec/2020 09:55:38] "GET /log/interrupt HTTP/1.1" 200 344 1.821778
+127.0.0.1 - - [11/Dec/2020 09:55:47] "GET /log/interrupt HTTP/1.1" 200 344 2.426372
+127.0.0.1 - - [11/Dec/2020 09:57:05] "GET /log/interrupt HTTP/1.1" 200 344 1.921901
+127.0.0.1 - - [11/Dec/2020 09:57:11] "GET /log/interrupt HTTP/1.1" 200 344 0.405258
+127.0.0.1 - - [11/Dec/2020 09:57:20] "GET /log/stop HTTP/1.1" 200 178 0.001486
+127.0.0.1 - - [11/Dec/2020 09:57:27] "GET /log/start HTTP/1.1" 200 190 0.008014
+127.0.0.1 - - [11/Dec/2020 09:57:31] "GET /log/interrupt HTTP/1.1" 200 344 1.613999
+127.0.0.1 - - [11/Dec/2020 09:57:48] "GET /log/stop HTTP/1.1" 200 178 0.002283
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(4061) wsgi starting up on http://0.0.0.0:5000
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/views.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(4186) wsgi starting up on http://0.0.0.0:5000
+(4186) accepted ('127.0.0.1', 35792)
+127.0.0.1 - - [11/Dec/2020 10:05:04] "GET /log/start HTTP/1.1" 200 190 0.048905
+(4186) accepted ('127.0.0.1', 35834)
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 129, in interrupt_timing
+    with open('slaves/timing-id.txt') as fobj:
+FileNotFoundError: [Errno 2] No such file or directory: 'slaves/timing-id.txt'
+127.0.0.1 - - [11/Dec/2020 10:05:18] "GET /log/interrupt HTTP/1.1" 500 22703 0.007308
+(4186) accepted ('127.0.0.1', 35862)
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 129, in interrupt_timing
+    with open('slaves/timing-id.txt') as fobj:
+FileNotFoundError: [Errno 2] No such file or directory: 'slaves/timing-id.txt'
+127.0.0.1 - - [11/Dec/2020 10:06:30] "GET /log/interrupt HTTP/1.1" 500 22703 0.010072
+Started at 2020-12-11 10:11:07
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+Started at 2020-12-11 12:18:40
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(7402) wsgi starting up on http://0.0.0.0:5000
+(7402) accepted ('127.0.0.1', 37008)
+127.0.0.1 - - [13/Dec/2020 21:04:29] "POST /lattice-upload HTTP/1.1" 200 3337 0.003988
+(7402) accepted ('127.0.0.1', 37030)
+127.0.0.1 - - [13/Dec/2020 22:06:13] "POST /lattice-upload HTTP/1.1" 200 3337 0.005338
+127.0.0.1 - - [13/Dec/2020 22:06:17] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001255
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 42, in lattice_setting
+    set_lattice(lattice_data)
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 69, in set_lattice
+    set_section(lattice[section], config_files[section])
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 58, in set_section
+    with open(config_file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'lattice/MEBT-map.dat'
+127.0.0.1 - - [13/Dec/2020 22:06:17] "POST /lattice-setting HTTP/1.1" 500 25832 0.015887
+127.0.0.1 - - [13/Dec/2020 22:06:20] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001492
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 42, in lattice_setting
+    set_lattice(lattice_data)
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 69, in set_lattice
+    set_section(lattice[section], config_files[section])
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 58, in set_section
+    with open(config_file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'lattice/MEBT-map.dat'
+127.0.0.1 - - [13/Dec/2020 22:06:20] "POST /lattice-setting HTTP/1.1" 500 25832 0.011022
+(7402) accepted ('127.0.0.1', 37032)
+127.0.0.1 - - [13/Dec/2020 22:06:25] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001762
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 42, in lattice_setting
+    set_lattice(lattice_data)
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 69, in set_lattice
+    set_section(lattice[section], config_files[section])
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 58, in set_section
+    with open(config_file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'lattice/MEBT-map.dat'
+127.0.0.1 - - [13/Dec/2020 22:06:25] "POST /lattice-setting HTTP/1.1" 500 25832 0.020276
+(7402) accepted ('127.0.0.1', 37058)
+127.0.0.1 - - [14/Dec/2020 02:37:45] "GET /socket.io/?EIO=3&transport=polling&t=NPTPFAN HTTP/1.1" 200 423 0.000410
+(7402) accepted ('127.0.0.1', 37060)
+127.0.0.1 - - [14/Dec/2020 02:37:45] "GET /commissioning/load-sequences HTTP/1.1" 200 1707 0.019736
+(7402) accepted ('127.0.0.1', 37062)
+127.0.0.1 - - [14/Dec/2020 02:37:45] "GET /socket.io/?EIO=3&transport=polling&t=NPTPFCE&sid=ec1a3505cfac4f88b9567d5e06610417 HTTP/1.1" 200 235 0.015543
+127.0.0.1 - - [14/Dec/2020 02:38:11] "GET /commissioning/load-sequences HTTP/1.1" 200 1707 0.003126
+(7402) accepted ('127.0.0.1', 38528)
+127.0.0.1 - - [14/Dec/2020 20:34:20] "GET /socket.io/?EIO=3&transport=websocket&sid=ec1a3505cfac4f88b9567d5e06610417 HTTP/1.1" 200 0 64594.720645
+(7402) accepted ('127.0.0.1', 38548)
+(7402) accepted ('127.0.0.1', 38742)
+127.0.0.1 - - [14/Dec/2020 21:38:55] "GET /log/start HTTP/1.1" 200 190 0.036242
+(7402) accepted ('127.0.0.1', 38768)
+127.0.0.1 - - [14/Dec/2020 21:39:52] "GET /log/interrupt HTTP/1.1" 200 345 0.509616
+(7402) accepted ('127.0.0.1', 38796)
+127.0.0.1 - - [14/Dec/2020 21:51:09] "GET /log/interrupt HTTP/1.1" 200 345 0.711152
+(7402) accepted ('127.0.0.1', 39374)
+127.0.0.1 - - [15/Dec/2020 02:31:55] "GET /log/interrupt HTTP/1.1" 200 998 0.510618
+(7402) accepted ('127.0.0.1', 39786)
+127.0.0.1 - - [15/Dec/2020 05:22:41] "GET /log/interrupt HTTP/1.1" 200 995 0.408600
+(7402) accepted ('127.0.0.1', 39864)
+127.0.0.1 - - [15/Dec/2020 05:55:35] "GET /log/interrupt HTTP/1.1" 200 996 0.610529
+(7402) accepted ('127.0.0.1', 40104)
+127.0.0.1 - - [15/Dec/2020 07:40:32] "GET /log/interrupt HTTP/1.1" 200 994 0.528888
+127.0.0.1 - - [15/Dec/2020 07:41:52] "GET /log/interrupt HTTP/1.1" 200 992 0.914299
+127.0.0.1 - - [15/Dec/2020 07:42:20] "GET /log/interrupt HTTP/1.1" 200 996 0.812814
+(7402) accepted ('192.168.6.99', 53021)
+(7402) accepted ('192.168.6.99', 56823)
+192.168.6.99 - - [16/Dec/2020 07:26:00] "GET / HTTP/1.1" 404 388 0.001580
+(7402) accepted ('127.0.0.1', 41378)
+127.0.0.1 - - [20/Dec/2020 08:49:47] "GET /log/start HTTP/1.1" 200 190 0.007827
+(7402) accepted ('127.0.0.1', 41390)
+127.0.0.1 - - [20/Dec/2020 08:49:54] "GET /log/interrupt HTTP/1.1" 200 361 0.613503
+(7402) accepted ('127.0.0.1', 41394)
+127.0.0.1 - - [20/Dec/2020 08:51:53] "GET /log/interrupt HTTP/1.1" 200 361 0.307204
+127.0.0.1 - - [20/Dec/2020 08:53:03] "GET /log/interrupt HTTP/1.1" 200 361 0.206396
+(7402) accepted ('127.0.0.1', 41396)
+127.0.0.1 - - [20/Dec/2020 08:54:45] "GET /log/stop HTTP/1.1" 200 178 0.001621
+127.0.0.1 - - [20/Dec/2020 08:54:45] "GET /favicon.ico HTTP/1.1" 404 412 0.000527
+(7402) accepted ('127.0.0.1', 41450)
+127.0.0.1 - - [20/Dec/2020 08:56:56] "GET /log/start HTTP/1.1" 200 190 0.008253
+(7402) accepted ('127.0.0.1', 41514)
+127.0.0.1 - - [20/Dec/2020 09:00:28] "GET /log/start HTTP/1.1" 200 190 0.004435
+(7402) accepted ('127.0.0.1', 41526)
+127.0.0.1 - - [20/Dec/2020 09:02:42] "GET /log/interrupt HTTP/1.1" 200 361 0.307359
+(7402) accepted ('127.0.0.1', 41536)
+127.0.0.1 - - [20/Dec/2020 09:35:14] "POST /lattice-upload HTTP/1.1" 200 3337 0.012047
+127.0.0.1 - - [20/Dec/2020 09:35:25] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001996
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 42, in lattice_setting
+    set_lattice(lattice_data)
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 69, in set_lattice
+    set_section(lattice[section], config_files[section])
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 58, in set_section
+    with open(config_file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'lattice/MEBT-map.dat'
+127.0.0.1 - - [20/Dec/2020 09:35:25] "POST /lattice-setting HTTP/1.1" 500 25832 0.012165
+127.0.0.1 - - [20/Dec/2020 09:36:14] "POST /lattice-upload HTTP/1.1" 200 3337 0.006889
+127.0.0.1 - - [20/Dec/2020 09:36:16] "OPTIONS /lattice-setting HTTP/1.1" 200 347 0.001290
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 42, in lattice_setting
+    set_lattice(lattice_data)
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 69, in set_lattice
+    set_section(lattice[section], config_files[section])
+  File "/home/linac/commissioning/lattice-setting/backend/main/lattice.py", line 58, in set_section
+    with open(config_file) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'lattice/MEBT-map.dat'
+127.0.0.1 - - [20/Dec/2020 09:36:16] "POST /lattice-setting HTTP/1.1" 500 25832 0.034449
+set_lattice
+set_lattice
+set_lattice
+set_lattice
+set_lattice
+Started at 2020-12-20 09:36:49
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+Started at 2020-12-20 09:37:26
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 195-764-760
+Started at 2020-12-20 11:39:11
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(66477) wsgi starting up on http://0.0.0.0:5000
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/lattice.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(66493) wsgi starting up on http://0.0.0.0:5000
+(66493) accepted ('127.0.0.1', 41718)
+127.0.0.1 - - [20/Dec/2020 19:23:43] "GET /log/stop HTTP/1.1" 200 178 0.005860
+(66493) accepted ('127.0.0.1', 41776)
+127.0.0.1 - - [20/Dec/2020 19:26:03] "GET /log/start HTTP/1.1" 200 190 0.043514
+(66493) accepted ('127.0.0.1', 41802)
+127.0.0.1 - - [20/Dec/2020 19:26:12] "GET /log/interrupt HTTP/1.1" 200 412 0.810828
+(66493) accepted ('127.0.0.1', 41804)
+127.0.0.1 - - [20/Dec/2020 20:37:12] "GET /log/interrupt HTTP/1.1" 200 410 0.609702
+(66493) accepted ('127.0.0.1', 41808)
+127.0.0.1 - - [20/Dec/2020 21:01:09] "GET /log/interrupt HTTP/1.1" 200 412 0.103707
+127.0.0.1 - - [20/Dec/2020 21:01:23] "GET /log/interrupt HTTP/1.1" 200 412 1.012989
+(66493) accepted ('127.0.0.1', 41818)
+127.0.0.1 - - [20/Dec/2020 22:35:57] "GET /log/interrupt HTTP/1.1" 200 533 0.507972
+(66493) accepted ('127.0.0.1', 41892)
+127.0.0.1 - - [21/Dec/2020 01:33:51] "GET /log/interrupt HTTP/1.1" 200 532 0.305723
+(66493) accepted ('127.0.0.1', 41896)
+127.0.0.1 - - [21/Dec/2020 03:33:48] "GET /log/interrupt HTTP/1.1" 200 532 0.407850
+(66493) accepted ('127.0.0.1', 41900)
+127.0.0.1 - - [21/Dec/2020 04:32:49] "OPTIONS /log/time-query HTTP/1.1" 200 347 0.000945
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 152, in time_query
+    start_date = datetime.strptime(post_data['startDate'], "%Y-%m-%dT%H:%M:%S.%fZ")
+  File "/usr/lib64/python3.8/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.8/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
+127.0.0.1 - - [21/Dec/2020 04:32:49] "POST /log/time-query HTTP/1.1" 500 26228 0.012735
+127.0.0.1 - - [21/Dec/2020 04:32:56] "GET /log/interrupt HTTP/1.1" 200 533 1.033120
+127.0.0.1 - - [21/Dec/2020 04:32:59] "GET /log/interrupt HTTP/1.1" 200 534 0.911998
+(66493) accepted ('127.0.0.1', 41902)
+127.0.0.1 - - [21/Dec/2020 04:42:45] "GET /log/interrupt HTTP/1.1" 200 532 0.710078
+(66493) accepted ('127.0.0.1', 41904)
+127.0.0.1 - - [21/Dec/2020 04:51:27] "GET /log/interrupt HTTP/1.1" 200 533 0.810206
+(66493) accepted ('127.0.0.1', 41912)
+(66493) accepted ('127.0.0.1', 41914)
+(66493) accepted ('127.0.0.1', 41916)
+(66493) accepted ('127.0.0.1', 41918)
+127.0.0.1 - - [21/Dec/2020 08:36:16] "OPTIONS /log/time-query HTTP/1.1" 200 347 0.001856
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 152, in time_query
+    start_date = datetime.strptime(post_data['startDate'], "%Y-%m-%dT%H:%M:%S.%fZ")
+  File "/usr/lib64/python3.8/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.8/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
+127.0.0.1 - - [21/Dec/2020 08:36:16] "POST /log/time-query HTTP/1.1" 500 26228 0.012841
+127.0.0.1 - - [21/Dec/2020 08:36:20] "OPTIONS /log/time-query HTTP/1.1" 200 347 0.001323
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib64/python3.8/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib64/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib64/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/linac/commissioning/lattice-setting/backend/main/views.py", line 152, in time_query
+    start_date = datetime.strptime(post_data['startDate'], "%Y-%m-%dT%H:%M:%S.%fZ")
+  File "/usr/lib64/python3.8/_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+  File "/usr/lib64/python3.8/_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
+127.0.0.1 - - [21/Dec/2020 08:36:20] "POST /log/time-query HTTP/1.1" 500 26228 0.011481
+(66493) accepted ('127.0.0.1', 41928)
+(66493) accepted ('127.0.0.1', 42022)
+(66493) accepted ('127.0.0.1', 42092)
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(89410) wsgi starting up on http://0.0.0.0:5000
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(89426) wsgi starting up on http://0.0.0.0:5000
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(89438) wsgi starting up on http://0.0.0.0:5000
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(89448) wsgi starting up on http://0.0.0.0:5000
+Started at 2020-12-25 08:45:16
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+(89618) wsgi starting up on http://0.0.0.0:5000
+(89618) accepted ('127.0.0.1', 42208)
+127.0.0.1 - - [25/Dec/2020 08:47:10] "GET /log/start HTTP/1.1" 200 190 0.037322
+(89618) accepted ('127.0.0.1', 42236)
+ * Detected change in '/home/linac/commissioning/lattice-setting/backend/main/tasks.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+Started at 2020-12-25 08:55:43
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267
+Started at 2020-12-25 08:58:37
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 199-868-267

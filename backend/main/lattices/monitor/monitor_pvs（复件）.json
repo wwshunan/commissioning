@@ -7,11 +7,15 @@
             },
             {
                 "name": "LEBT-SOL2",
+                "value": "ADS:G2:MC"
+            },
+            {
+                "name": "LEBT-SOL3",
                 "value": "ADS:G3:MC"
             },
             {
-                "name": "LEBT-DCV1",
-                "value": "LEBT_PS:DCV_01:IMon"
+                "name": "LEBT-DCH1",
+                "value": "LEBT_PS:DCH_01:IMon"
             },
             {
                 "name": "LEBT-DCH2",
@@ -612,11 +616,11 @@
             },
             {
                 "name": "CM2-3",
-                "value": "HWR:LLRF:2-3:rf1phase"
+                "value": "SCRF:CAV9:PHASE:READ"
             },
             {
                 "name": "CM2-4",
-                "value": "HWR:LLRF:2-4:rf1phase"
+                "value": "SCRF:CAV10:PHASE:READ"
             },
             {
                 "name": "CM2-5",
@@ -628,7 +632,7 @@
             },
             {
                 "name": "CM3-1",
-                "value": "HWR:LLRF:3-1:rf1phase"
+                "value": "SCRF:CAV13:PHASE:READ"
             },
             {
                 "name": "CM3-2",
@@ -636,7 +640,7 @@
             },
             {
                 "name": "CM3-3",
-                "value": "HWR:LLRF:3-3:rf1phase"
+                "value": "SCRF:CAV15:PHASE:READ"
             },
             {
                 "name": "CM3-4",
@@ -648,7 +652,7 @@
             },
             {
                 "name": "CM3-6",
-                "value": "HWR:LLRF:3-6:rf1phase"
+                "value": "SCRF:CAV18:PHASE:READ"
             },
             {
                 "name": "CM4-1",
@@ -917,31 +921,27 @@
         "magnets": [
             {
                 "name": "HEBT-Q1",
-                "value": "HEBT_PS:T0_Q-01:CurMon"
+                "value": "HEBT_PS:QUAD_01:IMon"
             },
             {
                 "name": "HEBT-Q2",
-                "value": "HEBT_PS:T0_Q-02:CurMon"
-            },
-            {
-                "name": "HEBT-D1",
-                "value": "HEBT_PS:T0_D-01:CurMon"
+                "value": "HEBT_PS:QUAD_02:IMon"
             },
             {
                 "name": "HEBT-DCH1",
-                "value": "HEBT_PS:T0_CH-01:CurMon"
+                "value": "HEBT_PS:DCH_01:IMon"
             },
             {
                 "name": "HEBT-DCH2",
-                "value": "HEBT_PS:T0_CH-02:CurMon"
+                "value": "HEBT_PS:DCH_02:IMon"
             },
             {
                 "name": "HEBT-DCV1",
-                "value": "HEBT_PS:T0_CV-01:CurMon"
+                "value": "HEBT_PS:DCV_01:IMon"
             },
             {
                 "name": "HEBT-DCV2",
-                "value": "HEBT_PS:T0_CV-02:CurMon"
+                "value": "HEBT_PS:DCV_02:IMon"
             }
         ],
         "bpms": {
@@ -980,84 +980,52 @@
     "B-HEBT": {
         "magnets": [
             {
-                "name": "HEBT-Q1",
-                "value": "HEBT_PS:T0_Q-01:CurMon"
-            },
-            {
-                "name": "HEBT-Q2",
-                "value": "HEBT_PS:T0_Q-02:CurMon"
-            },
-            {
-                "name": "HEBT-D1",
-                "value": "HEBT_PS:T0_D-01:CurMon"
-            },
-            {
-                "name": "HEBT-DCH1",
-                "value": "HEBT_PS:T0_CH-01:CurMon"
-            },
-            {
-                "name": "HEBT-DCH2",
-                "value": "HEBT_PS:T0_CH-02:CurMon"
-            },
-            {
-                "name": "HEBT-DCV1",
-                "value": "HEBT_PS:T0_CV-01:CurMon"
-            },
-            {
-                "name": "HEBT-DCV2",
-                "value": "HEBT_PS:T0_CV-02:CurMon"
-            },
-            {
                 "name": "HEBT-Q3",
-                "value": "HEBT_PS:T1_Q-01:CurMon"
+                "value": "HEBT_PS:QUAD_03:IMon"
             },
             {
                 "name": "HEBT-Q4",
-                "value": "HEBT_PS:T1_Q-02:CurMon"
+                "value": "HEBT_PS:QUAD_04:IMon"
             },
             {
                 "name": "HEBT-Q5",
-                "value": "HEBT_PS:T1_Q-03:CurMon"
+                "value": "HEBT_PS:QUAD_05:IMon"
             },
             {
                 "name": "HEBT-Q6",
-                "value": "HEBT_PS:T1_Q-04:CurMon"
-            },
-            {
-                "name": "HEBT-D2",
-                "value": "HEBT_PS:T0_D-02:CurMon"
+                "value": "HEBT_PS:QUAD_06:IMon"
             },
             {
                 "name": "HEBT-DCH3",
-                "value": "HEBT_PS:T1_CH-01:CurMon"
+                "value": "HEBT_PS:DCH_03:IMon"
             },
             {
                 "name": "HEBT-DCH4",
-                "value": "HEBT_PS:T1_CH-02:CurMon"
+                "value": "HEBT_PS:DCH_04:IMon"
             },
             {
                 "name": "HEBT-DCH5",
-                "value": "HEBT_PS:T1_CH-03:CurMon"
+                "value": "HEBT_PS:DCH_05:IMon"
             },
             {
                 "name": "HEBT-DCH6",
-                "value": "HEBT_PS:T1_CH-04:CurMon"
+                "value": "HEBT_PS:DCH_06:IMon"
             },
             {
                 "name": "HEBT-DCV3",
-                "value": "HEBT_PS:T1_CV-01:CurMon"
+                "value": "HEBT_PS:DCV_03:IMon"
             },
             {
                 "name": "HEBT-DCV4",
-                "value": "HEBT_PS:T1_CV-02:CurMon"
+                "value": "HEBT_PS:DCV_04:IMon"
             },
             {
                 "name": "HEBT-DCV5",
-                "value": "HEBT_PS:T1_CV-03:CurMon"
+                "value": "HEBT_PS:DCV_05:IMon"
             },
             {
                 "name": "HEBT-DCV6",
-                "value": "HEBT_PS:T1_CV-04:CurMon"
+                "value": "HEBT_PS:DCV_06:IMon"
             }
         ],
         "bpms": {

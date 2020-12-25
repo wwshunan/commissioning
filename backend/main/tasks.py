@@ -1,4 +1,4 @@
-from epics import PV
+from epics import PV, caget
 from datetime import datetime
 from . import celery
 from .factory import redis_client, db
@@ -12,7 +12,7 @@ monitor_pvs = {
     'ACCT2': 'ADS:ACCT2',
     'ACCT3': 'ADS:ACCT3',
     'ACCT4': 'ADS:ACCT4',
-    'duty_factor': 'ADS:DUTYFACTOR',
+    'duty_factor': 'MPS_Soft:DUTYFACTOR',
 }
 
 current_labels = ['ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']
@@ -119,16 +119,19 @@ def accumulate_time(interrupt_id, time_break_id):
     monitor_instance = {}
     timing_dict = {}
     for k in monitor_pvs:
-        monitor_instance[k] = PV(monitor_pvs[k])
-
-    prev_duty_factor = str(monitor_instance['duty_factor'].get())
+        if k != 'duty_factor':
+            monitor_instance[k] = PV(monitor_pvs[k])
+	
+    #prev_duty_factor = str(monitor_instance['duty_factor'].get())
+    prev_duty_factor = str(caget(monitor_pvs['duty_factor']))
     prev_time = datetime.now().timestamp()
     while True:
         monitor_values = {}
         for k in monitor_instance:
             monitor_values[k] = monitor_instance[k].get()
 
-        duty_factor = str(monitor_values['duty_factor'])
+        #duty_factor = str(monitor_values['duty_factor'])
+        duty_factor = str(caget(monitor_pvs['duty_factor']))
         if duty_factor is not None and duty_factor not in timing_dict:
             timing_dict[duty_factor] = new_duty_factor_timing()
         try:

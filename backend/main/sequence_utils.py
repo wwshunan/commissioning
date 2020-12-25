@@ -62,7 +62,7 @@ class UserCode(TaskUserInterface):
         except:
             status = TaskState.FAILURE.name
         finally:
-            from backend.main.flask_app_mod import socket_io
+            from backend.main.flask_app_mod import socket_io 
             socket_io.emit('finished', {
                 'status': status,
                 'id': self.task.id,
