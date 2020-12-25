@@ -4,7 +4,7 @@
             <h3>加速器硬件参数设置</h3>
         </div>
         <br/>
-        <b-alert v-show="showMessage">{{message}}</b-alert>
+        <b-alert :show="showMessage">{{message}}</b-alert>
         <div class="file">
             <form class="md-form" @submit.prevent="onSubmit" enctype="multipart/form-data">
                 <div class="form-group">

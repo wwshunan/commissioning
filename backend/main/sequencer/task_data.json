@@ -1,0 +1,44 @@
+{
+  "sequence1": {
+    "name": "sequence1",
+    "description": "test sequence1",
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "task1"
+      },
+      {
+        "task_id": "task2"
+      },
+      {
+        "task_id": "sequence2"
+      }
+    ]
+  },
+  "sequence2": {
+    "name": "sequence2",
+    "description": "test sequence2",
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "task1"
+      }
+    ]
+  },
+  "task1": {
+    "name": "task1",
+    "task_type": "task",
+    "description": "test task1",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "task1"
+  },
+  "task2": {
+    "name": "task2",
+    "task_type": "task",
+    "description": "test task2",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "task2"
+  }
+}

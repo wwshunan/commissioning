@@ -93,6 +93,7 @@ def remove_dict_null(data):
 
 @app.route('/lattice-upload', methods=['POST'])
 def lattice_upload():
+    print('xxx')
     f = request.files['file']
     f.save(unquote(f.filename))
     # f.save(secure_filename(unquote(f.filename)))

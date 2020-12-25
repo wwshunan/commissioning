@@ -1,0 +1,84 @@
+入口模块把【backend】目录的父目录加入到【sys.path】和【PYTHONPATH】，以及打理【sys.path】的一些细节
+然后必须以全模块名【from backend.run import main】引入真正的main实现函数
+除入口模块外的其它模块，引入语句必须是绝对引入（以【backend.】开头），或相对引入（【以from .】开头）
+不要认为被引入的模块和当前模块在同目录，就直接用被引入模块的短名称
+这样是有歧义的，和全局根包名冲突
+所以我的代码在打理【sys.path】时把【.】删了，避免了歧义
+这也是
+from main import
+不行
+而
+from .main import
+
+useradd _USER_NAME_ -U -M -s /sbin/nologin
+
+
+cat <<'ZZZ' > /etc/systemd/system/_SERVICE_NAME_.service
+[Unit]
+Description=_SERVICE_NAME_
+After=network.target
+
+[Service]
+Type=simple
+User=_USER_NAME_
+Group=_USER_NAME_
+WorkingDirectory=_WORKING_DIR_
+ExecStart=_WORKING_DIR_/_PROG_NAME_.sh
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+ZZZ
+
+
+systemd-analyze verify _SERVICE_NAME_.service
+
+systemctl daemon-reload
+
+systemctl start _SERVICE_NAME_
+
+systemctl status _SERVICE_NAME_
+
+systemctl restart _SERVICE_NAME_
+
+systemctl status _SERVICE_NAME_
+
+systemctl stop _SERVICE_NAME_
+
+systemctl enable _SERVICE_NAME_
+
+systemctl disable _SERVICE_NAME_
+systemctl enable
+是指开机自动运行
+ExecStart由于指定参数啊、重定向输出之类的很麻烦
+所以用一个【.sh】文件封一层
+
+【.sh】文件一般是这样的：
+```
+#!/usr/bin/env bash
+prog_dir="$(dirname "$0")"
+cd "$prog_dir"
+prog_file="${prog_dir}/_PROG_NAME_.exe"
+bash_file="${prog_dir}/_PROG_NAME_.sh"
+config_file="${prog_dir}/_PROG_NAME_.cfg"
+log_file="${prog_dir}/_PROG_NAME_.log"
+if [ -f "$prog_file" ]; then
+    chmod 500 "$prog_file"
+fi
+if [ -f "$bash_file" ]; then
+    chmod 500 "$bash_file"
+fi
+if [ -f "$config_file" ]; then
+    chmod 400 "$config_file"
+fi
+touch "$log_file"
+chmod 600 "$log_file"
+date +"Started at %Y-%m-%d %H:%M:%S" >> "$log_file"
+exec "$prog_file" "$config_file" >> "$log_file" 2>&1
+
+ZZZ是heredoc语法的标记符
+Ant Design Pro
+Element UI
+这两个不错
+生态也比较大

@@ -36,7 +36,7 @@
             </div>
         </form>
         <p>用束结果:</p>
-        <table class="table" v-show="showBeamTime">
+        <table class="table" v-if="shiftCount">
             <thead>
                 <tr>
                     <th scope="col">Duty Factor (%)</th>
@@ -55,6 +55,25 @@
                 </tr>
             </tbody>
         </table>
+        <table class="table" v-else>
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Duty Factor (%)</th>
+                <th scope="col">Beam Time (hrs)</th>
+                <th scope="col">ACCT1 (mA)</th>
+                <th scope="col">ACCT2 (mA)</th>
+                <th scope="col">ACCT3 (mA)</th>
+                <th scope="col">ACCT4 (mA)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in usage_time" :key="item.timestamp">
+                <td v-for="(value, name) in item"
+                    :key="name">{{value}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -67,7 +86,7 @@
             return {
                 usage_time: 0,
                 showMessage: false,
-                showBeamTime: false,
+                shiftCount: true,
                 message: '',
                 startDate: '',
                 toDate: '',
@@ -98,7 +117,7 @@
                     this.message = "Success";
                     this.startBtnDisabled = false;
                     this.stopBtnDisabled = true;
-                    this.showBeamTime = true;
+                    this.shiftCount = true;
                 } catch (e) {
                     this.message = 'Failure';
                 }
@@ -112,6 +131,7 @@
                 try {
                     const response = await axios.post(path, payLoad);
                     this.showMessage = true;
+                    this.shiftCount = false;
                     this.message = 'Beam time query successfully!';
                     this.usage_time = response.data['usage_time'];
                 } catch (e) {
