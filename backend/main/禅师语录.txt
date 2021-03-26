@@ -9,3 +9,32 @@ from main import
 不行
 而
 from .main import
+
+import signal
+import threading
+
+stop_event = threading.Event()
+
+def exit(signum, frame):
+    print('stop')
+    stop_event.set()
+
+
+signal.signal(signal.SIGINT, exit)
+signal.signal(signal.SIGTERM, exit)
+
+stop_event.wait()
+
+比如先关掉企业微信，复制，复制 WXWork 到 D:\WXWork
+
+给 Documents 里的 WXWork 改名 WXWorkbak
+
+在 Documents 里 cmd
+
+mklink /j WXWork D:\WXWork
+
+启动企业微信，确认能用，就可以删除掉  WXWorkbak 了
+
+worker 启动的时候加载了一堆任务函数，任务执行本质是把需要调用的函数和参数发过去，worker接受到就调用对应的函数，调用完把结果写到 backend
+
+threading.aquire blocking=True是一直堵塞等待锁释放；blocking=False是立即判断是不是可以锁定，然后返回锁定结果，是这样吗

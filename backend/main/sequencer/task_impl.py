@@ -343,10 +343,11 @@ class ADSSequence(AbstractTaskImpl, Sequence):
     def execUserCode(self):
         #executor = self.executor
         event_manager = self.event_manager
+        priority = 1
         for task in self.getFlattenedTaskList():
-            print(task.id)
-            task_item = PrioritizedItem(1, task.userCode.execUserCode)
+            task_item = PrioritizedItem(priority, task.userCode.execUserCode)
             event_manager.send_task(task_item)
+            priority += 1
             #executor.submit(task.userCode.execUserCode)
 
     def execPostUserCode(self):

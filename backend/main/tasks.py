@@ -8,6 +8,9 @@ import json
 
 monitor_pvs = {
     'FC1': 'LEBT_BD:FC_01:In',
+    'chopper': 'LEBT_PS:CHP_01:VMon',
+    'hv': 'LIPS_PS:HV_01:VMon',
+    'trig': 'EVG1.TRIGSRC',
     'ACCT1': 'ADS:ACCT1',
     'ACCT2': 'ADS:ACCT2',
     'ACCT3': 'ADS:ACCT3',
@@ -16,6 +19,34 @@ monitor_pvs = {
 }
 
 current_labels = ['ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']
+
+@celery.task
+def period_saving(interrupt_id, time_break_id):
+    monitor_instance = {}
+    timing_dict = {}
+    list_easy_lost = ['duty_factor', 'ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']
+    for k in monitor_pvs:
+        if k not in list_easy_lost:
+            monitor_instance[k] = PV(monitor_pvs[k])
+
+    while True:
+        monitor_values = {}
+        for k in monitor_instance:
+            monitor_values[k] = monitor_instance[k].get()
+
+        try:
+            for k in list_easy_lost:
+                monitor_values[k] = caget(monitor_pvs[k])
+            duty_factor = monitor_values['duty_factor']
+        except Exception:
+            print('disconnect')
+
+        if duty_factor and duty_factor > 1e-5:
+            duty_factor = str(duty_factor)
+        if duty_factor not in timing_dict:
+            timing_dict[duty_factor] = new_duty_factor_timing()
+
+
 
 def save_timing(timing_data):
     for dutyfactor in timing_data:
@@ -35,6 +66,7 @@ def save_timing(timing_data):
         )
         db.session.add(timing_item)
     db.session.commit()
+
 
 def new_duty_factor_timing():
     timing = {}
@@ -115,14 +147,15 @@ def timing_add_needed(current_time,
 @celery.task
 def accumulate_time(interrupt_id, time_break_id):
     timing_allow = False
-    current_low_bound = 0.015
+    bpm_sum_lb = 1e4
     monitor_instance = {}
     timing_dict = {}
+    list_easy_lost = ['duty_factor', 'ACCT1', 'ACCT2', 'ACCT3', 'ACCT4']
     for k in monitor_pvs:
-        if k != 'duty_factor':
+        if k not in list_easy_lost:
             monitor_instance[k] = PV(monitor_pvs[k])
-	
-    #prev_duty_factor = str(monitor_instance['duty_factor'].get())
+
+    # prev_duty_factor = str(monitor_instance['duty_factor'].get())
     prev_duty_factor = str(caget(monitor_pvs['duty_factor']))
     prev_time = datetime.now().timestamp()
     while True:
@@ -130,13 +163,21 @@ def accumulate_time(interrupt_id, time_break_id):
         for k in monitor_instance:
             monitor_values[k] = monitor_instance[k].get()
 
-        #duty_factor = str(monitor_values['duty_factor'])
-        duty_factor = str(caget(monitor_pvs['duty_factor']))
-        if duty_factor is not None and duty_factor not in timing_dict:
+        # duty_factor = str(monitor_values['duty_factor'])
+        try:
+            for k in list_easy_lost:
+                monitor_values[k] = caget(monitor_pvs[k])
+            duty_factor = monitor_values['duty_factor']
+        except Exception:
+            print('disconnect')
+
+        if duty_factor and duty_factor > 1e-5:
+            duty_factor = str(duty_factor)
+        if duty_factor not in timing_dict:
             timing_dict[duty_factor] = new_duty_factor_timing()
         try:
-            has_current = any(monitor_values[acct] > current_low_bound
-                              for acct in current_labels)
+            has_current = all([monitor_values['hv'] > 19, monitor_values['chopper'] > 3800,
+                               monitor_values['FC1'] == 0, monitor_values['trig'] == 0])
         except TypeError:
             print('PV disconnected!')
 
@@ -175,5 +216,3 @@ def accumulate_time(interrupt_id, time_break_id):
 
         prev_duty_factor = duty_factor
         time.sleep(1)
-
-

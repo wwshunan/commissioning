@@ -4,6 +4,7 @@ import os
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 bypass_fname = os.path.join(base_dir, 'lattices/monitor/bypass.txt')
+
 def get_pv_values(sections):
 
     vals = {}

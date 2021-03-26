@@ -3,6 +3,8 @@ from .sequencer.task_impl import ADSTask, ADSSequence
 from .sequencer.task_state import TaskState
 from .event_manager import EventManager
 from .factory import db
+from .models import Snapshot
+from .snapshot_log import checkout
 
 
 event_manager = EventManager()
@@ -10,6 +12,14 @@ event_manager.start()
 
 sequence_to_execute = None
 
+def checkout_sections(selected_sections):
+    newest_snapshot = Snapshot.query.order_by(
+        Snapshot.timestamp.desc()
+    ).limit(1).first()
+
+    data = newest_snapshot.to_json()
+    diffs = checkout(data, selected_sections)
+    return diffs
 
 def remove_dict_null(data):
     copied_keys = tuple(data.keys())
@@ -94,12 +104,5 @@ def execute_sequence(sequence_name):
             continue
         t.userCode.execUserCode()
 
-def remove_dict_null(data):
-    copied_keys = tuple(data.keys())
-    for key in copied_keys:
-        if isinstance(data[key], dict) and data[key]:
-            remove_dict_null(data[key])
-        if not data[key]:
-            data.pop(key)
 
 

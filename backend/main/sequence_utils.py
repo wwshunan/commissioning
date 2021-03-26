@@ -57,8 +57,8 @@ class UserCode(TaskUserInterface):
         mod = importlib.import_module(self.module)
         user_code = getattr(mod, self.task.user_code)
         try:
-            result = user_code()
-            status = TaskState.OK.name
+            status = user_code()
+            #status = TaskState.OK.name
         except:
             status = TaskState.FAILURE.name
         finally:

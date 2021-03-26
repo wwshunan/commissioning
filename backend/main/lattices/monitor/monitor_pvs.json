@@ -25,6 +25,16 @@
                 "name": "LEBT-DCV2",
                 "value": "LEBT_PS:DCV_02:IMon"
             }
+        ],
+        "amps": [
+            {
+                "name": "HV",
+                "value": "LIPS_PS:HV_01:VMon"
+            },
+            {
+                "name": "HV supression",
+                "value": "LIPS_PS:HV_02:VMon"
+            }
         ]
     },
     "MEBT": {

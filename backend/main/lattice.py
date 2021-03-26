@@ -1,5 +1,6 @@
 from epics import PV
 from collections import OrderedDict
+import os
 
 cavityList = ['buncher1', 'buncher2', 'cm1-1', 'cm1-2', 'cm1-3', 'cm1-4', 'cm1-5', 'cm1-6']
 cavityList += ['cm2-1', 'cm2-2', 'cm2-3', 'cm2-4', 'cm2-5', 'cm2-6']
@@ -13,15 +14,16 @@ cavity_names = {
     'CM4': ['cm4-1', 'cm4-2', 'cm4-3', 'cm4-4', 'cm4-5'],
 }
 
+basedir = os.path.dirname(os.path.abspath(__file__))
 phase_fname = '../../phasescan/synch-phases/phases.dat'
 
 config_files = {
-    'MEBT': 'lattices/MEBT-map.dat',
-    'CM1': 'lattices/CM1-map.dat',
-    'CM2': 'lattices/CM2-map.dat',
-    'CM3': 'lattices/CM3-map.dat',
-    'CM4': 'lattices/CM4-map.dat',
-    'HEBT': 'lattices/HEBT-map.dat'
+    'MEBT': os.path.join(basedir, 'lattices/MEBT-map.dat'),
+    'CM1': os.path.join(basedir, 'lattices/CM1-map.dat'),
+    'CM2': os.path.join(basedir, 'lattices/CM2-map.dat'),
+    'CM3': os.path.join(basedir, 'lattices/CM3-map.dat'),
+    'CM4': os.path.join(basedir, 'lattices/CM4-map.dat'),
+    'HEBT': os.path.join(basedir, 'lattices/HEBT-map.dat')
 }
 
 def read_info(section, config_file):

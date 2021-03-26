@@ -1,16 +1,19 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timedelta
 from collections import OrderedDict
+from scipy.constants import c
 from .lattice import load_lattice, generate_info, set_lattice, set_sync_phases
 from .snapshot_log import get_pv_values, checkout
 from urllib.parse import unquote
-from .utils import remove_dict_null
+from .utils import remove_dict_null, checkout_sections
 from .sequence_utils import get_tasks, select_sequence
 from .sequencer.priority_item import PrioritizedItem
 from .models import (Operation, Magnet, Cavity, Snapshot, Task,
                      Amp, Phase, BPM, SnapshotMagnet, Timing)
 from .factory import db, cache, redis_client
 from .tasks import accumulate_time
+from .robot import send_alarm
+from .cavity_ready import send_alarm_cavity
 import time
 import numpy as np
 import uuid
@@ -18,6 +21,26 @@ import json
 
 bp = Blueprint("app", __name__)
 sequence_to_execute = None
+robot_obj = None
+
+@bp.route('/commissioning/energy-compute', methods=['POST'])
+def energy_computation():
+    proton_mass = 938.27208816
+    post_data = request.get_json()
+    tof = float(post_data['tof']) * 1e-9
+    length = float(post_data['distance'])
+    v = length / tof
+    beta = v / c
+    if beta < 1:
+        gamma = 1 / (1 - beta**2) ** 0.5
+        energy = round((gamma-1)*proton_mass, 3)
+        return jsonify({
+            'energy': str(energy)
+        })
+    else:
+        return jsonify({
+            'warning': '超光速了，你发现了新的物理!!!'
+        })
 
 @bp.route('/lattice-upload', methods=['POST'])
 def lattice_upload():
@@ -115,7 +138,40 @@ def start_time_accumulate():
     accumulate_time.delay(interrupt_id, time_break_id)
     return jsonify(status='Success')
 
+@bp.route('/warning/robot-start', methods=['GET'])
+def start_robot():
+    robot_id = uuid.uuid4().hex
+    redis_client.set(robot_id, 'false')
+    with open('robot-id.txt', 'w') as fobj:
+        fobj.write('{}\n'.format(robot_id))
+    send_alarm.delay(robot_id)
+    return jsonify(status='Success')
 
+@bp.route('/warning/robot-stop', methods=['GET'])
+def stop_robot():
+    with open('robot-id.txt') as fobj:
+        robot_id = fobj.readlines()[0].strip()
+    print(robot_id)
+    redis_client.set(robot_id, 'true')
+    return 'SUCCESS'
+
+@bp.route('/warning/cavity_monitor_start', methods=['GET'])
+def start_cavity_monitor():
+    cavity_monitor_id = uuid.uuid4().hex
+    redis_client.set(cavity_monitor_id, 'false')
+    with open('cavity_ready.txt', 'w') as fobj:
+        fobj.write('{}\n'.format(cavity_monitor_id))
+    send_alarm_cavity.delay(cavity_monitor_id)
+    return jsonify(status='Success')
+
+@bp.route('/warning/cavity_monitor_stop', methods=['GET'])
+def stop_cavity_monitor():
+    with open('cavity_ready.txt') as fobj:
+        cavity_monitor_id = fobj.readlines()[0].strip()
+    print(cavity_monitor_id)
+    redis_client.set(cavity_monitor_id, 'true')
+    return 'SUCCESS'
+    
 @bp.route('/log/stop', methods=["GET"])
 def stop_time_accumulate():
     with open('timing-id.txt') as fobj:
@@ -169,7 +225,9 @@ def snapshot():
     loop_num = 6
     data = request.get_json()
     selected_sections = data['selected_sections']
-    cache.set('selected_sections', selected_sections)
+    if redis_client.exists('selected_sections'):
+        redis_client.delete('selected_sections')
+    redis_client.rpush('selected_sections', *selected_sections)
     snapshots = {}
     for i in range(loop_num):
         pv_values = get_pv_values(selected_sections)
@@ -212,13 +270,9 @@ def snapshot():
 
 @bp.route('/log/snapshot-checkout', methods=['GET'])
 def snapshot_checkout():
-    newest_snapshot = Snapshot.query.order_by(
-        Snapshot.timestamp.desc()
-    ).limit(1).first()
-
-    data = newest_snapshot.to_json()
-    selected_sections = cache.get('selected_sections')
-    diffs = checkout(data, selected_sections)
+    selected_sections = redis_client.lrange('selected_sections', 0, 10)
+    selected_sections = [x.decode('utf-8') for x in selected_sections]
+    diffs = checkout_sections(selected_sections)
     return jsonify({
         'diffs': diffs
     })

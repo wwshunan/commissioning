@@ -1,6 +1,9 @@
 from .factory import db, Base
 from datetime import datetime, timedelta
 import json
+import os
+
+basedir = os.path.dirname(os.path.abspath(__file__))
 
 class Snapshot(db.Model):
     __tablename__ = 'snapshots'
@@ -181,7 +184,7 @@ class Task(Base):
 
     @staticmethod
     def insert_tasks():
-        with open('sequencer/task_data.json') as f:
+        with open(os.path.join(basedir, 'sequencer/task_data.json')) as f:
             data = json.load(f)
         for task_name in data:
             if data[task_name]["task_type"] == "seq":
