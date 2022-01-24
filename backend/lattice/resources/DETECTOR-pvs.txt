@@ -1,0 +1,6 @@
+element-name write_pv_name read_pv_name
+Q1 SS_PS:Q01:CurSet SS_PS:Q01:CurMon
+D1 SS_PS:D01:CurSet SS_PS:D01:CurMon
+Q2 SS_PS:Q02:CurSet SS_PS:Q02:CurMon
+Q3 SS_PS:Q03:CurSet SS_PS:Q03:CurMon
+D2 SS_PS:D02:CurSet SS_PS:D02:CurMon

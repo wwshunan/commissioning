@@ -1,0 +1,7 @@
+element-name write_pv_name read_pv_name
+Q1 MEBT_PS:Q01:CurSet MEBT_PS:Q01:CurMon
+Q2 MEBT_PS:Q02:CurSet MEBT_PS:Q02:CurMon
+Q3 MEBT_PS:Q03:CurSet MEBT_PS:Q03:CurMon
+Q4 MEBT_PS:Q04:CurSet MEBT_PS:Q04:CurMon
+Q5 MEBT_PS:Q05:CurSet MEBT_PS:Q05:CurMon
+Q6 MEBT_PS:Q06:CurSet MEBT_PS:Q06:CurMon

@@ -1,0 +1,4 @@
+cavity_name synch_phase
+buncher1	-90
+buncher2	-90
+cm1-1	-33

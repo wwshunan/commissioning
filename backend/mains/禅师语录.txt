@@ -1,0 +1,106 @@
+入口模块把【backend】目录的父目录加入到【sys.path】和【PYTHONPATH】，以及打理【sys.path】的一些细节
+然后必须以全模块名【from backend.run import main】引入真正的main实现函数
+除入口模块外的其它模块，引入语句必须是绝对引入（以【backend.】开头），或相对引入（【以from .】开头）
+不要认为被引入的模块和当前模块在同目录，就直接用被引入模块的短名称
+这样是有歧义的，和全局根包名冲突
+所以我的代码在打理【sys.path】时把【.】删了，避免了歧义
+这也是
+from main import
+不行
+而
+from .main import
+
+import signal
+import threading
+
+stop_event = threading.Event()
+
+def exit(signum, frame):
+    print('stop')
+    stop_event.set()
+
+
+signal.signal(signal.SIGINT, exit)
+signal.signal(signal.SIGTERM, exit)
+
+stop_event.wait()
+
+比如先关掉企业微信，复制，复制 WXWork 到 D:\WXWork
+
+给 Documents 里的 WXWork 改名 WXWorkbak
+
+在 Documents 里 cmd
+
+mklink /j WXWork D:\WXWork
+
+启动企业微信，确认能用，就可以删除掉  WXWorkbak 了
+
+worker 启动的时候加载了一堆任务函数，任务执行本质是把需要调用的函数和参数发过去，worker接受到就调用对应的函数，调用完把结果写到 backend
+
+threading.aquire blocking=True是一直堵塞等待锁释放；blocking=False是立即判断是不是可以锁定，然后返回锁定结果，是这样吗
+
+第一步先验证每次连接重连是你的系统的瓶颈所在
+不是就没必要优化
+如果是的，自己抽一层连接池出来
+甚至可以自己抽个本地API服务
+其它业务逻辑访问这个本地API服务
+这个本地API服务和远程服务器连接，并一直保持连接
+
+本地API收到请求可以先放队列
+保证请求全部成功并立即返回
+后续再自己慢慢处理队列里的数据
+上传到远程服务器
+这样即使有意外断连，可以从容处理不丢数据
+
+所谓队列
+要求不高的话一个SQLite文件足矣
+
+HTTP API 本地调HTTP API是很快的
+
+它可以简单开着啊
+因为它就干这一件事
+就简单得多
+从队列取值，传给远程服务器
+连接断了就重连
+
+我的青春版报错通知API服务就这样搞的
+客户端SDK（一个库）和API服务端都是收到请求先存SQLite落盘
+然后再往上级传
+传成功才从SQLite里删了
+
+django, flask都可以
+你放在一个进程里也可以
+无非就是开个线程去搞
+道理一样
+
+线程间通讯就是队列啊
+区别是不用线程的话
+所有直接使用上传连接的地方都要处理断线重连等杂务
+业务逻辑能不能接受断连后
+长时间同步等在那
+也要考虑
+有的业务逻辑必须等
+有的业务逻辑不能等
+要看情况
+
+如果你的程序是在不停的按时间间隔收集数据上传
+同步等待肯定是不行的
+不能假设远端服务器永远能快速响应
+所以先放队列再慢慢上传是比较理想的
+
+而落盘队列又比内存队列理想
+进程挂掉不受影响
+
+sqlite是最简单的实现
+sqlite, mysql, redis zset, 各种MQ, kafka
+都可以
+看你的需求到什么程度
+
+async函数之后互相调用用await这没问题
+但最底层的async函数
+必须有自己的异步机制
+不是把它标成async它就异步了
+一般是返回一个future对象
+然后另开线程去跑长任务
+等任务结束
+再把future设置成完成

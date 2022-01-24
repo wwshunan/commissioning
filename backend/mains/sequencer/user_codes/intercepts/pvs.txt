@@ -1,0 +1,14 @@
+MEBT水平刮束器左挡板 T:axis1_real_pos_r 19 
+MEBT水平刮束器右挡板 T:axis2_real_pos_r -17
+MEBT垂直刮束器1上挡板 T:axis3_real_pos_r -28
+MEBT水平狭缝 T:axis10_real_pos_r -158
+MEBT水平单丝 T:axis11_real_pos_r -60
+MEBT法拉第筒2 T:axis5_real_pos_r -137
+MEBT垂直狭缝 T:axis6_real_pos_r -155
+MEBT垂直单丝 T:axis7_real_pos_r -85
+MEBT垂直刮束器2上挡板 T:axis8_real_pos_r -18
+MEBT垂直刮束器2下挡板 T:axis9_real_pos_r 7
+高能段水平狭缝1 T:axis12_real_pos_r -145
+高能段垂直狭缝1 T:axis14_real_pos_r -145
+高能段水平狭缝2 T:axis13_real_pos_r -145
+高能段垂直狭缝2 T:axis15_real_pos_r -145

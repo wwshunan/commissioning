@@ -1,0 +1,130 @@
+{
+  "sequence1": {
+    "name": "Ramping",
+    "description": "提高占空比",
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "lebt_check"
+      },
+      {
+        "task_id": "close_fc2"
+      },
+      {
+        "task_id": "open_fc1"
+      },
+      {
+        "task_id": "rfq_transit_check"
+      },
+      {
+        "task_id": "open_fc2"
+      },
+      {
+        "task_id": "sequence2"
+      }
+    ]
+  },
+  "sequence2": {
+    "name": "Machine check",
+    "description": "机器状态检测",
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "mebt_check"
+      },
+      {
+        "task_id": "sc_check"
+      },
+      {
+        "task_id": "hebt_check"
+      },
+      {
+        "task_id": "valve_check"
+      },
+      {
+        "task_id": "intercept_check"
+      }
+    ]
+  },
+  "open_fc1": {
+    "name": "fc1",
+    "task_type": "task",
+    "description": "打开FC1",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_fc1"
+  },
+  "open_fc2": {
+    "name": "open fc2",
+    "task_type": "task",
+    "description": "打开FC2",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_fc2"
+  },
+  "close_fc2": {
+    "name": "close fc2",
+    "task_type": "task",
+    "description": "关闭FC2",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "close_fc2"
+  },
+
+  "rfq_transit_check": {
+    "name": "rfq transition check",
+    "task_type": "task",
+    "description": "检查RFQ传输效率",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "rfq_transit_check"
+  },
+  "lebt_check": {
+    "name": "lebt check",
+    "task_type": "task",
+    "description": "检查LEBT状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "lebt_status_check"
+  },
+  "mebt_check": {
+    "name": "mebt check",
+    "task_type": "task",
+    "description": "检查MEBT状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "mebt_status_check"
+  },
+  "sc_check": {
+    "name": "sc check",
+    "task_type": "task",
+    "description": "检查超导段状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "sc_status_check"
+  },
+  "hebt_check": {
+    "name": "hebt check",
+    "task_type": "task",
+    "description": "检查HEBT状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "hebt_status_check"
+  },
+  "valve_check": {
+    "name": "valve check",
+    "task_type": "task",
+    "description": "检查阀门状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "valve_status_check"
+  },
+  "intercept_check": {
+    "name": "intercept check",
+    "task_type": "task",
+    "description": "检查插入式元件状态",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "intercept_status_check"
+  }
+}

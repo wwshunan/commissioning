@@ -52,6 +52,20 @@ def init_db():
         Base.metadata.create_all(bind=db.engine)
         Task.insert_tasks()
 
+def task_reinit():
+    setup_syspath(
+        package_root=os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        ),
+        current_dir=os.path.dirname(os.path.abspath(__file__)),
+    )
+    from backend.main.flask_app_mod import app
+    from backend.main.models import Task
+    from backend.main.factory import db, Base
+    with app.app_context():
+        Base.metadata.tables['task'].drop(bind=db.engine)
+        Base.metadata.tables['task'].create(bind=db.engine)
+        Task.insert_tasks()
 
 def main(args=None):
     try:
@@ -62,7 +76,7 @@ def main(args=None):
             current_dir=os.path.dirname(os.path.abspath(__file__)),
         )
         from backend.main.flask_app_mod import socket_io, app
-        socket_io.run(app, debug=True, host='0.0.0.0')
+        socket_io.run(app, debug=True, use_reloader=False, host='0.0.0.0')
 
     except SystemExit:
         raise

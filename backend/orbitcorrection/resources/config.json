@@ -1,0 +1,631 @@
+[
+  {
+    "id": 1,
+    "label": "MEBT",
+    "children": [
+      {
+        "id": 87,
+        "label": "校正铁",
+        "children": [
+          {
+            "id": 2,
+            "label": "水平校正铁1",
+            "set_pv": "MEBT_PS:DCH01:CurSet",
+            "get_pv": "MEBT_PS:DCH01:CurMon",
+            "status": true
+          },
+          {
+            "id": 3,
+            "label": "垂直校正铁1",
+            "set_pv": "MEBT_PS:DCV01:CurSet",
+            "get_pv": "MEBT_PS:DCV01:CurMon",
+            "status": true
+          },
+          {
+            "id": 4,
+            "label": "水平校正铁2",
+            "set_pv": "MEBT_PS:DCH02:CurSet",
+            "get_pv": "MEBT_PS:DCH02:CurMon",
+            "status": true
+          },
+          {
+            "id": 5,
+            "label": "垂直校正铁2",
+            "set_pv": "MEBT_PS:DCV02:CurSet",
+            "get_pv": "MEBT_PS:DCV02:CurMon",
+            "status": true
+          },
+          {
+            "id": 6,
+            "label": "水平校正铁3",
+            "set_pv": "MEBT_PS:DCH03:CurSet",
+            "get_pv": "MEBT_PS:DCH03:CurMon",
+            "status": true
+          },
+          {
+            "id": 7,
+            "label": "垂直校正铁3",
+            "set_pv": "MEBT_PS:DCV03:CurSet",
+            "get_pv": "MEBT_PS:DCV03:CurMon",
+            "status": true
+          },
+          {
+            "id": 8,
+            "label": "水平校正铁4",
+            "set_pv": "MEBT_PS:DCH04:CurSet",
+            "get_pv": "MEBT_PS:DCH04:CurMon",
+            "status": true
+          },
+          {
+            "id": 9,
+            "label": "垂直校正铁4",
+            "set_pv": "MEBT_PS:DCV04:CurSet",
+            "get_pv": "MEBT_PS:DCV04:CurMon",
+            "status": true
+          },
+          {
+            "id": 10,
+            "label": "水平校正铁5",
+            "set_pv": "MEBT_PS:DCH05:CurSet",
+            "get_pv": "MEBT_PS:DCH05:CurMon",
+            "status": true
+          },
+          {
+            "id": 11,
+            "label": "垂直校正铁5",
+            "set_pv": "MEBT_PS:DCV05:CurSet",
+            "get_pv": "MEBT_PS:DCV05:CurMon",
+            "status": true
+          },
+          {
+            "id": 12,
+            "label": "水平校正铁6",
+            "set_pv": "MEBT_PS:DCH06:CurSet",
+            "get_pv": "MEBT_PS:DCH06:CurMon",
+            "status": true
+          },
+          {
+            "id": 13,
+            "label": "垂直校正铁6",
+            "set_pv": "MEBT_PS:DCV06:CurSet",
+            "get_pv": "MEBT_PS:DCV06:CurMon",
+            "status": true
+          }
+        ]
+      },
+      {
+        "id": 88,
+        "label": "bpm",
+        "children": [
+          {
+            "id": 15,
+            "label": "bpm2",
+            "x_pv": "Bpm:2-X11",
+            "y_pv": "Bpm:2-Y11"
+          },
+          {
+            "id": 16,
+            "label": "bpm3",
+            "x_pv": "Bpm:3-X11",
+            "y_pv": "Bpm:3-Y11"
+          },
+          {
+            "id": 17,
+            "label": "bpm4",
+            "x_pv": "Bpm:4-X11",
+            "y_pv": "Bpm:4-Y11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "label": "CM1",
+    "children": [
+      {
+        "id": 89,
+        "label": "校正铁",
+        "children": [
+          {
+            "id": 19,
+            "label": "水平校正铁1",
+            "set_pv": "HCM1_PS:DCH_01:ISet",
+            "get_pv": "HCM1_PS:DCH_01:IMon",
+            "status": true
+          },
+          {
+            "id": 20,
+            "label": "垂直校正铁1",
+            "set_pv": "HCM1_PS:DCV_01:ISet",
+            "get_pv": "HCM1_PS:DCV_01:IMon",
+            "status": true
+          },
+          {
+            "id": 21,
+            "label": "水平校正铁2",
+            "set_pv": "HCM1_PS:DCH_02:ISet",
+            "get_pv": "HCM1_PS:DCH_02:IMon",
+            "status": true
+          },
+          {
+            "id": 22,
+            "label": "垂直校正铁2",
+            "set_pv": "HCM1_PS:DCV_02:ISet",
+            "get_pv": "HCM1_PS:DCV_02:IMon",
+            "status": true
+          },
+          {
+            "id": 23,
+            "label": "水平校正铁3",
+            "set_pv": "HCM1_PS:DCH_03:ISet",
+            "get_pv": "HCM1_PS:DCH_03:IMon",
+            "status": true
+          },
+          {
+            "id": 24,
+            "label": "垂直校正铁3",
+            "set_pv": "HCM1_PS:DCV_03:ISet",
+            "get_pv": "HCM1_PS:DCV_03:IMon",
+            "status": true
+          },
+          {
+            "id": 25,
+            "label": "水平校正铁4",
+            "set_pv": "HCM1_PS:DCH_04:ISet",
+            "get_pv": "HCM1_PS:DCH_04:IMon",
+            "status": true
+          },
+          {
+            "id": 26,
+            "label": "垂直校正铁4",
+            "set_pv": "HCM1_PS:DCV_04:ISet",
+            "get_pv": "HCM1_PS:DCV_04:IMon",
+            "status": true
+          },
+          {
+            "id": 27,
+            "label": "水平校正铁5",
+            "set_pv": "HCM1_PS:DCH_05:ISet",
+            "get_pv": "HCM1_PS:DCH_05:IMon",
+            "status": true
+          },
+          {
+            "id": 28,
+            "label": "垂直校正铁5",
+            "set_pv": "HCM1_PS:DCV_05:ISet",
+            "get_pv": "HCM1_PS:DCV_05:IMon",
+            "status": true
+          },
+          {
+            "id": 29,
+            "label": "水平校正铁6",
+            "set_pv": "HCM1_PS:DCH_06:ISet",
+            "get_pv": "HCM1_PS:DCH_06:IMon",
+            "status": true
+          },
+          {
+            "id": 30,
+            "label": "垂直校正铁6",
+            "set_pv": "HCM1_PS:DCV_06:ISet",
+            "get_pv": "HCM1_PS:DCV_06:IMon",
+            "status": true
+          }
+
+        ]
+      },
+      {
+        "id": 90,
+        "label": "bpm",
+        "children": [
+          {
+            "id": 31,
+            "label": "bpm1",
+            "x_pv": "Bpm:6-X11",
+            "y_pv": "Bpm:6-Y11"
+          },
+          {
+            "id": 32,
+            "label": "bpm2",
+            "x_pv": "Bpm:7-X11",
+            "y_pv": "Bpm:7-Y11"
+          },
+          {
+            "id": 33,
+            "label": "bpm3",
+            "x_pv": "Bpm:8-X11",
+            "y_pv": "Bpm:8-Y11"
+          },
+          {
+            "id": 34,
+            "label": "bpm4",
+            "x_pv": "Bpm:9-X11",
+            "y_pv": "Bpm:9-Y11"
+          },
+          {
+            "id": 35,
+            "label": "bpm5",
+            "x_pv": "Bpm:10-X11",
+            "y_pv": "Bpm:10-Y11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "label": "CM2",
+    "children": [
+      {
+        "id": 91,
+        "label": "校正铁",
+        "children": [
+          {
+            "id": 37,
+            "label": "水平校正铁1",
+            "set_pv": "HCM1_PS:DCH_01:ISet",
+            "get_pv": "HCM1_PS:DCH_01:IMon",
+            "status": true
+          },
+          {
+            "id": 38,
+            "label": "垂直校正铁1",
+            "set_pv": "HCM1_PS:DCV_01:ISet",
+            "get_pv": "HCM1_PS:DCV_01:IMon",
+            "status": true
+          },
+          {
+            "id": 39,
+            "label": "水平校正铁2",
+            "set_pv": "HCM1_PS:DCH_02:ISet",
+            "get_pv": "HCM1_PS:DCH_02:IMon",
+            "status": true
+          },
+          {
+            "id": 40,
+            "label": "垂直校正铁2",
+            "set_pv": "HCM1_PS:DCV_02:ISet",
+            "get_pv": "HCM1_PS:DCV_02:IMon",
+            "status": true
+          },
+          {
+            "id": 41,
+            "label": "水平校正铁3",
+            "set_pv": "HCM1_PS:DCH_03:ISet",
+            "get_pv": "HCM1_PS:DCH_03:IMon",
+            "status": true
+          },
+          {
+            "id": 42,
+            "label": "垂直校正铁3",
+            "set_pv": "HCM1_PS:DCV_03:ISet",
+            "get_pv": "HCM1_PS:DCV_03:IMon",
+            "status": true
+          },
+          {
+            "id": 43,
+            "label": "水平校正铁4",
+            "set_pv": "HCM1_PS:DCH_04:ISet",
+            "get_pv": "HCM1_PS:DCH_04:IMon",
+            "status": true
+          },
+          {
+            "id": 44,
+            "label": "垂直校正铁4",
+            "set_pv": "HCM1_PS:DCV_04:ISet",
+            "get_pv": "HCM1_PS:DCV_04:IMon",
+            "status": true
+          },
+          {
+            "id": 45,
+            "label": "水平校正铁5",
+            "set_pv": "HCM1_PS:DCH_05:ISet",
+            "get_pv": "HCM1_PS:DCH_05:IMon",
+            "status": true
+          },
+          {
+            "id": 46,
+            "label": "垂直校正铁5",
+            "set_pv": "HCM1_PS:DCV_05:ISet",
+            "get_pv": "HCM1_PS:DCV_05:IMon",
+            "status": true
+          },
+          {
+            "id": 47,
+            "label": "水平校正铁6",
+            "set_pv": "HCM1_PS:DCH_06:ISet",
+            "get_pv": "HCM1_PS:DCH_06:IMon",
+            "status": true
+          },
+          {
+            "id": 48,
+            "label": "垂直校正铁6",
+            "set_pv": "HCM1_PS:DCV_06:ISet",
+            "get_pv": "HCM1_PS:DCV_06:IMon",
+            "status": true
+          }
+        ]
+      },
+      {
+        "id": 92,
+        "label": "bpm",
+        "children": [
+          {
+            "id": 49,
+            "label": "bpm1",
+            "x_pv": "Bpm:6-X11",
+            "y_pv": "Bpm:6-Y11"
+          },
+          {
+            "id": 50,
+            "label": "bpm2",
+            "x_pv": "Bpm:7-X11",
+            "y_pv": "Bpm:7-Y11"
+          },
+          {
+            "id": 51,
+            "label": "bpm3",
+            "x_pv": "Bpm:8-X11",
+            "y_pv": "Bpm:8-Y11"
+          },
+          {
+            "id": 52,
+            "label": "bpm4",
+            "x_pv": "Bpm:9-X11",
+            "y_pv": "Bpm:9-Y11"
+          },
+          {
+            "id": 53,
+            "label": "bpm5",
+            "x_pv": "Bpm:10-X11",
+            "y_pv": "Bpm:10-Y11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "label": "CM3",
+    "children": [
+      {
+        "id": 93,
+        "label": "校正铁",
+        "children": [
+          {
+            "id": 55,
+            "label": "水平校正铁1",
+            "set_pv": "HCM1_PS:DCH_01:ISet",
+            "get_pv": "HCM1_PS:DCH_01:IMon",
+            "status": true
+          },
+          {
+            "id": 56,
+            "label": "垂直校正铁1",
+            "set_pv": "HCM1_PS:DCV_01:ISet",
+            "get_pv": "HCM1_PS:DCV_01:IMon",
+            "status": true
+          },
+          {
+            "id": 57,
+            "label": "水平校正铁2",
+            "set_pv": "HCM1_PS:DCH_02:ISet",
+            "get_pv": "HCM1_PS:DCH_02:IMon",
+            "status": true
+          },
+          {
+            "id": 58,
+            "label": "垂直校正铁2",
+            "set_pv": "HCM1_PS:DCV_02:ISet",
+            "get_pv": "HCM1_PS:DCV_02:IMon",
+            "status": true
+          },
+          {
+            "id": 59,
+            "label": "水平校正铁3",
+            "set_pv": "HCM1_PS:DCH_03:ISet",
+            "get_pv": "HCM1_PS:DCH_03:IMon",
+            "status": true
+          },
+          {
+            "id": 60,
+            "label": "垂直校正铁3",
+            "set_pv": "HCM1_PS:DCV_03:ISet",
+            "get_pv": "HCM1_PS:DCV_03:IMon",
+            "status": true
+          },
+          {
+            "id": 61,
+            "label": "水平校正铁4",
+            "set_pv": "HCM1_PS:DCH_04:ISet",
+            "get_pv": "HCM1_PS:DCH_04:IMon",
+            "status": true
+          },
+          {
+            "id": 62,
+            "label": "垂直校正铁4",
+            "set_pv": "HCM1_PS:DCV_04:ISet",
+            "get_pv": "HCM1_PS:DCV_04:IMon",
+            "status": true
+          },
+          {
+            "id": 63,
+            "label": "水平校正铁5",
+            "set_pv": "HCM1_PS:DCH_05:ISet",
+            "get_pv": "HCM1_PS:DCH_05:IMon",
+            "status": true
+          },
+          {
+            "id": 64,
+            "label": "垂直校正铁5",
+            "set_pv": "HCM1_PS:DCV_05:ISet",
+            "get_pv": "HCM1_PS:DCV_05:IMon",
+            "status": true
+          },
+          {
+            "id": 65,
+            "label": "水平校正铁6",
+            "set_pv": "HCM1_PS:DCH_06:ISet",
+            "get_pv": "HCM1_PS:DCH_06:IMon",
+            "status": true
+          },
+          {
+            "id": 66,
+            "label": "垂直校正铁6",
+            "set_pv": "HCM1_PS:DCV_06:ISet",
+            "get_pv": "HCM1_PS:DCV_06:IMon",
+            "status": true
+          }
+        ]
+      },
+      {
+        "id": 94,
+        "label": "bpm",
+        "children": [
+          {
+            "id": 67,
+            "label": "bpm1",
+            "x_pv": "Bpm:6-X11",
+            "y_pv": "Bpm:6-Y11"
+          },
+          {
+            "id": 68,
+            "label": "bpm2",
+            "x_pv": "Bpm:7-X11",
+            "y_pv": "Bpm:7-Y11"
+          },
+          {
+            "id": 69,
+            "label": "bpm3",
+            "x_pv": "Bpm:8-X11",
+            "y_pv": "Bpm:8-Y11"
+          },
+          {
+            "id": 70,
+            "label": "bpm4",
+            "x_pv": "Bpm:9-X11",
+            "y_pv": "Bpm:9-Y11"
+          },
+          {
+            "id": 71,
+            "label": "bpm5",
+            "x_pv": "Bpm:10-X11",
+            "y_pv": "Bpm:10-Y11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "label": "CM4",
+    "children": [
+      {
+        "id": 95,
+        "label": "校正铁",
+        "children": [
+          {
+            "id": 73,
+            "label": "水平校正铁1",
+            "set_pv": "HCM4_PS:DCH_01:ISet",
+            "get_pv": "HCM4_PS:DCH_01:IMon",
+            "status": true
+          },
+          {
+            "id": 74,
+            "label": "垂直校正铁1",
+            "set_pv": "HCM4_PS:DCV_01:ISet",
+            "get_pv": "HCM4_PS:DCV_01:IMon",
+            "status": true
+          },
+          {
+            "id": 75,
+            "label": "水平校正铁2",
+            "set_pv": "HCM4_PS:DCH_02:ISet",
+            "get_pv": "HCM4_PS:DCH_02:IMon",
+            "status": true
+          },
+          {
+            "id": 76,
+            "label": "垂直校正铁2",
+            "set_pv": "HCM4_PS:DCV_02:ISet",
+            "get_pv": "HCM4_PS:DCV_02:IMon",
+            "status": true
+          },
+          {
+            "id": 77,
+            "label": "水平校正铁3",
+            "set_pv": "HCM4_PS:DCH_03:ISet",
+            "get_pv": "HCM4_PS:DCH_03:IMon",
+            "status": true
+          },
+          {
+            "id": 78,
+            "label": "垂直校正铁3",
+            "set_pv": "HCM4_PS:DCV_03:ISet",
+            "get_pv": "HCM4_PS:DCV_03:IMon",
+            "status": true
+          },
+          {
+            "id": 79,
+            "label": "水平校正铁4",
+            "set_pv": "HCM4_PS:DCH_04:ISet",
+            "get_pv": "HCM4_PS:DCH_04:IMon",
+            "status": true
+          },
+          {
+            "id": 80,
+            "label": "垂直校正铁4",
+            "set_pv": "HCM4_PS:DCV_04:ISet",
+            "get_pv": "HCM4_PS:DCV_04:IMon",
+            "status": true
+          },
+          {
+            "id": 81,
+            "label": "水平校正铁5",
+            "set_pv": "HCM4_PS:DCH_05:ISet",
+            "get_pv": "HCM4_PS:DCH_05:IMon",
+            "status": true
+          },
+          {
+            "id": 82,
+            "label": "垂直校正铁5",
+            "set_pv": "HCM4_PS:DCV_05:ISet",
+            "get_pv": "HCM4_PS:DCV_05:IMon",
+            "status": true
+          }
+        ]
+      },
+      {
+        "id": 96,
+        "label": "bpm",
+        "children": [
+          {
+            "id": 83,
+            "label": "bpm1",
+            "x_pv": "Bpm:6-X11",
+            "y_pv": "Bpm:6-Y11"
+          },
+          {
+            "id": 84,
+            "label": "bpm2",
+            "x_pv": "Bpm:7-X11",
+            "y_pv": "Bpm:7-Y11"
+          },
+          {
+            "id": 85,
+            "label": "bpm3",
+            "x_pv": "Bpm:8-X11",
+            "y_pv": "Bpm:8-Y11"
+          },
+          {
+            "id": 86,
+            "label": "bpm4",
+            "x_pv": "Bpm:9-X11",
+            "y_pv": "Bpm:9-Y11"
+          }
+        ]
+      }
+    ]
+  }
+]

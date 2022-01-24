@@ -1,0 +1,1118 @@
+{
+    "LEBT": {
+        "magnets": [
+            {
+                "name": "LEBT-SOL1",
+                "value": "LEBT_PS:SOL_01:IMon"
+            },
+            {
+                "name": "LEBT-SOL2",
+                "value": "ADS:G3:MC"
+            },
+            {
+                "name": "LEBT-DCV1",
+                "value": "LEBT_PS:DCV_01:IMon"
+            },
+            {
+                "name": "LEBT-DCH2",
+                "value": "LEBT_PS:DCH_02:IMon"
+            },
+            {
+                "name": "LEBT-DCV1",
+                "value": "LEBT_PS:DCV_01:IMon"
+            },
+            {
+                "name": "LEBT-DCV2",
+                "value": "LEBT_PS:DCV_02:IMon"
+            }
+        ],
+        "amps": [
+            {
+                "name": "HV",
+                "value": "LIPS_PS:HV_01:VMon"
+            },
+            {
+                "name": "HV supression",
+                "value": "LIPS_PS:HV_02:VMon"
+            }
+        ]
+    },
+    "MEBT": {
+        "magnets": [
+            {
+                "name": "MEBT-Q1",
+                "value": "MEBT_PS:QUAD_01:IMon"
+            },
+            {
+                "name": "MEBT-Q2",
+                "value": "MEBT_PS:QUAD_02:IMon"
+            },
+            {
+                "name": "MEBT-Q3",
+                "value": "MEBT_PS:QUAD_03:IMon"
+            },
+            {
+                "name": "MEBT-Q5",
+                "value": "MEBT_PS:QUAD_05:IMon"
+            },
+            {
+                "name": "MEBT-Q6",
+                "value": "MEBT_PS:QUAD_06:IMon"
+            },
+            {
+                "name": "MEBT-Q7",
+                "value": "MEBT_PS:QUAD_07:IMon"
+            },
+            {
+                "name": "MEBT-DCH1",
+                "value": "MEBT_PS:DCH_01:IMon"
+            },
+            {
+                "name": "MEBT-DCH2",
+                "value": "MEBT_PS:DCH_02:IMon"
+            },
+            {
+                "name": "MEBT-DCH3",
+                "value": "MEBT_PS:DCH_03:IMon"
+            },
+            {
+                "name": "MEBT-DCH4",
+                "value": "MEBT_PS:DCH_04:IMon"
+            },
+            {
+                "name": "MEBT-DCH5",
+                "value": "MEBT_PS:DCH_05:IMon"
+            },
+            {
+                "name": "MEBT-DCH6",
+                "value": "MEBT_PS:DCH_06:IMon"
+            },
+            {
+                "name": "MEBT-DCH7",
+                "value": "MEBT_PS:DCH_07:IMon"
+            },
+            {
+                "name": "MEBT-DCV1",
+                "value": "MEBT_PS:DCV_01:IMon"
+            },
+            {
+                "name": "MEBT-DCV2",
+                "value": "MEBT_PS:DCV_02:IMon"
+            },
+            {
+                "name": "MEBT-DCV3",
+                "value": "MEBT_PS:DCV_03:IMon"
+            },
+            {
+                "name": "MEBT-DCV4",
+                "value": "MEBT_PS:DCV_04:IMon"
+            },
+            {
+                "name": "MEBT-DCV5",
+                "value": "MEBT_PS:DCV_05:IMon"
+            },
+            {
+                "name": "MEBT-DCV6",
+                "value": "MEBT_PS:DCV_06:IMon"
+            },
+            {
+                "name": "MEBT-DCV7",
+                "value": "MEBT_PS:DCV_07:IMon"
+            }
+        ],
+        "amps": [
+            {
+                "name": "Buncher1",
+                "value": "LLRF:Buncher1:Cavity_AMP"
+            },
+            {
+                "name": "Buncher2",
+                "value": "LLRF:Buncher2:Cavity_AMP"
+            }
+        ],
+        "phases": [
+            {
+                "name": "Buncher1",
+                "value": "LLRF:Buncher1:Cavity_PHASE"
+            },
+            {
+                "name": "Buncher2",
+                "value": "LLRF:Buncher2:Cavity_PHASE"
+            }
+        ],
+        "bpms": {
+            "phases": [
+                {
+                    "name": "BPM1-phase",
+                    "value": "Bpm:1-P11"
+                },
+                {
+                    "name": "BPM2-phase",
+                    "value": "Bpm:2-P11"
+                },
+                {
+                    "name": "BPM3-phase",
+                    "value": "Bpm:3-P11"
+                },
+                {
+                    "name": "BPM4-phase",
+                    "value": "Bpm:4-P11"
+                },
+                {
+                    "name": "BPM5-phase",
+                    "value": "Bpm:5-P11"
+                }
+            ],
+            "xs": [
+                {
+                    "name": "BPM1-X",
+                    "value": "Bpm:1-X11"
+                },
+                {
+                    "name": "BPM2-X",
+                    "value": "Bpm:2-X11"
+                },
+                {
+                    "name": "BPM3-X",
+                    "value": "Bpm:3-X11"
+                },
+                {
+                    "name": "BPM4-X",
+                    "value": "Bpm:4-X11"
+                },
+                {
+                    "name": "BPM5-X",
+                    "value": "Bpm:5-X11"
+                }
+            ],
+            "ys": [
+                {
+                    "name": "BPM1-Y",
+                    "value": "Bpm:1-Y11"
+                },
+                {
+                    "name": "BPM2-Y",
+                    "value": "Bpm:2-Y11"
+                },
+                {
+                    "name": "BPM3-Y",
+                    "value": "Bpm:3-Y11"
+                },
+                {
+                    "name": "BPM4-Y",
+                    "value": "Bpm:4-Y11"
+                },
+                {
+                    "name": "BPM5-Y",
+                    "value": "Bpm:5-Y11"
+                }
+            ]
+        }
+
+    },
+    "SC": {
+        "magnets": [
+            {
+                "name": "CM1-SOL1",
+                "value": "HCM1_PS:SOL_01:IMon"
+            },
+            {
+                "name": "CM1-SOL2",
+                "value": "HCM1_PS:SOL_02:IMon"
+            },
+            {
+                "name": "CM1-SOL3",
+                "value": "HCM1_PS:SOL_03:IMon"
+            },
+            {
+                "name": "CM1-SOL4",
+                "value": "HCM1_PS:SOL_04:IMon"
+            },
+            {
+                "name": "CM1-SOL5",
+                "value": "HCM1_PS:SOL_05:IMon"
+            },
+            {
+                "name": "CM1-SOL6",
+                "value": "HCM1_PS:SOL_06:IMon"
+            },
+            {
+                "name": "CM2-SOL1",
+                "value": "HCM2_PS:SOL_01:IMon"
+            },
+            {
+                "name": "CM2-SOL2",
+                "value": "HCM2_PS:SOL_02:IMon"
+            },
+            {
+                "name": "CM2-SOL3",
+                "value": "HCM2_PS:SOL_03:IMon"
+            },
+            {
+                "name": "CM2-SOL4",
+                "value": "HCM2_PS:SOL_04:IMon"
+            },
+            {
+                "name": "CM2-SOL5",
+                "value": "HCM2_PS:SOL_05:IMon"
+            },
+            {
+                "name": "CM2-SOL6",
+                "value": "HCM2_PS:SOL_06:IMon"
+            },
+            {
+                "name": "CM3-SOL1",
+                "value": "HCM3_PS:SOL_01:IMon"
+            },
+            {
+                "name": "CM3-SOL2",
+                "value": "HCM3_PS:SOL_02:IMon"
+            },
+            {
+                "name": "CM3-SOL3",
+                "value": "HCM3_PS:SOL_03:IMon"
+            },
+            {
+                "name": "CM3-SOL4",
+                "value": "HCM3_PS:SOL_04:IMon"
+            },
+            {
+                "name": "CM3-SOL5",
+                "value": "HCM3_PS:SOL_05:IMon"
+            },
+            {
+                "name": "CM3-SOL6",
+                "value": "HCM3_PS:SOL_06:IMon"
+            },
+            {
+                "name": "CM4-SOL1",
+                "value": "HCM4_PS:SOL_01:IMon"
+            },
+            {
+                "name": "CM4-SOL2",
+                "value": "HCM4_PS:SOL_02:IMon"
+            },
+            {
+                "name": "CM4-SOL3",
+                "value": "HCM4_PS:SOL_03:IMon"
+            },
+            {
+                "name": "CM4-SOL4",
+                "value": "HCM4_PS:SOL_04:IMon"
+            },
+            {
+                "name": "CM4-SOL5",
+                "value": "HCM4_PS:SOL_05:IMon"
+            },
+            {
+                "name": "CM1-DCH1",
+                "value": "HCM1_PS:DCH_01:IMon"
+            },
+            {
+                "name": "CM1-DCH2",
+                "value": "HCM1_PS:DCH_02:IMon"
+            },
+            {
+                "name": "CM1-DCH3",
+                "value": "HCM1_PS:DCH_03:IMon"
+            },
+            {
+                "name": "CM1-DCH4",
+                "value": "HCM1_PS:DCH_04:IMon"
+            },
+            {
+                "name": "CM1-DCH5",
+                "value": "HCM1_PS:DCH_05:IMon"
+            },
+            {
+                "name": "CM1-DCH6",
+                "value": "HCM1_PS:DCH_06:IMon"
+            },
+            {
+                "name": "CM2-DCH1",
+                "value": "HCM2_PS:DCH_01:IMon"
+            },
+            {
+                "name": "CM2-DCH2",
+                "value": "HCM2_PS:DCH_02:IMon"
+            },
+            {
+                "name": "CM2-DCH3",
+                "value": "HCM2_PS:DCH_03:IMon"
+            },
+            {
+                "name": "CM2-DCH4",
+                "value": "HCM2_PS:DCH_04:IMon"
+            },
+            {
+                "name": "CM2-DCH5",
+                "value": "HCM2_PS:DCH_05:IMon"
+            },
+            {
+                "name": "CM2-DCH6",
+                "value": "HCM2_PS:DCH_06:IMon"
+            },
+            {
+                "name": "CM3-DCH1",
+                "value": "HCM3_PS:DCH_01:IMon"
+            },
+            {
+                "name": "CM3-DCH2",
+                "value": "HCM3_PS:DCH_02:IMon"
+            },
+            {
+                "name": "CM3-DCH3",
+                "value": "HCM3_PS:DCH_03:IMon"
+            },
+            {
+                "name": "CM3-DCH4",
+                "value": "HCM3_PS:DCH_04:IMon"
+            },
+            {
+                "name": "CM3-DCH5",
+                "value": "HCM3_PS:DCH_05:IMon"
+            },
+            {
+                "name": "CM3-DCH6",
+                "value": "HCM3_PS:DCH_06:IMon"
+            },
+            {
+                "name": "CM4-DCH1",
+                "value": "HCM4_PS:DCH_01:IMon"
+            },
+            {
+                "name": "CM4-DCH2",
+                "value": "HCM4_PS:DCH_02:IMon"
+            },
+            {
+                "name": "CM4-DCH3",
+                "value": "HCM4_PS:DCH_03:IMon"
+            },
+            {
+                "name": "CM4-DCH4",
+                "value": "HCM4_PS:DCH_04:IMon"
+            },
+            {
+                "name": "CM4-DCH5",
+                "value": "HCM4_PS:DCH_05:IMon"
+            },
+            {
+                "name": "CM1-DCV1",
+                "value": "HCM1_PS:DCV_01:IMon"
+            },
+            {
+                "name": "CM1-DCV2",
+                "value": "HCM1_PS:DCV_02:IMon"
+            },
+            {
+                "name": "CM1-DCV3",
+                "value": "HCM1_PS:DCV_03:IMon"
+            },
+            {
+                "name": "CM1-DCV4",
+                "value": "HCM1_PS:DCV_04:IMon"
+            },
+            {
+                "name": "CM1-DCV5",
+                "value": "HCM1_PS:DCV_05:IMon"
+            },
+            {
+                "name": "CM1-DCV6",
+                "value": "HCM1_PS:DCV_06:IMon"
+            },
+            {
+                "name": "CM2-DCV1",
+                "value": "HCM2_PS:DCV_01:IMon"
+            },
+            {
+                "name": "CM2-DCV2",
+                "value": "HCM2_PS:DCV_02:IMon"
+            },
+            {
+                "name": "CM2-DCV3",
+                "value": "HCM2_PS:DCV_03:IMon"
+            },
+            {
+                "name": "CM2-DCV4",
+                "value": "HCM2_PS:DCV_04:IMon"
+            },
+            {
+                "name": "CM2-DCV5",
+                "value": "HCM2_PS:DCV_05:IMon"
+            },
+            {
+                "name": "CM2-DCV6",
+                "value": "HCM2_PS:DCV_06:IMon"
+            },
+            {
+                "name": "CM3-DCV1",
+                "value": "HCM3_PS:DCV_01:IMon"
+            },
+            {
+                "name": "CM3-DCV2",
+                "value": "HCM3_PS:DCV_02:IMon"
+            },
+            {
+                "name": "CM3-DCV3",
+                "value": "HCM3_PS:DCV_03:IMon"
+            },
+            {
+                "name": "CM3-DCV4",
+                "value": "HCM3_PS:DCV_04:IMon"
+            },
+            {
+                "name": "CM3-DCV5",
+                "value": "HCM3_PS:DCV_05:IMon"
+            },
+            {
+                "name": "CM3-DCV6",
+                "value": "HCM3_PS:DCV_06:IMon"
+            },
+            {
+                "name": "CM4-DCV1",
+                "value": "HCM4_PS:DCV_01:IMon"
+            },
+            {
+                "name": "CM4-DCV2",
+                "value": "HCM4_PS:DCV_02:IMon"
+            },
+            {
+                "name": "CM4-DCV3",
+                "value": "HCM4_PS:DCV_03:IMon"
+            },
+            {
+                "name": "CM4-DCV4",
+                "value": "HCM4_PS:DCV_04:IMon"
+            },
+            {
+                "name": "CM4-DCV5",
+                "value": "HCM4_PS:DCV_05:IMon"
+            }
+        ],
+        "amps": [
+            {
+                "name": "CM1-1",
+                "value": "SCRF:CAV1:EPIC"
+            },
+            {
+                "name": "CM1-2",
+                "value": "SCRF:CAV2:EPIC"
+            },
+            {
+                "name": "CM1-3",
+                "value": "SCRF:CAV3:EPIC"
+            },
+            {
+                "name": "CM1-4",
+                "value": "SCRF:CAV4:EPIC"
+            },
+            {
+                "name": "CM1-5",
+                "value": "SCRF:CAV5:EPIC"
+            },
+            {
+                "name": "CM1-6",
+                "value": "SCRF:CAV6:EPIC"
+            },
+            {
+                "name": "CM2-1",
+                "value": "SCRF:CAV7:EPIC"
+            },
+            {
+                "name": "CM2-2",
+                "value": "SCRF:CAV8:EPIC"
+            },
+            {
+                "name": "CM2-3",
+                "value": "SCRF:CAV9:EPIC"
+            },
+            {
+                "name": "CM2-4",
+                "value": "SCRF:CAV10:EPIC"
+            },
+            {
+                "name": "CM2-5",
+                "value": "SCRF:CAV11:EPIC"
+            },
+            {
+                "name": "CM2-6",
+                "value": "SCRF:CAV12:EPIC"
+            },
+            {
+                "name": "CM3-1",
+                "value": "SCRF:CAV13:EPIC"
+            },
+            {
+                "name": "CM3-2",
+                "value": "SCRF:CAV14:EPIC"
+            },
+            {
+                "name": "CM3-3",
+                "value": "SCRF:CAV15:EPIC"
+            },
+            {
+                "name": "CM3-4",
+                "value": "SCRF:CAV16:EPIC"
+            },
+            {
+                "name": "CM3-5",
+                "value": "SCRF:CAV17:EPIC"
+            },
+            {
+                "name": "CM3-6",
+                "value": "SCRF:CAV18:EPIC"
+            },
+            {
+                "name": "CM4-1",
+                "value": "SCRF:CAV19:EPIC"
+            },
+            {
+                "name": "CM4-2",
+                "value": "SCRF:CAV20:EPIC"
+            },
+            {
+                "name": "CM4-3",
+                "value": "SCRF:CAV21:EPIC"
+            },
+            {
+                "name": "CM4-4",
+                "value": "SCRF:CAV22:EPIC"
+            },
+            {
+                "name": "CM4-5",
+                "value": "SCRF:CAV23:EPIC"
+            },
+            {
+                "name": "CM1-1",
+                "value": "SCRF:CAV1:EPIC"
+            }
+        ],
+        "phases": [
+            {
+                "name": "CM1-1",
+                "value": "SCRF:CAV1:PHASE:READ"
+            },
+            {
+                "name": "CM1-2",
+                "value": "SCRF:CAV2:PHASE:READ"
+            },
+            {
+                "name": "CM1-3",
+                "value": "SCRF:CAV3:PHASE:READ"
+            },
+            {
+                "name": "CM1-4",
+                "value": "SCRF:CAV4:PHASE:READ"
+            },
+            {
+                "name": "CM1-5",
+                "value": "SCRF:CAV5:PHASE:READ"
+            },
+            {
+                "name": "CM1-6",
+                "value": "SCRF:CAV6:PHASE:READ"
+            },
+            {
+                "name": "CM2-1",
+                "value": "SCRF:CAV7:PHASE:READ"
+            },
+            {
+                "name": "CM2-2",
+                "value": "SCRF:CAV8:PHASE:READ"
+            },
+            {
+                "name": "CM2-3",
+                "value": "HWR:LLRF:2-3:rf1phase"
+            },
+            {
+                "name": "CM2-4",
+                "value": "HWR:LLRF:2-4:rf1phase"
+            },
+            {
+                "name": "CM2-5",
+                "value": "SCRF:CAV11:PHASE:READ"
+            },
+            {
+                "name": "CM2-6",
+                "value": "SCRF:CAV12:PHASE:READ"
+            },
+            {
+                "name": "CM3-1",
+                "value": "HWR:LLRF:3-1:rf1phase"
+            },
+            {
+                "name": "CM3-2",
+                "value": "SCRF:CAV14:PHASE:READ"
+            },
+            {
+                "name": "CM3-3",
+                "value": "HWR:LLRF:3-3:rf1phase"
+            },
+            {
+                "name": "CM3-4",
+                "value": "SCRF:CAV16:PHASE:READ"
+            },
+            {
+                "name": "CM3-5",
+                "value": "SCRF:CAV17:PHASE:READ"
+            },
+            {
+                "name": "CM3-6",
+                "value": "HWR:LLRF:3-6:rf1phase"
+            },
+            {
+                "name": "CM4-1",
+                "value": "SCRF:CAV19:PHASE:READ"
+            },
+            {
+                "name": "CM4-2",
+                "value": "SCRF:CAV20:PHASE:READ"
+            },
+            {
+                "name": "CM4-3",
+                "value": "SCRF:CAV21:PHASE:READ"
+            },
+            {
+                "name": "CM4-4",
+                "value": "SCRF:CAV22:PHASE:READ"
+            },
+            {
+                "name": "CM4-5",
+                "value": "SCRF:CAV23:PHASE:READ"
+            },
+            {
+                "name": "CM1-1",
+                "value": "SCRF:CAV1:PHASE:READ"
+            }
+        ],
+        "bpms": {
+            "phases": [
+                {
+                    "name": "BPM6-phase",
+                    "value": "Bpm:6-P11"
+                },
+                {
+                    "name": "BPM7-phase",
+                    "value": "Bpm:7-P11"
+                },
+                {
+                    "name": "BPM8-phase",
+                    "value": "Bpm:8-P11"
+                },
+                {
+                    "name": "BPM9-phase",
+                    "value": "Bpm:9-P11"
+                },
+                {
+                    "name": "BPM10-phase",
+                    "value": "Bpm:10-P11"
+                },
+                {
+                    "name": "BPM11-phase",
+                    "value": "Bpm:11-P11"
+                },
+                {
+                    "name": "BPM12-phase",
+                    "value": "Bpm:12-P11"
+                },
+                {
+                    "name": "BPM13-phase",
+                    "value": "Bpm:13-P11"
+                },
+                {
+                    "name": "BPM14-phase",
+                    "value": "Bpm:14-P11"
+                },
+                {
+                    "name": "BPM15-phase",
+                    "value": "Bpm:15-P11"
+                },
+                {
+                    "name": "BPM16-phase",
+                    "value": "Bpm:16-P11"
+                },
+                {
+                    "name": "BPM17-phase",
+                    "value": "Bpm:17-P11"
+                },
+                {
+                    "name": "BPM18-phase",
+                    "value": "Bpm:18-P11"
+                },
+                {
+                    "name": "BPM19-phase",
+                    "value": "Bpm:19-P11"
+                },
+                {
+                    "name": "BPM20-phase",
+                    "value": "Bpm:20-P11"
+                },
+                {
+                    "name": "BPM21-phase",
+                    "value": "Bpm:21-P11"
+                },
+                {
+                    "name": "BPM22-phase",
+                    "value": "Bpm:22-P11"
+                },
+                {
+                    "name": "BPM23-phase",
+                    "value": "Bpm:23-P11"
+                },
+                {
+                    "name": "BPM24-phase",
+                    "value": "Bpm:24-P11"
+                }
+            ],
+            "xs": [
+                {
+                    "name": "BPM6-X",
+                    "value": "Bpm:6-X11"
+                },
+                {
+                    "name": "BPM7-X",
+                    "value": "Bpm:7-X11"
+                },
+                {
+                    "name": "BPM8-X",
+                    "value": "Bpm:8-X11"
+                },
+                {
+                    "name": "BPM9-X",
+                    "value": "Bpm:9-X11"
+                },
+                {
+                    "name": "BPM10-X",
+                    "value": "Bpm:10-X11"
+                },
+                {
+                    "name": "BPM11-X",
+                    "value": "Bpm:11-X11"
+                },
+                {
+                    "name": "BPM12-X",
+                    "value": "Bpm:12-X11"
+                },
+                {
+                    "name": "BPM13-X",
+                    "value": "Bpm:13-X11"
+                },
+                {
+                    "name": "BPM14-X",
+                    "value": "Bpm:14-X11"
+                },
+                {
+                    "name": "BPM15-X",
+                    "value": "Bpm:15-X11"
+                },
+                {
+                    "name": "BPM16-X",
+                    "value": "Bpm:16-X11"
+                },
+                {
+                    "name": "BPM17-X",
+                    "value": "Bpm:17-X11"
+                },
+                {
+                    "name": "BPM18-X",
+                    "value": "Bpm:18-X11"
+                },
+                {
+                    "name": "BPM19-X",
+                    "value": "Bpm:19-X11"
+                },
+                {
+                    "name": "BPM20-X",
+                    "value": "Bpm:20-X11"
+                },
+                {
+                    "name": "BPM21-X",
+                    "value": "Bpm:21-X11"
+                },
+                {
+                    "name": "BPM22-X",
+                    "value": "Bpm:22-X11"
+                },
+                {
+                    "name": "BPM23-X",
+                    "value": "Bpm:23-X11"
+                },
+                {
+                    "name": "BPM24-X",
+                    "value": "Bpm:24-X11"
+                }
+            ],
+            "ys": [
+                {
+                    "name": "BPM6-Y",
+                    "value": "Bpm:6-Y11"
+                },
+                {
+                    "name": "BPM7-Y",
+                    "value": "Bpm:7-Y11"
+                },
+                {
+                    "name": "BPM8-Y",
+                    "value": "Bpm:8-Y11"
+                },
+                {
+                    "name": "BPM9-Y",
+                    "value": "Bpm:9-Y11"
+                },
+                {
+                    "name": "BPM10-Y",
+                    "value": "Bpm:10-Y11"
+                },
+                {
+                    "name": "BPM11-Y",
+                    "value": "Bpm:11-Y11"
+                },
+                {
+                    "name": "BPM12-Y",
+                    "value": "Bpm:12-Y11"
+                },
+                {
+                    "name": "BPM13-Y",
+                    "value": "Bpm:13-Y11"
+                },
+                {
+                    "name": "BPM14-Y",
+                    "value": "Bpm:14-Y11"
+                },
+                {
+                    "name": "BPM15-Y",
+                    "value": "Bpm:15-Y11"
+                },
+                {
+                    "name": "BPM16-Y",
+                    "value": "Bpm:16-Y11"
+                },
+                {
+                    "name": "BPM17-Y",
+                    "value": "Bpm:17-Y11"
+                },
+                {
+                    "name": "BPM18-Y",
+                    "value": "Bpm:18-Y11"
+                },
+                {
+                    "name": "BPM19-Y",
+                    "value": "Bpm:19-Y11"
+                },
+                {
+                    "name": "BPM20-Y",
+                    "value": "Bpm:20-Y11"
+                },
+                {
+                    "name": "BPM21-Y",
+                    "value": "Bpm:21-Y11"
+                },
+                {
+                    "name": "BPM22-Y",
+                    "value": "Bpm:22-Y11"
+                },
+                {
+                    "name": "BPM23-Y",
+                    "value": "Bpm:23-Y11"
+                },
+                {
+                    "name": "BPM24-Y",
+                    "value": "Bpm:24-Y11"
+                }
+            ]
+
+        }
+    },
+    "S-HEBT": {
+        "magnets": [
+            {
+                "name": "HEBT-Q1",
+                "value": "HEBT_PS:T0_Q-01:CurMon"
+            },
+            {
+                "name": "HEBT-Q2",
+                "value": "HEBT_PS:T0_Q-02:CurMon"
+            },
+            {
+                "name": "HEBT-D1",
+                "value": "HEBT_PS:T0_D-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCH1",
+                "value": "HEBT_PS:T0_CH-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCH2",
+                "value": "HEBT_PS:T0_CH-02:CurMon"
+            },
+            {
+                "name": "HEBT-DCV1",
+                "value": "HEBT_PS:T0_CV-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCV2",
+                "value": "HEBT_PS:T0_CV-02:CurMon"
+            }
+        ],
+        "bpms": {
+            "phases": [
+                {
+                    "name": "BPM25-phase",
+                    "value": "Bpm:25-P11"
+                },
+                {
+                    "name": "BPM26-phase",
+                    "value": "Bpm:26-P11"
+                }
+            ],
+            "xs": [
+                {
+                    "name": "BPM25-X",
+                    "value": "Bpm:25-X11"
+                },
+                {
+                    "name": "BPM26-X",
+                    "value": "Bpm:26-X11"
+                }
+            ],
+            "ys": [
+                {
+                    "name": "BPM25-Y",
+                    "value": "Bpm:25-Y11"
+                },
+                {
+                    "name": "BPM26-Y",
+                    "value": "Bpm:26-Y11"
+                }
+            ]
+        }
+    },
+    "B-HEBT": {
+        "magnets": [
+            {
+                "name": "HEBT-Q1",
+                "value": "HEBT_PS:T0_Q-01:CurMon"
+            },
+            {
+                "name": "HEBT-Q2",
+                "value": "HEBT_PS:T0_Q-02:CurMon"
+            },
+            {
+                "name": "HEBT-D1",
+                "value": "HEBT_PS:T0_D-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCH1",
+                "value": "HEBT_PS:T0_CH-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCH2",
+                "value": "HEBT_PS:T0_CH-02:CurMon"
+            },
+            {
+                "name": "HEBT-DCV1",
+                "value": "HEBT_PS:T0_CV-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCV2",
+                "value": "HEBT_PS:T0_CV-02:CurMon"
+            },
+            {
+                "name": "HEBT-Q3",
+                "value": "HEBT_PS:T1_Q-01:CurMon"
+            },
+            {
+                "name": "HEBT-Q4",
+                "value": "HEBT_PS:T1_Q-02:CurMon"
+            },
+            {
+                "name": "HEBT-Q5",
+                "value": "HEBT_PS:T1_Q-03:CurMon"
+            },
+            {
+                "name": "HEBT-Q6",
+                "value": "HEBT_PS:T1_Q-04:CurMon"
+            },
+            {
+                "name": "HEBT-D2",
+                "value": "HEBT_PS:T0_D-02:CurMon"
+            },
+            {
+                "name": "HEBT-DCH3",
+                "value": "HEBT_PS:T1_CH-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCH4",
+                "value": "HEBT_PS:T1_CH-02:CurMon"
+            },
+            {
+                "name": "HEBT-DCH5",
+                "value": "HEBT_PS:T1_CH-03:CurMon"
+            },
+            {
+                "name": "HEBT-DCH6",
+                "value": "HEBT_PS:T1_CH-04:CurMon"
+            },
+            {
+                "name": "HEBT-DCV3",
+                "value": "HEBT_PS:T1_CV-01:CurMon"
+            },
+            {
+                "name": "HEBT-DCV4",
+                "value": "HEBT_PS:T1_CV-02:CurMon"
+            },
+            {
+                "name": "HEBT-DCV5",
+                "value": "HEBT_PS:T1_CV-03:CurMon"
+            },
+            {
+                "name": "HEBT-DCV6",
+                "value": "HEBT_PS:T1_CV-04:CurMon"
+            }
+        ],
+        "bpms": {
+            "phases": [
+                {
+                    "name": "BPM25-phase",
+                    "value": "Bpm:25-P11"
+                },
+                {
+                    "name": "BPM27-phase",
+                    "value": "Bpm:27-P11"
+                },
+                {
+                    "name": "BPM28-phase",
+                    "value": "Bpm:28-P11"
+                }
+            ],
+            "xs": [
+                {
+                    "name": "BPM25-X",
+                    "value": "Bpm:25-X11"
+                },
+                {
+                    "name": "BPM27-X",
+                    "value": "Bpm:27-X11"
+                },
+                {
+                    "name": "BPM28-X",
+                    "value": "Bpm:28-X11"
+                }
+            ],
+            "ys": [
+                {
+                    "name": "BPM25-Y",
+                    "value": "Bpm:25-Y11"
+                },
+                {
+                    "name": "BPM27-Y",
+                    "value": "Bpm:27-Y11"
+                },
+                {
+                    "name": "BPM28-Y",
+                    "value": "Bpm:28-Y11"
+                }
+            ]
+        }
+    }
+}

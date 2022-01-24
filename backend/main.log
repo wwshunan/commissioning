@@ -559,3 +559,13 @@ Started at 2020-12-25 08:58:37
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 199-868-267
+Started at 2021-04-09 09:25:51
+Traceback:
+---
+Traceback (most recent call last):
+  File "run.py", line 78, in main
+    from backend.main.flask_app_mod import socket_io, app
+  File "/mnt/d/Workspace/lattice-setting/backend/main/__init__.py", line 1, in <module>
+    from celery import Celery
+ModuleNotFoundError: No module named 'celery'
+---
