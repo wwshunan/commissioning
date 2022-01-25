@@ -163,6 +163,18 @@ async def calibrated_amp(cavity: CavityAmp):
     pv_controller.calibrated_epk.put(amp)
     return dict(code=20000, message="腔体Epeak已发送")
 
+@router.get('/commissioning/phasescan/read-bpm-phase',
+             dependencies=[Depends(JWTBearer())])
+async def read_bpm_phase():
+    bpm_vals = []
+    for i in range(6):
+        bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'].get()
+        bpm_vals.append(bpm1_val)
+        await asyncio.sleep(1)
+    return {
+        'code': 20000,
+        'bpm_phase': round(np.average(bpm_vals), 2)
+    }
 
 @router.post('/commissioning/phasescan/get-amp',
              dependencies=[Depends(JWTBearer())])
@@ -183,39 +195,25 @@ async def get_amp(cavity: CavityModel,
     physics_amp = cavity.amp
     await cache.set('cavity_name', cavity_name)
     await cache.set('physics_amp', physics_amp)
-    amp_limit = await cache.get('amp_limit')
+
+    amp_limit = pv_controller.get_cavity_amp_limit()
+    amp_limit_item = {}
+    amp_limit_item['name'] = cavity.cavity_name
+    amp_limit_item['epk'] = amp_limit
+    await cache.set('amp_limit', amp_limit)
+
+    log_epk_item(db, amp_limit_item)
     #amp_limit_obj = get_amp_limt(db, cavity_name)
     return {
         "code": 20000,
         "physics_amp": physics_amp,
-        "amp_limit": amp_limit.decode('utf-8')
+        "amp_limit": amp_limit
     }
-
-
-@router.post('/commissioning/phasescan/amp-limit',
-             dependencies=[Depends(JWTBearer())])
-async def get_epks(data: CavityModel,
-                   db: Session = Depends(get_db),
-                   cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
-    amp_limit = pv_controller.get_cavity_amp_limit()
-    epk_item = {}
-    epk_item['name'] = data.cavity_name
-    epk_item['epk'] = amp_limit
-    await cache.set('amp_limit', amp_limit)
-
-    log_epk_item(db, epk_item)
-
-    return dict(code=20000)
-
 
 @router.post('/commissioning/phasescan/phase-set',
              dependencies=[Depends(JWTBearer())])
 async def phase_set(data: PhaseScanInfo,
                     cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
-    # pv_controller.put("phase_write_pv", data.cavity_write_pv, data.cavity_phase_val)
-    # pv_controller.put("CA-RF:LLRF_ALL:Lattice")
-    cavity_infos = await cache.get('cavity_infos')
-    print(data)
     for cavity_name in data.lattice:
         pv_controller.set_cavity_amp(cavity_name, data.lattice[cavity_name]['amp'])
         pv_controller.set_cavity_phase(cavity_name, data.lattice[cavity_name]['phase'])
@@ -223,14 +221,9 @@ async def phase_set(data: PhaseScanInfo,
             pv_controller.set_cavity_bypass(cavity_name, 1)
         else:
             pv_controller.set_cavity_bypass(cavity_name, 0)
-    #pv_controller.lattice.put(json.dumps(data.lattice))
-    #time.sleep(data.cavity_res_time)
     await asyncio.sleep(data.cavity_res_time)
     bpm1_vals = []
     bpm2_vals = []
-    # bpm1_pv_name = data.bpm1_phase_pv
-    # bpm2_pv_name = data.bpm2_phase_pv
-
 
     for _ in range(data.bpm_read_num):
         bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'].get()
