@@ -53,12 +53,22 @@
                </b-form-group>
            </div>
        </div>
+       <div class="row" v-if="component">
+           <div class="col-md-8">
+               <b-form-group label="人为交互任务">
+                   <component :is="component"></component>
+                   <b-button variant="secondary mt-2"
+                             @click.prevent="stop">Done</b-button>
+               </b-form-group>
+           </div>
+       </div>
    </div>
 </template>
 
 <script>
     import axios from 'axios';
     import JqxTreeGrid from 'jqwidgets-scripts/jqwidgets-vue/vue_jqxtreegrid.vue';
+    import Lattice from './Lattice.vue';
     import io from 'socket.io-client';
     let socket = io.connect("127.0.0.1:5000");
 
@@ -69,11 +79,12 @@
     //let resultArray = ["<span style='color: red; '>NOT_STARTED</span>", "FINISHED", "FINISHED_FAULTY", "SKIPPED" ];
     export default {
         components: {
-            JqxTreeGrid
+            JqxTreeGrid, Lattice
         },
         data: function() {
             return {
                 task_results: [],
+                component: undefined,
                 selected: null,
                 selected_sequence: null,
                 width: "800px",
