@@ -123,6 +123,17 @@ async def init_pvs(cavity_info: CavityModel,
 #                   },
 #    }
 
+@router.get('/commissioning/phasescan/read-lattice-cache',
+            dependencies=[Depends(JWTBearer())])
+async def read_lattice_cache(cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
+    lattice_cache = await cache.get('stored_cache')
+    lattice = ''
+    if lattice_cache:
+        lattice = json.loads(lattice_cache)
+    return {
+        'code': 20000,
+        'lattice': lattice
+    }
 
 @router.post('/commissioning/phasescan/synch-phase-set',
              dependencies=[Depends(JWTBearer())])
@@ -130,6 +141,7 @@ async def synch_phase_set(data: SynchPhaseModel,
                           db: Session = Depends(get_db),
                           cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
 
+    await cache.set('stored_lattice', json.dumps(data.lattice))
     for cavity_name in data.lattice:
         amp = data.lattice[cavity_name]['amp']
         phase = data.lattice[cavity_name]['phase']
@@ -221,6 +233,7 @@ async def phase_set(data: PhaseScanInfo,
             pv_controller.set_cavity_bypass(cavity_name, 1)
         else:
             pv_controller.set_cavity_bypass(cavity_name, 0)
+    stop = time.time()
     await asyncio.sleep(data.cavity_res_time)
     bpm1_vals = []
     bpm2_vals = []
