@@ -399,7 +399,6 @@ export default {
   },
   methods: {
     async init_bpm_and_amp() {
-      console.log('mother')
       this.bpm_model_selected = this.cavity_infos[this.cavity_name]['bpm_mode']
       await this.init_pvs({
         cavity_name: this.cavity_name,
@@ -472,25 +471,27 @@ export default {
       })
     },
     async load_cavity_infos() {
-      window.aleart('mother')
       let response = await request({
         url: '/commissioning/phasescan/config',
         method: 'get',
       })
       this.cavity_infos = response["cavity_infos"];
-      console.log(this.cavity_infos, 'xxxxx')
 
       response = await request({
         url: '/commissioning/phasescan/read-lattice-cache',
         method: 'get',
       })
-      console.log(response['lattice'], 'xxxxxx')
 
+      console.log(response['lattice'])
       for (let cavity_name in this.cavity_infos) {
         this.cavity_options.push({value: cavity_name, text: cavity_name})
-        this.lattice[cavity_name] = {
-          'amp': 0,
-          'phase': 0
+        if (response['lattice']) {
+          this.lattice[cavity_name] = response['lattice'][cavity_name]
+        } else {
+          this.lattice[cavity_name] = {
+            'amp': 0,
+            'phase': 0
+          }
         }
       }
       const cavity_name = this.cavity_options[0].value
