@@ -66,11 +66,7 @@ class Bpm(object):
         return self.y_pv.get()
 
 class OrbitSVD(object):
-    def __init__(self, epsilon_x=0.01, epsilon_y=0.01):
-        self.epsilon_x = epsilon_x
-        self.epsilon_y = epsilon_y
-
-    def apply(self, resp_matrix, orbit, weights=None):
+    def apply(self, cors, rm_lim, sc_lim, resp_matrix, orbit, weights=None):
         if weights is None:
             weights = np.eye(len(orbit))
         resp_matrix = np.dot(weights, resp_matrix)
@@ -78,23 +74,41 @@ class OrbitSVD(object):
 
         U, s, V = svd(resp_matrix)
         s_inv = np.zeros(len(s))
-        s_max = max(s)
         for i in range(len(s)):
-            if i < int(len(s)/2.):
-                epsilon = self.epsilon_x
-            else:
-                epsilon = self.epsilon_y
-            if s[i] <= s_max * epsilon:
-                s_inv[i] = 0.
-            else:
+            if s[i] > 1e-5:
                 s_inv[i] = 1. / s[i]
-        Sinv = np.zeros((np.shape(U)[0], np.shape(V)[0]))
-        Sinv[:len(s), :len(s)] = np.diag(s_inv)
-        Sinv = np.transpose(Sinv)
-        A = np.dot(np.transpose(V), np.dot(Sinv, np.transpose(U)))
-        angle = np.dot(A, misalign)
-        logger.debug("max(abs(angle)) = " + str(np.max(np.abs(angle))) + " min(abs(angle)) = " + str(np.min(np.abs(angle))))
-        return angle
+            else:
+                s_inv[i] = 0
+
+        #for i in range(len(s)):
+        #    if i < int(len(s)/2.):
+        #        epsilon = self.epsilon_x
+        #    else:
+        #        epsilon = self.epsilon_y
+        #    if s[i] <= s_max * epsilon:
+        #        s_inv[i] = 0.
+        #    else:
+        #        s_inv[i] = 1. / s[i]
+        while True:
+            Sinv = np.zeros((np.shape(U)[0], np.shape(V)[0]))
+            Sinv[:len(s), :len(s)] = np.diag(s_inv)
+            Sinv = np.transpose(Sinv)
+            A = np.dot(np.transpose(V), np.dot(Sinv, np.transpose(U)))
+            angles = np.dot(A, misalign)
+            lim = sc_lim
+            for cor, current in zip(cors, angles):
+                if not cor.id.startswith('CM'):
+                    lim = rm_lim
+                if current > lim:
+                    min_index = s_inv.argmin()
+                    s_inv[min_index] = 0
+                    break
+            else:
+                break
+
+        logger.debug("max(abs(angle)) = " + str(np.max(np.abs(angles))) +
+                     " min(abs(angle)) = " + str(np.min(np.abs(angles))))
+        return angles
 
 class CorrectorGather(object):
     def __init__(self, ids):
@@ -117,27 +131,32 @@ class OrbitGather(object):
     def __init__(self, ids):
         self.bpms = []
         self.create_bpms(ids)
-        self.refer_orbit = self.get_orbit()
+        self.refer_orbit = self.get_avg_orbit()
 
     def create_bpms(self, ids):
         bpms = extract_elems('bpm', ids)
         self.bpms = [Bpm(bpm['id'], bpm['x_pv'], bpm['y_pv'])
                      for s in bpms for bpm in bpms[s]]
 
+    def get_avg_orbit(self):
+        avg_num = 6
+        orbit = self.get_orbit()
+        for _ in range(avg_num-1):
+            orbit += self.get_orbit()
+        orbit /= avg_num
+        return orbit
+
     def get_orbit(self):
         m = len(self.bpms)
         orbit = np.zeros(2 * m)
-        read_nums = 6
-        for _ in range(read_nums):
-            for i, bpm in enumerate(self.bpms):
-                orbit[i] += bpm.x - bpm.x_ref
-                orbit[i+m] += bpm.y - bpm.y_ref
-            time.sleep(1)
-        orbit /= read_nums
+        for i, bpm in enumerate(self.bpms):
+            orbit[i] += bpm.x - bpm.x_ref
+            orbit[i+m] += bpm.y - bpm.y_ref
+        time.sleep(1)
         return orbit
 
     def get_orbit_diff(self, cor_id):
-        diff_orbit = self.get_orbit() - self.refer_orbit
+        diff_orbit = self.get_avg_orbit() - self.refer_orbit
         relation_col = cor_bpm_relation[cor_id]
         m = len(self.bpms)
         for i, bpm in enumerate(self.bpms):
@@ -148,13 +167,16 @@ class OrbitGather(object):
 
 
 class Orbit(object):
-    def __init__(self, gather_orbit, gather_correction, rm_method=None):
+    def __init__(self, gather_orbit, gather_correction,
+                 rm_lim, sc_lim, rm_method=None):
         self.cors = gather_correction.cors
         self.bpms = gather_orbit.bpms
         self.gather_orbit = gather_orbit
         self.rm_method = rm_method
         self.response_matrix = None
         self.orbit_solver = OrbitSVD()
+        self.rm_lim = rm_lim
+        self.sc_lim = sc_lim
 
         if self.rm_method:
             self.setup_response_matrix()
@@ -165,7 +187,9 @@ class Orbit(object):
     def correct(self, alpha):
         orbit = -(1 - alpha) * self.gather_orbit.refer_orbit
         resp_matrix = self.response_matrix.matrix
-        angles = self.orbit_solver.apply(resp_matrix=resp_matrix, orbit=orbit)
+        angles = self.orbit_solver.apply(self.cors, self.rm_lim, self.sc_lim,
+                                         resp_matrix=resp_matrix, orbit=orbit)
+
         correct_strengths = {}
         for cor, angle in zip(self.cors, angles):
             correct_strengths[cor.label] = {

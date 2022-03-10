@@ -5,7 +5,7 @@ from ..services.worker import conn
 from ..dependencies import JWTBearer, get_db
 from ..services.pv_handler import PhaseScanPVController
 from ..schemas import CorrectInfo, CorrectorStrength
-from .worker import create_task
+from .worker import create_task, set_corrector_strength
 import pandas as pd
 from pathlib import Path
 from .orbit import Orbit, MeasureResponseMatrix, ResponseMatrix, Corrector
@@ -46,9 +46,10 @@ def compute_strength(data: CorrectInfo):
 @router.post('/commissioning/orbit-correction/set-strength',
              dependencies=[Depends(JWTBearer())])
 def set_strength(data: CorrectorStrength):
-    for cor in data.strength:
-        cor_obj = Corrector(cor['label'], cor['pv'])
-        cor_obj.current = cor['value']
+    params = (data.keys, data.strength)
+    with Connection(redis.from_url('redis://127.0.0.1:6379')):
+        q = Queue()
+        q.enqueue(set_corrector_strength, *params, job_timeout=3000)
     return {
         'code': 20000
     }
