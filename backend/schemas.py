@@ -1,5 +1,6 @@
 from typing import List, Union, Optional
 from pydantic import BaseModel, Field, EmailStr
+from datetime import datetime
 
 class Task(BaseModel):
     id: int
@@ -22,6 +23,7 @@ class EnergyModel(BaseModel):
 class PhaseScanInfo(BaseModel):
     bpm_model: str
     lattice: dict
+    rf_phase: float
     #amp: List[float]
     #phase: List[float]
     #cavity_write_pv: str
@@ -78,7 +80,7 @@ class CavityFinished(BaseModel):
     finished: bool
 
 class CorrectInfo(BaseModel):
-    keys: List[int]
+    keys: List[str]
     rm_step: float
     sc_step: float
     rm_lim: float
@@ -86,5 +88,19 @@ class CorrectInfo(BaseModel):
     alpha: float
 
 class CorrectorStrength(BaseModel):
+    keys: List[str]
     strength: list
 
+class Snapshot(BaseModel):
+    keys: List[str]
+    particle_type: str
+    energy: float
+    current: float
+    subject: str
+
+class SnapshotAcquire(BaseModel):
+    beginDate: datetime
+    endDate: datetime
+
+class SnapshotId(BaseModel):
+    id: int

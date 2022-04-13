@@ -126,7 +126,7 @@ async def init_pvs(cavity_info: CavityModel,
 @router.get('/commissioning/phasescan/read-lattice-cache',
             dependencies=[Depends(JWTBearer())])
 async def read_lattice_cache(cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
-    lattice_cache = await cache.get('stored_cache')
+    lattice_cache = await cache.get('stored_lattice')
     lattice = ''
     if lattice_cache:
         lattice = json.loads(lattice_cache)
@@ -177,14 +177,17 @@ async def calibrated_amp(cavity: CavityAmp):
 
 @router.get('/commissioning/phasescan/read-bpm-phase',
              dependencies=[Depends(JWTBearer())])
-async def read_bpm_phase():
+async def read_bpm_phase(cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
     bpm_vals = []
     for i in range(6):
         bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'].get()
         bpm_vals.append(bpm1_val)
         await asyncio.sleep(1)
+    bpm_name = await cache.get('bpm1_name')
+    bpm_name = bpm_name.decode('utf-8')
     return {
         'code': 20000,
+        'bpm_name': bpm_name,
         'bpm_phase': round(np.average(bpm_vals), 2)
     }
 
@@ -215,7 +218,6 @@ async def get_amp(cavity: CavityModel,
     await cache.set('amp_limit', amp_limit)
 
     log_epk_item(db, amp_limit_item)
-    #amp_limit_obj = get_amp_limt(db, cavity_name)
     return {
         "code": 20000,
         "physics_amp": physics_amp,
@@ -226,14 +228,14 @@ async def get_amp(cavity: CavityModel,
              dependencies=[Depends(JWTBearer())])
 async def phase_set(data: PhaseScanInfo,
                     cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
+    #bypass_cavities = data.bypass_cavities
     for cavity_name in data.lattice:
         pv_controller.set_cavity_amp(cavity_name, data.lattice[cavity_name]['amp'])
         pv_controller.set_cavity_phase(cavity_name, data.lattice[cavity_name]['phase'])
-        if float(data.lattice[cavity_name]['amp']) < 0.01:
+        if float(data.lattice[cavity_name]['amp']) < 0.01: #or cavity_name in bypass_cavities:
             pv_controller.set_cavity_bypass(cavity_name, 1)
         else:
             pv_controller.set_cavity_bypass(cavity_name, 0)
-    stop = time.time()
     await asyncio.sleep(data.cavity_res_time)
     bpm1_vals = []
     bpm2_vals = []
@@ -249,6 +251,7 @@ async def phase_set(data: PhaseScanInfo,
     bpm1_err = np.std(bpm1_vals)
     bpm2_val = np.average(bpm2_vals)
     bpm2_err = np.std(bpm2_vals)
+    await cache.lpush('rf_phases', data.rf_phase)
     await cache.lpush('bpm1_phases', bpm1_val.item())
     await cache.lpush('bpm1_errors', bpm1_err.item())
     await cache.lpush('bpm2_phases', bpm2_val.item())

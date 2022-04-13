@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
-from .models import (Snapshot, Timing, Task, Magnet, Cavity, PhasescanLog,
-                     ScanData, CavityEpeak, User, Lattice, )
+from .models import (Snapshot, Timing, Task, Magnet, Cavity, PhasescanLog, ScanData, 
+                     CavityEpeak, User, Lattice, Amp, Phase, SnapshotMagnet, BPM)
 from datetime import datetime
 from sqlalchemy import desc, and_
+from epics import PV
 import os
 import json
 
@@ -32,6 +33,22 @@ db_maps = {
     'cm4-3': 'cavity 2',
     'cm4-4': 'cavity 3',
     'cm4-5': 'cavity 4',
+}
+
+models = {
+    'AMP': Amp,
+    'PHASE': Phase,
+    'MAGNET': SnapshotMagnet,
+    'DIAG': BPM
+}
+
+tolerances = {
+    'phase': 0.2,
+    'amp': 0.2,
+    'magnet': 0.3,
+    'x': 0.3,
+    'y': 0.3,
+    'p': 2
 }
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -168,7 +185,116 @@ def create_phase_scan_log(db: Session, general_info: dict, scan_data: dict):
     for i in range(data_len):
         item = {}
         for k in scan_data:
-            item[k] = scan_data[k][i]
+            item_label = k[:-1]
+            item[item_label] = scan_data[k][i]
         raw_data = ScanData(**item, phase_scan_log=cavity_log)
         db.add(raw_data)
     db.commit()
+
+def store_element_values(source, db, parent, child=None):
+    for item in source:
+        (key, val), = item.items()
+        if key in ['DIAG', 'MAGNET', 'AMP', 'PHASE']:
+            child = models[key]
+            store_element_values(val, db, parent, child)
+        elif not isinstance(val, list):
+            if isinstance(val, tuple):
+                snapshot_item = child(
+                    name=key,
+                    set_val=val[0],
+                    rb_val=val[1],
+                    snapshot=parent
+                )
+            else:
+                snapshot_item = child(
+                    name=key,
+                    val=val,
+                    snapshot=parent
+                )
+            db.add(snapshot_item)
+        else:
+            store_element_values(val, db, parent, child)
+
+
+def save_snapshot(db: Session, particle_type, current, energy,
+                  subject, source):
+    if source:
+        snapshot = Snapshot(particle_type=particle_type, current=current,
+                            energy=energy, subject=subject)
+        db.add(snapshot)
+        store_element_values(source, db, snapshot)
+        db.commit()
+
+def acquire_snapshot(db: Session, begin_date: datetime, end_date: datetime):
+    snapshots = db.query(Snapshot).filter(Snapshot.timestamp.between(begin_date, end_date)). \
+        order_by(Snapshot.timestamp.desc()).all()
+    results = []
+    for snapshot in snapshots:
+        result = {}
+        result['id'] = snapshot.id
+        result['timestamp'] = snapshot.timestamp.strftime('%Y-%m-%d %H:%M')
+        result['energy'] = snapshot.energy
+        result['particle_type'] = snapshot.particle_type
+        result['current'] = snapshot.current
+        result['subject'] = snapshot.subject
+        results.append(result)
+
+    return results
+
+def restore_element_values(source, recover_data):
+    for s in source:
+        if s['id'] in recover_data:
+            recover_item = recover_data[s['id']]
+            if isinstance(recover_item, tuple):
+                pv_name = s['write_pv']
+                pv_val = recover_item[0]
+            else:
+                pv_name = s['pv']
+                pv_val = recover_item
+            PV(pv_name).put(pv_val)
+        elif 'children' in s:
+            restore_element_values(s['children'], recover_data)
+
+
+def restore_snapshot(db: Session, snapshot_id: int, source: dict):
+    snapshot = db.query(Snapshot).filter(Snapshot.id==snapshot_id).first()
+    stored_snapshot_data = snapshot.to_json()
+
+    snapshot_recover = {}
+    for key in stored_snapshot_data:
+        if key in ['magnets', 'amps', 'phases']:
+            snapshot_recover.update(stored_snapshot_data[key])
+    restore_element_values(source, snapshot_recover)
+
+def compare_snapshot(db: Session, snapshot_id: int, source: dict):
+    snapshot = db.query(Snapshot).filter(Snapshot.id==snapshot_id).first()
+    stored_snapshot_data = snapshot.to_json()
+    snapshot_ravel = {}
+    for key in stored_snapshot_data:
+        snapshot_ravel.update(stored_snapshot_data[key])
+    return get_diffs(source, snapshot_ravel)
+
+def get_diffs(source, old_data, tolerance=0):
+    diff_dict = {}
+    for s in source:
+        if s['id'] in tolerances:
+            tolerance = tolerances[s['id']]
+        if s['id'] in old_data:
+            old_item = old_data[s['id']]
+            if isinstance(old_item, tuple):
+                old_set_val, old_rb_val = old_item
+                new_set_val = PV(s['write_pv']).get()
+                new_rb_val = PV(s['rb_pv']).get()
+                if abs(new_set_val-old_set_val) > tolerance:
+                    diff_dict[s['label']+'-WR'] = old_set_val
+                if abs(new_rb_val-old_rb_val) > tolerance:
+                    diff_dict[s['label']+'-RB'] = old_rb_val
+            else:
+                new_val = PV(s['pv']).get()
+                if abs(new_val-old_item) > tolerance:
+                    diff_dict[s['id']] = old_item
+        elif 'children' in s:
+            diff_dict.update(get_diffs(s['children'], old_data, tolerance))
+    return diff_dict
+
+

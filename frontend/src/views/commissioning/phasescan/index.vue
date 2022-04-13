@@ -120,9 +120,10 @@
               </el-row>
             </el-form-item>
             <el-form-item>
+              <div style="text-align: left; font-weight: bold">读取腔后BPM相位</div>
               <el-row align="center">
                 <el-col :span="12">
-                  <label>读取腔后BPM相位</label>
+                  <label>{{ bpm_name }}</label>
                 </el-col>
                 <el-col :span="6">
                   <label style="color: red">{{ bpm_phase }}</label>
@@ -138,12 +139,12 @@
                   <label>选择腔体</label>
                 </el-col>
                 <el-col :span="6">
-                  <el-button>
+                  <el-button disabled>
                     <i class="fa fa-angle-double-left"></i>
                   </el-button>
                 </el-col>
                 <el-col :span="6">
-                  <el-button>
+                  <el-button @click.native="config_next_cavity">
                     <i class="fa fa-angle-double-right"></i>
                   </el-button>
                 </el-col>
@@ -249,7 +250,11 @@ const particle_data = {
   "40Ar13+": {
     "mass": 37245.6,
     "charge": 13
-  }
+  },
+  "40Ca13+": {
+    "mass": 37218.2748,
+    "charge": 13
+  },
 }
 export default {
   components: {
@@ -263,6 +268,7 @@ export default {
         {value: "Proton", text: "Proton"},
         {value: "36Ar12+", text: "36Ar12+"},
         {value: "40Ar13+", text: "40Ar13+"},
+        {value: "40Ca13+", text: "40Ca13+"},
       ],
       in_energy: 4,
       cavity_name: '',
@@ -292,6 +298,7 @@ export default {
       synchPhase: 0,
       lattice: {},
       stop: false,
+      bpm_name: '',
       bpm_phase: 0,
       pause: false,
       pause_text: '暂停',
@@ -301,6 +308,7 @@ export default {
       scan_disabled: false,
       fit_records: [],
       coordRange: {},
+      fail_times: 0,
       chart_option: {
         title: {
           text: "腔体相位 vs BPM相位",
@@ -338,7 +346,6 @@ export default {
               icon: "image://" + fit_icon + "",
               onclick: async () => {
                 let res = await this.curve_fit()
-                this.synchPhase = res.rf_phase.toFixed(1)
               }
             },
             myMoveUp: {
@@ -413,14 +420,26 @@ export default {
         method: 'get',
       })
       this.bpm_phase = response['bpm_phase']
+      this.bpm_name = response['bpm_name']
     },
     point_select(params) {
       if (params.areas.length !== 0) {
         this.coordRange = params.areas[0].coordRange
       }
     },
+    async config_next_cavity() {
+      this.in_energy = this.fit_records.slice(-1)[0]['energy']
+      await this.setSynchPhase()
+      let cavity_array = []
+      this.cavity_options.forEach(e => {
+        cavity_array.push(e.text)
+      })
+      const next_cavity_idx = cavity_array.indexOf(this.cavity_name) + 1
+      this.cavity_name = cavity_array[next_cavity_idx]
+    },
     async setSynchPhase() {
       this.lattice[this.cavity_name].phase = this.synchPhase
+      this.lattice[this.cavity_name].amp = this.amp
       const path = '/commissioning/phasescan/synch-phase-set'
       const response = await request({
         url: path,
@@ -482,7 +501,6 @@ export default {
         method: 'get',
       })
 
-      console.log(response['lattice'])
       for (let cavity_name in this.cavity_infos) {
         this.cavity_options.push({value: cavity_name, text: cavity_name})
         if (response['lattice']) {
@@ -540,7 +558,10 @@ export default {
         res = e
       }
       //this.ready = response.ready
-      if (!this.ready) this.scan_unready = true
+      if (!this.ready) {
+        this.fail_times++
+        if (this.fail_times === 3) this.scan_unready = true
+      }
       return res
     },
     //async start_monitor(millisec) {
@@ -593,7 +614,6 @@ export default {
 
 
       let res
-      //await this.get_amp()
 
       if (this.selected === "manual")  {
         let exit_scan = await this.one_cavity_scan()
@@ -618,7 +638,6 @@ export default {
 
           let count = 0
           while (count < 3) {
-            //await this.get_amp()
             if (this.amp > this.amp_limit) {
               this.amp = this.amp_limit
               Message({
@@ -731,12 +750,21 @@ export default {
       //  bpm_mode: this.bpm_model_selected
       //})
       await this.start_monitor()
+      let cavity_names = this.cavity_options.map(x=>x.value)
+      const cavity_index = cavity_names.indexOf(this.cavity_name)
+      const bypass_cavities = cavity_names.slice(cavity_index+1)
+      bypass_cavities.forEach((name) => {
+        this.lattice[name].amp = 0
+      })
       while ((phase < stop_phase)) {
+
         this.lattice[this.cavity_name].amp = this.amp
         this.lattice[this.cavity_name].phase = phase
         const payload = {
           bpm_model: this.bpm_model_selected,
           lattice: this.lattice,
+          rf_phase: phase,
+          //bypass_cavities: bypass_cavities,
           //amp: this.amp,
           //phase: phase,
           //cavity_write_pv: cavity_write_pv,
@@ -761,7 +789,9 @@ export default {
             await new Promise(r => setTimeout(r, 1000));
           }
           this.scan_unready = false
+          this.fail_times = 0
           if (!this.stop) continue
+
         }
 
         this.chart_option.series[0].data.push([phase, point1['bpm_phase']])
@@ -885,6 +915,7 @@ export default {
       fit_record['phase'] = response.rf_phase.toFixed(2)
       fit_record['energy'] = response.w_out.toFixed(3)
       fit_record['amp'] = response.amp.toFixed(2)
+      this.synchPhase = response.rf_phase.toFixed(1)
       this.fit_records.push(fit_record)
       return response
     },

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from backend.lattice import router as lattice_router
 from backend.phasescan import router as phase_scan_router
+from backend.snapshot import router as snapshot_router
 from backend.cavity_epk import router as epk_router
 from backend.auth import router as auth_router
 from backend.redis_config import register_redis
@@ -23,6 +24,7 @@ app.include_router(phase_scan_router.router)
 app.include_router(epk_router.router)
 app.include_router(orbit_correction_router.router)
 app.include_router(auth_router.router)
+app.include_router(snapshot_router.router)
 
 origins = ["*"]
 app.add_middleware(

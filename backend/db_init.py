@@ -1,4 +1,4 @@
-from backend_fastapi import models
-from backend_fastapi.database import engine
+from backend import models
+from backend.database import engine
 
 models.Base.metadata.create_all(bind=engine)

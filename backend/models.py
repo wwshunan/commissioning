@@ -10,38 +10,108 @@ class Snapshot(Base):
     __tablename__ = 'snapshots'
     id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime, index=True, default=datetime.utcnow)
+    subject = Column(String(256))
+    particle_type = Column(String(32))
+    current = Column(Float(16))
+    energy = Column(Float(16))
     amps = relationship('Amp', backref='snapshot')
     phases = relationship('Phase', backref='snapshot')
     magnets = relationship('SnapshotMagnet', backref='snapshot')
     bpms = relationship('BPM', backref='snapshot')
 
+    def to_json(self):
+        json_snapshot = {}
+        categories = {
+            'amps': self.amps,
+            'phases': self.phases,
+            'magnets': self.magnets,
+            'bpms': self.bpms
+        }
+        for c in categories:
+            json_snapshot[c] = {}
+            for item in categories[c]:
+                json_item = item.to_json()
+                if c == 'magnets':
+                    assigned_val = json_item['set_val'], json_item['rb_val']
+                else:
+                    assigned_val = json_item['val']
+                json_snapshot[c][json_item['name']] = assigned_val
+            if not json_snapshot[c]:
+                json_snapshot.pop(c)
+        return json_snapshot
+
+    def __repr__(self):
+        return 'Snapshot {}'.format(self.id)
+
 class BPM(Base):
     __tablename__ = 'bpms'
     id = Column(Integer, primary_key=True)
     name = Column(String(32))
-    val = Column(String(32))
+    val = Column(Float(32))
     snapshot_id = Column(Integer, ForeignKey('snapshots.id'))
+
+    def to_json(self):
+        json_bpm = {
+            'name': self.name,
+            'val': self.val
+        }
+        return json_bpm
+
+    def __repr__(self):
+        return self.name
 
 class Amp(Base):
     __tablename__ = 'amps'
     id = Column(Integer, primary_key=True)
     name = Column(String(32))
-    val = Column(String(32))
+    val = Column(Float(32))
     snapshot_id = Column(Integer, ForeignKey('snapshots.id'))
+
+    def to_json(self):
+        json_amp = {
+            'name': self.name,
+            'val': self.val
+        }
+        return json_amp
+
+    def __repr__(self):
+        return self.name
 
 class Phase(Base):
     __tablename__ = 'phases'
     id = Column(Integer, primary_key=True)
     name = Column(String(32))
-    val = Column(String(32))
+    val = Column(Float(32))
     snapshot_id = Column(Integer, ForeignKey('snapshots.id'))
+
+    def to_json(self):
+        json_phase = {
+            'name': self.name,
+            'val': self.val
+        }
+        return json_phase
+
+    def __repr__(self):
+        return self.name
 
 class SnapshotMagnet(Base):
     __tablename__ = 'snapshot_magnets'
     id = Column(Integer, primary_key=True)
     name = Column(String(32))
-    val = Column(String(32))
+    set_val = Column(Float(32))
+    rb_val = Column(Float(32))
     snapshot_id = Column(Integer, ForeignKey('snapshots.id'))
+
+    def to_json(self):
+        json_magnet = {
+            'name': self.name,
+            'set_val': self.set_val,
+            'rb_val': self.rb_val
+        }
+        return json_magnet
+
+    def __repr__(self):
+        return self.name
 
 class Lattice(Base):
     __tablename__ = 'lattices'
