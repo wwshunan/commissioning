@@ -74,7 +74,14 @@ export const asyncRoutes = [
         component: () => import('@/views/commissioning/orbitcorrection/index'), // Parent router-view
         name: 'Orbit Correction',
         meta: { title: 'Orbit Correction', roles: ['admin', 'user'] },
-	  }
+	  },
+	  {
+        path: 'snapshot',
+        component: () => import('@/views/commissioning/snapshot/index'), // Parent router-view
+        name: 'Snapshot',
+        meta: { title: 'Snapshot', roles: ['admin', 'user'] },
+      },
+	  
     ]
   },
 
