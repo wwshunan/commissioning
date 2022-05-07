@@ -1,5 +1,6 @@
 from pathlib import Path
 from epics import PV
+from ..services.pv_handler import PhaseScanPVController
 from numpy.linalg import svd
 import pandas as pd
 import json
@@ -17,6 +18,7 @@ with open(fname) as f:
 
 related_filename = basedir.joinpath('resources', 'causality.xlsx')
 cor_bpm_relation = pd.read_excel(related_filename, index_col=0)
+pv_controller = PhaseScanPVController()
 
 def extract_elems(elem_type, ids):
     elements = {}
@@ -89,19 +91,24 @@ class OrbitSVD(object):
         #        s_inv[i] = 0.
         #    else:
         #        s_inv[i] = 1. / s[i]
+        c = 0
         while True:
             Sinv = np.zeros((np.shape(U)[0], np.shape(V)[0]))
             Sinv[:len(s), :len(s)] = np.diag(s_inv)
             Sinv = np.transpose(Sinv)
+            print(s_inv)
             A = np.dot(np.transpose(V), np.dot(Sinv, np.transpose(U)))
             angles = np.dot(A, misalign)
-            lim = sc_lim
+           
             for cor, current in zip(cors, angles):
+                lim = sc_lim     
                 if not cor.id.startswith('CM'):
                     lim = rm_lim
-                if current > lim:
-                    min_index = s_inv.argmin()
-                    s_inv[min_index] = 0
+                print(current, cor.current, lim, cor.id)
+                if abs(current + cor.current) > lim:
+                    max_index = np.argmax(s_inv)
+                    #index = np.where(s_inv > 1e-5, s_inv, np.inf).argmax()
+                    s_inv[max_index] = 0
                     break
             else:
                 break
@@ -187,7 +194,7 @@ class Orbit(object):
     def correct(self, alpha):
         orbit = -(1 - alpha) * self.gather_orbit.refer_orbit
         resp_matrix = self.response_matrix.matrix
-        angles = self.orbit_solver.apply(self.cors, self.rm_lim, self.sc_lim,
+        angles = self.orbit_solver.apply(self.cors, self.rm_lim, self.sc_lim, 
                                          resp_matrix=resp_matrix, orbit=orbit)
 
         correct_strengths = {}
@@ -207,17 +214,28 @@ class MeasureResponseMatrix(object):
         self.rm_lim = rm_lim
         self.sc_lim = sc_lim
         self.gather_orbit = gather_orbit
+        self.prev_cor = None
+        self.prev_cor_current = None
 
-    def one_cor_rm(self, cor, step, lim, correct_section):
+    def one_cor_rm(self, cor, step, lim):
         #bpms = [bpm for s in self.bpms for bpm in self.bpms[s]]
         m = len(self.bpms)
         data = np.zeros(m*2+1)
 
         start_current = cor.current
         stop_current = start_current + step
+
         if abs(stop_current) > lim:
             stop_current = start_current - step
         cor.current = stop_current
+
+        #监控先前校正铁电流是否归位
+        if self.prev_cor:
+            rb_val = self.prev_cor.current
+            while abs(rb_val - self.prev_cor_current) > 0.2:
+                time.sleep(0.5)
+                rb_val = cor.current
+
         rb_val = cor.current
 
         while abs(rb_val - stop_current) > 0.2:
@@ -226,20 +244,23 @@ class MeasureResponseMatrix(object):
         data[0] = stop_current
         data[1:] = self.gather_orbit.get_orbit_diff(cor.id)
         cor.current = start_current
-        rb_val = cor.current
-        while abs(rb_val - start_current) > 0.2:
-            time.sleep(0.5)
-            rb_val = cor.current
+        self.prev_cor = cor
+        self.prev_cor_current = start_current
         bpm_resp = data[1:] / (stop_current - start_current)
         return bpm_resp.reshape(-1, 1)
 
     def calculate(self):
         response_matrix = np.empty((len(self.bpms)*2, 0))
-        for cor in self.cors:
+        i = 0
+        while i < len(self.cors):
+            cor = self.cors[i]
             if cor.kind == 'rm':
-                rm_column = self.one_cor_rm(cor, self.rm_step, self.rm_lim, 'rm')
+                rm_column = self.one_cor_rm(cor, self.rm_step, self.rm_lim)
             else:
-                rm_column = self.one_cor_rm(cor, self.sc_step, self.sc_lim, 'sc')
+                rm_column = self.one_cor_rm(cor, self.sc_step, self.sc_lim)
+            if not pv_controller.get_cavity_ready() or not pv_controller.get_current_ready():
+                continue
+            i += 1
             response_matrix = np.hstack((response_matrix, rm_column))
         resp_filename = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M.txt')
         np.savetxt(basedir.joinpath('data', resp_filename), response_matrix)
