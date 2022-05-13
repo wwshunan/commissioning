@@ -8,7 +8,7 @@ from ..services.pv_handler import PhaseScanPVController
 from pathlib import Path
 from ..schemas import Snapshot, SnapshotAcquire, SnapshotId
 from .snapshot import get_element_values
-from ..crud import save_snapshot, acquire_snapshot, restore_snapshot, compare_snapshot
+from ..crud import save_snapshot, acquire_snapshot, restore_snapshot, compare_snapshot, remove_snapshot
 import json
 
 router = APIRouter()
@@ -63,6 +63,15 @@ async def compare(data: SnapshotId,
         'data': diffs
     }
 
+
+@router.post('/commissioning/snapshot/remove',
+             dependencies=[Depends(JWTBearer())])
+async def remove(data: SnapshotId,
+                 db: Session = Depends(get_db)):
+    remove_snapshot(db, data.id)
+    return {
+        'code': 20000
+    }
 
 @router.post('/commissioning/snapshot/restore',
              dependencies=[Depends(JWTBearer())])

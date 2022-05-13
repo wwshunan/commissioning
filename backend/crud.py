@@ -4,6 +4,7 @@ from .models import (Snapshot, Timing, Task, Magnet, Cavity, PhasescanLog, ScanD
 from datetime import datetime
 from sqlalchemy import desc, and_
 from epics import PV
+from dateutil import tz
 import os
 import json
 
@@ -225,14 +226,22 @@ def save_snapshot(db: Session, particle_type, current, energy,
         store_element_values(source, db, snapshot)
         db.commit()
 
+def remove_snapshot(db: Session, snapshot_id: int): 
+    snapshot = db.query(Snapshot).filter(Snapshot.id == snapshot_id).first()
+    db.delete(snapshot)
+    db.commit()
+
 def acquire_snapshot(db: Session, begin_date: datetime, end_date: datetime):
     snapshots = db.query(Snapshot).filter(Snapshot.timestamp.between(begin_date, end_date)). \
         order_by(Snapshot.timestamp.desc()).all()
     results = []
+    from_zone = tz.gettz('UTC')
+    to_zone = tz.gettz('China/Beijing')
     for snapshot in snapshots:
         result = {}
         result['id'] = snapshot.id
-        result['timestamp'] = snapshot.timestamp.strftime('%Y-%m-%d %H:%M')
+        utc = snapshot.timestamp.replace(tzinfo=from_zone)
+        result['timestamp'] = utc.astimezone(to_zone).strftime('%Y-%m-%d %H:%M')
         result['energy'] = snapshot.energy
         result['particle_type'] = snapshot.particle_type
         result['current'] = snapshot.current
@@ -262,25 +271,27 @@ def restore_snapshot(db: Session, snapshot_id: int, source: dict):
 
     snapshot_recover = {}
     for key in stored_snapshot_data:
-        if key in ['magnets', 'amps', 'phases']:
+        if key in ['MAGNET', 'AMP', 'PHASE']:
             snapshot_recover.update(stored_snapshot_data[key])
     restore_element_values(source, snapshot_recover)
 
 def compare_snapshot(db: Session, snapshot_id: int, source: dict):
     snapshot = db.query(Snapshot).filter(Snapshot.id==snapshot_id).first()
     stored_snapshot_data = snapshot.to_json()
-    snapshot_ravel = {}
-    for key in stored_snapshot_data:
-        snapshot_ravel.update(stored_snapshot_data[key])
-    return get_diffs(source, snapshot_ravel)
+    #snapshot_ravel = {}
+    #for key in stored_snapshot_data:
+    #    snapshot_ravel.update(stored_snapshot_data[key])
+    return get_diffs(source, stored_snapshot_data)
 
-def get_diffs(source, old_data, tolerance=0):
+def get_diffs(source, old_data, key=None, tolerance=0):
     diff_dict = {}
     for s in source:
+        if s['id'].upper() in models.keys():
+            key = s['id'].upper()
         if s['id'] in tolerances:
             tolerance = tolerances[s['id']]
-        if s['id'] in old_data:
-            old_item = old_data[s['id']]
+        if key in old_data and s['id'] in old_data[key]:
+            old_item = old_data[key][s['id']]
             if isinstance(old_item, tuple):
                 old_set_val, old_rb_val = old_item
                 new_set_val = PV(s['write_pv']).get()
@@ -294,7 +305,7 @@ def get_diffs(source, old_data, tolerance=0):
                 if abs(new_val-old_item) > tolerance:
                     diff_dict[s['id']] = old_item
         elif 'children' in s:
-            diff_dict.update(get_diffs(s['children'], old_data, tolerance))
+            diff_dict.update(get_diffs(s['children'], old_data, key, tolerance))
     return diff_dict
 
 

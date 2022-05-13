@@ -14,24 +14,24 @@ class Snapshot(Base):
     particle_type = Column(String(32))
     current = Column(Float(16))
     energy = Column(Float(16))
-    amps = relationship('Amp', backref='snapshot')
-    phases = relationship('Phase', backref='snapshot')
-    magnets = relationship('SnapshotMagnet', backref='snapshot')
-    bpms = relationship('BPM', backref='snapshot')
+    amps = relationship('Amp', backref='snapshot', cascade="all, delete-orphan")
+    phases = relationship('Phase', backref='snapshot', cascade="all, delete-orphan")
+    magnets = relationship('SnapshotMagnet', backref='snapshot', cascade="all, delete-orphan")
+    bpms = relationship('BPM', backref='snapshot', cascade="all, delete-orphan")
 
     def to_json(self):
         json_snapshot = {}
         categories = {
-            'amps': self.amps,
-            'phases': self.phases,
-            'magnets': self.magnets,
-            'bpms': self.bpms
+            'AMP': self.amps,
+            'PHASE': self.phases,
+            'MAGNET': self.magnets,
+            'DIAG': self.bpms
         }
         for c in categories:
             json_snapshot[c] = {}
             for item in categories[c]:
                 json_item = item.to_json()
-                if c == 'magnets':
+                if c == 'MAGNET':
                     assigned_val = json_item['set_val'], json_item['rb_val']
                 else:
                     assigned_val = json_item['val']

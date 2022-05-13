@@ -115,11 +115,14 @@
             </el-table>
           <div style="margin-top: 20px">
             <el-row>
-              <el-col :span="8">
-                <el-button type="primary" plain @click="restore">还原快照</el-button>
+              <el-col :span="6">
+                <el-button type="warning" plain @click="restore">还原快照</el-button>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="6">
                 <el-button type="primary" plain @click="compare">对比快照</el-button>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="danger" plain @click="remove">删除快照</el-button>
               </el-col>
             </el-row>
           </div>
@@ -168,6 +171,7 @@ export default {
         {value: "36Ar12+", text: "36Ar12+"},
         {value: "40Ar13+", text: "40Ar13+"},
         {value: "40Ca13+", text: "40Ca13+"},
+        {value: "55Mn17+", text: "55Mn17+"},
       ],
       beginDate: '',
       endDate: '',
@@ -209,21 +213,30 @@ export default {
       this.form.elements = response.data
     },
     handleCurrentChange(val) {
-      this.selected_row_id = val.id
+      this.selected_row_id = val?.id
     },
     async save() {
       const path = '/commissioning/snapshot/save';
-      await request({
-        url: path,
-        data: {
-          keys: this.$refs.tree.getCheckedKeys(),
-          particle_type: this.particle_type,
-          current: this.current,
-          energy: this.current,
-          subject: this.textarea
-        },
-        method: 'post',
-      })
+      try {
+        const response = await request({
+          url: path,
+          data: {
+            keys: this.$refs.tree.getCheckedKeys(),
+            particle_type: this.particle_type,
+            current: this.current,
+            energy: this.energy,
+            subject: this.textarea
+          },
+          method: 'post',
+        })
+        Message({
+          message: response['message'],
+          type: 'success',
+          duration: 5000
+        }) 
+      } catch (e) {
+        console.log(e)
+      }
     },
     async acquire() {
       const path = '/commissioning/snapshot/acquire';
@@ -236,6 +249,19 @@ export default {
         method: 'post',
       })
       this.snapshots = response.data
+    },
+    async remove() {
+      const path = '/commissioning/snapshot/remove';
+      const response = await request({
+        url: path,
+        data: {
+          id: this.selected_row_id
+        },
+        method: 'post',
+      })
+      this.snapshots = this.snapshots.filter(e => 
+        e.id !== this.selected_row_id
+      )
     },
     async restore() {
       const path = '/commissioning/snapshot/restore';
