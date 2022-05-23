@@ -4,6 +4,7 @@ from backend.phasescan import router as phase_scan_router
 from backend.snapshot import router as snapshot_router
 from backend.cavity_epk import router as epk_router
 from backend.auth import router as auth_router
+from backend.manual import router as manual_router
 from backend.redis_config import register_redis
 from backend.orbitcorrection import router as orbit_correction_router
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,6 +26,7 @@ app.include_router(epk_router.router)
 app.include_router(orbit_correction_router.router)
 app.include_router(auth_router.router)
 app.include_router(snapshot_router.router)
+app.include_router(manual_router.router)
 
 origins = ["*"]
 app.add_middleware(
