@@ -1,16 +1,16 @@
 from fastapi import (APIRouter, Depends, UploadFile, File, Form,
                      WebSocket, HTTPException, Security)
-from rq import Queue, Connection
+#from rq import Queue, Connection
 from ..services.worker import conn
-from ..dependencies import JWTBearer, get_db
+from ..dependencies import JWTBearer
 from ..services.pv_handler import PhaseScanPVController
+from ..services.worker import q
 from ..schemas import CorrectInfo, CorrectorStrength
-from .worker import create_task, set_corrector_strength
-import pandas as pd
+from .worker import create_task, set_corrector_strength, test
 from pathlib import Path
 from .orbit import Orbit, MeasureResponseMatrix, ResponseMatrix, Corrector
 import fastapi_plugins
-import aioredis
+import pandas as pd
 import redis
 import json
 
@@ -18,6 +18,9 @@ router = APIRouter()
 basedir = Path(__file__).resolve().parent
 pv_controller = PhaseScanPVController()
 
+
+#with Connection(redis.from_url('redis://127.0.0.1:6379')):
+#    q = Queue()
 
 @router.get('/commissioning/orbit-correction/get-config',
             dependencies=[Depends(JWTBearer())])
@@ -30,14 +33,14 @@ async def get_config():
         'data': data
     }
 
+
 @router.post('/commissioning/orbit-correction/compute-strength',
              dependencies=[Depends(JWTBearer())])
 def compute_strength(data: CorrectInfo):
     params = (data.keys, data.rm_step, data.sc_step,
               data.rm_lim, data.sc_lim, data.alpha)
-    with Connection(redis.from_url('redis://127.0.0.1:6379')):
-        q = Queue()
-        task = q.enqueue(create_task, *params, job_timeout=3000)
+    task = q.enqueue(create_task, *params, job_timeout=3000)
+    #task = q.enqueue(test, job_timeout=3000)
     return {
         'code': 20000,
         'task_id': task.get_id()
@@ -47,9 +50,7 @@ def compute_strength(data: CorrectInfo):
              dependencies=[Depends(JWTBearer())])
 def set_strength(data: CorrectorStrength):
     params = (data.keys, data.strength)
-    with Connection(redis.from_url('redis://127.0.0.1:6379')):
-        q = Queue()
-        q.enqueue(set_corrector_strength, *params, job_timeout=3000)
+    q.enqueue(set_corrector_strength, *params, job_timeout=3000)
     return {
         'code': 20000
     }
@@ -58,19 +59,19 @@ def set_strength(data: CorrectorStrength):
 @router.get('/commissioning/orbit-correction/{task_id}',
             dependencies=[Depends(JWTBearer())])
 def get_status(task_id: str):
-    with Connection(redis.from_url('redis://127.0.0.1:6379')):
-        q = Queue()
-        task = q.fetch_job(task_id)
-        if task:
-            response_object = {
-                "code": 20000,
-                "data": {
-                    "task_id": task.get_id(),
-                    "task_status": task.get_status(),
-                    "task_result": task.result,
-                },
-            }
-            return response_object
-        else:
-            raise HTTPException(status_code=500, detail="正在进行轨道校正")
+    task = q.fetch_job(task_id)
+    if task:
+        #if 'word' in task.meta:
+        #    print(task.meta['word'])
+        response_object = {
+            "code": 20000,
+            "data": {
+                "task_id": task.get_id(),
+                "task_status": task.get_status(),
+                "task_result": task.result,
+            },
+        }
+        return response_object
+    else:
+        raise HTTPException(status_code=500, detail="正在进行轨道校正")
 

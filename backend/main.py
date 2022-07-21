@@ -7,6 +7,7 @@ from backend.auth import router as auth_router
 from backend.manual import router as manual_router
 from backend.redis_config import register_redis
 from backend.orbitcorrection import router as orbit_correction_router
+from backend.hebt_match import router as hebt_match_router
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import fastapi_plugins
@@ -27,6 +28,7 @@ app.include_router(orbit_correction_router.router)
 app.include_router(auth_router.router)
 app.include_router(snapshot_router.router)
 app.include_router(manual_router.router)
+app.include_router(hebt_match_router.router)
 
 origins = ["*"]
 app.add_middleware(

@@ -22,6 +22,7 @@ async def lattice_upload(section: str = Form(...),
                          cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis),
                          ) -> str:
     lattice_data = load_lattice(lattice_file.file, section)
+    await lattice_file.close()
     remove_empty_element(lattice_data)
     serialized_lattice_data = json.dumps(lattice_data)
     await cache.set('lattice_data', serialized_lattice_data)

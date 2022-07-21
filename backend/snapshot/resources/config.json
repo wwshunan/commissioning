@@ -1525,60 +1525,6 @@
             ]
           }
         ]
-      },
-      {
-        "id": "ss",
-        "label": "SS",
-        "children": [
-          {
-            "id": "quad",
-            "label": "QUAD",
-            "children": [
-              {
-                "id": "ss-q1",
-                "label": "SS-Q1",
-                "write_pv": "SS_PS:Q01:CurSet",
-                "rb_pv": "SS_PS:Q01:CurMon",
-                "disabled": false
-              },
-              {
-                "id": "ss-q2",
-                "label": "SS-Q2",
-                "write_pv": "SS_PS:Q02:CurSet",
-                "rb_pv": "SS_PS:Q02:CurMon",
-                "disabled": false
-              },
-              {
-                "id": "ss-q3",
-                "label": "SS-Q3",
-                "write_pv": "SS_PS:Q03:CurSet",
-                "rb_pv": "SS_PS:Q03:CurMon",
-                "disabled": false
-              }
-            ]
-
-          },
-          {
-            "id": "dipole",
-            "label": "DIPOLE",
-            "children": [
-              {
-                "id": "ss-d1",
-                "label": "SS-D1",
-                "write_pv": "SS_PS:D01:CurSet",
-                "rb_pv": "SS_PS:D01:CurMon",
-                "disabled": false
-              },
-              {
-                "id": "ss-d2",
-                "label": "SS-D2",
-                "write_pv": "SS_PS:D02:CurSet",
-                "rb_pv": "SS_PS:D02:CurMon",
-                "disabled": false
-              }
-            ]
-          }
-        ]
       }
     ]
   },

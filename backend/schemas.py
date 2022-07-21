@@ -104,3 +104,13 @@ class SnapshotAcquire(BaseModel):
 
 class SnapshotId(BaseModel):
     id: int
+
+class HEBTMatch(BaseModel):
+    target: str
+    opti_param: str
+    sample_num: int
+    step: float
+    max_iter: int
+    freq: float
+    ssfc_stop_current: float
+    ssfc_modify_factor: float

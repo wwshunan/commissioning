@@ -137,7 +137,7 @@ def cm_lattice(fobj):
         line_split = line.split()
         if len(line_split) > 9:
             if line_split[9].startswith('Ultri_heavy'):
-                amp = str(round(float(line_split[5])*1099, 2))
+                amp = str(abs(round(float(line_split[6])*1099*0.7314, 2)))
                 phase = line_split[3]
                 cavity_info_append(mebt_bunchers, amp, phase)
             elif line_split[9].startswith(('q120', 'q150')):
@@ -223,7 +223,7 @@ def hebt_lattice(fobj, section):
                 real_current *= -1
 
             hebt_magnets.append(real_current)
-
+    print(hebt_magnets)
     return {
         section.upper(): {
             'magnets': hebt_magnets,
@@ -237,5 +237,3 @@ def load_lattice(tracewin_file, section):
         return hebt_lattice(tracewin_file, 'target')
     else:
         return hebt_lattice(tracewin_file, 'detector')
-    tracewin_file.close()
-

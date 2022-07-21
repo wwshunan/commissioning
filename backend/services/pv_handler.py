@@ -12,17 +12,17 @@ class PhaseScanPVController(object):
         self.cavity_bypass = {}
         self.pvs_one_cavity = {}
         self.mode = PV('CAFe2:CTL_01:Mode')
-        self.current = PV('MEBT_BD:CHAN4_AVG_SUB_OST_VAL')
+        self.current = PV('Bpm:1-S')
 
     def get_orbit_ready(self):
         if {'x', 'y'} <= set(self.pvs_one_cavity.keys()):
-            return self.pvs_one_cavity['x'].get() < 5 and self.pvs_one_cavity['y'].get() < 5
+            return self.pvs_one_cavity['x'].get() < 6 and self.pvs_one_cavity['y'].get() < 6
 
     def get_cavity_ready(self):
         return self.ready.get()
 
     def get_current_ready(self):
-        return self.current.get() > 30
+        return self.current.get() > 1.3e5
         #if 'current_ready' in list(self.pvs_one_cavity.keys()):
         #    return self.pvs_one_cavity['current_ready'].get() > 4e3
 

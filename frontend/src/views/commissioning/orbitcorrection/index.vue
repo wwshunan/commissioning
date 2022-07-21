@@ -140,6 +140,7 @@ export default {
     },
     async compute_strength() {
       const path = '/commissioning/orbit-correction/compute-strength';
+
       const res = await request({
         url: path,
         data: {
@@ -153,13 +154,13 @@ export default {
         method: 'post',
       })
       await this.get_status(res.task_id)
-      console.log(res,' begin')
     },
     async set_corrector() {
       const path = '/commissioning/orbit-correction/set-strength';
       const res = await request({
         url: path,
         data: {
+          keys: this.$refs.tree.getCheckedKeys(),
           strength: this.corrector_strength
         },
         method: 'post',

@@ -250,10 +250,12 @@ def acquire_snapshot(db: Session, begin_date: datetime, end_date: datetime):
 
     return results
 
-def restore_element_values(source, recover_data):
+def restore_element_values(source, recover_data, key=None):
     for s in source:
-        if s['id'] in recover_data:
-            recover_item = recover_data[s['id']]
+        if s['id'].upper() in ['AMP', 'PHASE', 'MAGNET']:
+            key = s['id'].upper()
+        if key and s['id'] in recover_data[key]:
+            recover_item = recover_data[key][s['id']]
             if isinstance(recover_item, tuple):
                 pv_name = s['write_pv']
                 pv_val = recover_item[0]
@@ -262,18 +264,19 @@ def restore_element_values(source, recover_data):
                 pv_val = recover_item
             PV(pv_name).put(pv_val)
         elif 'children' in s:
-            restore_element_values(s['children'], recover_data)
+            restore_element_values(s['children'], recover_data, key)
 
 
 def restore_snapshot(db: Session, snapshot_id: int, source: dict):
     snapshot = db.query(Snapshot).filter(Snapshot.id==snapshot_id).first()
     stored_snapshot_data = snapshot.to_json()
 
-    snapshot_recover = {}
-    for key in stored_snapshot_data:
-        if key in ['MAGNET', 'AMP', 'PHASE']:
-            snapshot_recover.update(stored_snapshot_data[key])
-    restore_element_values(source, snapshot_recover)
+    #snapshot_recover = {}
+    #for key in stored_snapshot_data:
+    #    if key in ['MAGNET', 'AMP', 'PHASE']:
+    #        snapshot_recover.update(stored_snapshot_data[key])
+    #print(snapshot_recover)
+    restore_element_values(source, stored_snapshot_data)
 
 def compare_snapshot(db: Session, snapshot_id: int, source: dict):
     snapshot = db.query(Snapshot).filter(Snapshot.id==snapshot_id).first()

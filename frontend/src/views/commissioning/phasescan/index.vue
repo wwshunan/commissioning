@@ -255,6 +255,10 @@ const particle_data = {
     "mass": 37218.2748,
     "charge": 13
   },
+  "55Mn17+": {
+    "mass": 51165.778,
+    "charge": 17
+  },
 }
 export default {
   components: {
@@ -269,6 +273,7 @@ export default {
         {value: "36Ar12+", text: "36Ar12+"},
         {value: "40Ar13+", text: "40Ar13+"},
         {value: "40Ca13+", text: "40Ca13+"},
+        {value: "55Mn17+", text: "55Mn17+"},
       ],
       in_energy: 4,
       cavity_name: '',
@@ -436,6 +441,7 @@ export default {
       })
       const next_cavity_idx = cavity_array.indexOf(this.cavity_name) + 1
       this.cavity_name = cavity_array[next_cavity_idx]
+      await this.init_bpm_and_amp()
     },
     async setSynchPhase() {
       this.lattice[this.cavity_name].phase = this.synchPhase

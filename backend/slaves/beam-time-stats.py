@@ -125,7 +125,6 @@ class UsageTimeService:
                 self.timing_dict[duty_factor]['beam_time'] += \
                     current_time.timestamp() - self.timing_dict[duty_factor]['start_time']
                 self.timing_dict[duty_factor].pop('start_time')
-            print(self.timing_dict)
             # 早晚八点
             if interrupted != 'true':
                 save_timing(self.timing_dict)
