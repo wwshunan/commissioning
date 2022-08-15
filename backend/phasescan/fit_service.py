@@ -57,6 +57,7 @@ class SingleBPMFit(DataFitBase):
                                for delta in self.cav_phases_rad]
 
         delta_start = self.cav_phases_rad[0]
+        print(phase_in + delta_start)
         if self.rf_direction == 0:
             rf_phase = (phase_in + delta_start - phase_opt) * 180 / np.pi + self.start_phase
         else:
@@ -179,6 +180,7 @@ class DoubleBPMFit(DataFitBase):
                                       for delta in self.cav_phases_rad])
         computed_phases = self.tof_tool.energy_to_phase(self.periods, computed_energies)
         delta_start = self.cav_phases_rad[0]
+        print(phase_in, delta_start, phase_opt)
         if self.rf_direction == 0:
             rf_phase = (phase_in + delta_start - phase_opt) * 180 / np.pi + self.start_phase
         else:
@@ -215,7 +217,7 @@ class DoubleBPMFit(DataFitBase):
         minimum = 0xffffffff
         best_fit_phase = -np.pi
 
-        for phi in np.arange(-np.pi, np.pi, np.pi / 180):
+        for phi in np.arange(-np.pi, np.pi, np.pi / 360):
             err = abs(self.get_process_params(w_in, field_factor, phi)[0] - sync_phase)
             if (err < minimum):
                 minimum = err

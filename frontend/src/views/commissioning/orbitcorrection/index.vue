@@ -81,7 +81,7 @@ export default {
     return {
       form: {
         steer_data: [],
-        alpha: 0.5,
+        alpha: 0,
         rm_step: 4,
         rm_lim: 15,
         sc_step: 14,

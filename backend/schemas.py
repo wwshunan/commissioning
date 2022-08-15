@@ -21,19 +21,14 @@ class EnergyModel(BaseModel):
     mass: float = Field(..., gt=0)
 
 class PhaseScanInfo(BaseModel):
-    bpm_model: str
+    bpm_mode: str
     lattice: dict
     rf_phase: float
-    #amp: List[float]
-    #phase: List[float]
-    #cavity_write_pv: str
-    #cavity_rb_pv: str
-    #cavity_ready_pv: str
-    #bpm1_phase_pv: str
-    #bpm2_phase_pv: str
     cavity_res_time: float
     bpm_read_num: int
     bpm_read_sep: float
+    bpm_harm: str
+    bpm_index: int
 
 class CurveFitInfo(BaseModel):
     cavity_phases: List[float]
@@ -43,8 +38,9 @@ class CurveFitInfo(BaseModel):
     m: float
     q: int
     cavity_name: str
-    bpm_model: str
-
+    bpm_mode: str
+    bpm_harm: int
+    bpm_index: int
 
 class SmoothData(BaseModel):
     xs: List[float]

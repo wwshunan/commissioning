@@ -6,32 +6,31 @@
     <el-main>
       <el-row :gutter="40">
         <el-col :span="8">
-          <el-form  @submit.prevent="onSubmit" enctype="multipart/form-data" size="mini">
+          <el-form @submit.prevent="onSubmit" enctype="multipart/form-data" size="mini">
             <el-form-item label="扫相模式">
               <el-radio-group v-model="selected">
-                <el-radio v-for="item in options"
-                          :label="item.value"
-                          :key="item.value">
+                <el-radio v-for="item in options" :label="item.value" :key="item.value">
                   {{item.name}}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="BPM模式">
-              <el-radio-group v-model="bpm_model_selected">
-                <el-radio v-for="item in bpm_model_options"
-                          :label="item.value"
-                          :key="item.value">
+            <el-form-item label="BPM个数">
+              <el-radio-group v-model="bpm_mode_selected" @change="reset_bpm">
+                <el-radio v-for="item in bpm_mode_options" :label="item.value" :key="item.value">
+                  {{item.name}}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="BPM频率" v-if="bpm_mode_selected === 'single'">
+              <el-radio-group v-model="bpm_harm_selected">
+                <el-radio v-for="item in bpm_harm_options" :label="item.value" :key="item.value">
                   {{item.name}}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="粒子种类">
               <el-select v-model="particle_type">
-                <el-option
-                    v-for="item in particle_options"
-                    :key="item.text"
-                    :label="item.text"
-                    :value="item.value">
+                <el-option v-for="item in particle_options" :key="item.text" :label="item.text" :value="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -41,14 +40,18 @@
               </el-col>
             </el-form-item>
             <el-form-item label="腔体序号">
-              <el-select v-model="cavity_name" @change="init_bpm_and_amp">
-                <el-option
-                    v-for="item in cavity_options"
-                    :key="item.text"
-                    :label="item.text"
-                    :value="item.value">
-                </el-option>
-              </el-select>
+              <el-col :span="12">
+                <el-select v-model="cavity_name" @change="init_bpm_and_amp">
+                  <el-option v-for="item in cavity_options" :key="item.name" :label="item.name" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="8">
+                <el-select v-model="bpm_select" v-if="bpm_mode_selected === 'single'">
+                  <el-option v-for="item in bpm_options" :key="item.name" :label="item.name" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
             </el-form-item>
             <el-form-item>
               <el-row :gutter="10">
@@ -153,10 +156,10 @@
             <el-form-item>
               <el-row type="flex" justify="end">
                 <el-col :span="5">
-                  <el-button  type="primary" @click="start_scan" :disabled="scan_disabled">开始</el-button>
+                  <el-button type="primary" @click="start_scan" :disabled="scan_disabled">开始</el-button>
                 </el-col>
                 <el-col :span="5">
-                  <el-button  type="warning" @click="onPause">{{ pause_text }}</el-button>
+                  <el-button type="warning" @click="onPause">{{ pause_text }}</el-button>
                 </el-col>
                 <el-col :span="5">
                   <el-button type="danger" @click="stop=true">停止</el-button>
@@ -166,18 +169,11 @@
           </el-form>
         </el-col>
         <el-col :span="16">
-          <apexchart class="chart"
-                   :options="chart_option"
-                   :series="series"
-                   ref="chart"
-          />
+          <div ref="chart"></div>
           <div class="scrollable">
             <fit-report v-for="(record, i) in fit_records" :key="record.cavity_name + i"
-                       :cavity_name="record.cavity_name"
-                       :fit_phase="record.phase"
-                       :fit_amp="record.amp"
-                       :fit_energy="record.energy"
-            ></fit-report>
+              :cavity_name="record.cavity_name" :fit_phase="record.phase" :fit_amp="record.amp"
+              :fit_energy="record.energy"></fit-report>
           </div>
         </el-col>
       </el-row>
@@ -186,7 +182,7 @@
 </template>
 
 <script>
-import fit_icon from "@/assets/fit.svg";
+//import fit_icon from "@/assets/fit.svg";
 import move_up_icon from "@/assets/move-up.svg";
 import move_down_icon from "@/assets/move-down.svg";
 import delete_icon from "@/assets/delete.svg";
@@ -194,8 +190,32 @@ import delete_icon from "@/assets/delete.svg";
 import { Message } from 'element-ui'
 import request from '@/utils/request'
 
-import VueApexCharts  from "vue-apexcharts";
+import Plotly from 'plotly.js-dist-min'
 import FitReport from "@/components/FitReport/index"
+
+var fit_icon = {
+  'width': 500,
+  'height': 600,
+  'path': "M64 400C64 408.8 71.16 416 80 416H480C497.7 416 512 430.3 512 448C512 465.7 497.7 480 480 480H80C35.82 480 0 444.2 0 400V64C0 46.33 14.33 32 32 32C49.67 32 64 46.33 64 64V400zM342.6 278.6C330.1 291.1 309.9 291.1 297.4 278.6L240 221.3L150.6 310.6C138.1 323.1 117.9 323.1 105.4 310.6C92.88 298.1 92.88 277.9 105.4 265.4L217.4 153.4C229.9 140.9 250.1 140.9 262.6 153.4L320 210.7L425.4 105.4C437.9 92.88 458.1 92.88 470.6 105.4C483.1 117.9 483.1 138.1 470.6 150.6L342.6 278.6z" 
+}
+
+var down_icon = {
+  'width': 500,
+  'height': 600,
+  'path': "M374.6 310.6l-160 160C208.4 476.9 200.2 480 192 480s-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 370.8V64c0-17.69 14.33-31.1 31.1-31.1S224 46.31 224 64v306.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0S387.1 298.1 374.6 310.6z" 
+}
+
+var up_icon = {
+  'width': 500,
+  'height': 600,
+  'path': "M374.6 246.6C368.4 252.9 360.2 256 352 256s-16.38-3.125-22.62-9.375L224 141.3V448c0 17.69-14.33 31.1-31.1 31.1S160 465.7 160 448V141.3L54.63 246.6c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160C387.1 213.9 387.1 234.1 374.6 246.6z" 
+}
+
+var del_icon = {
+  'width': 500,
+  'height': 600,
+  'path': "M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" 
+}
 
 function make_watch_func(var_name) {
   return function(new_value) {
@@ -241,7 +261,6 @@ const particle_data = {
 }
 export default {
   components: {
-    apexchart: VueApexCharts,
     FitReport
   },
   data() {
@@ -257,6 +276,8 @@ export default {
       in_energy: 4,
       cavity_name: '',
       cavity_options: [],
+      bpm_select: '',
+      bpm_options: [],
       cavity_infos: {},
       start_phase: -178,
       current_phase: -178,
@@ -269,12 +290,17 @@ export default {
         {value: 'manual', name: '人工扫相'},
         {value: 'auto', name: '自动扫相'}
       ],
-      bpm_model_options: [
-        {value: 'single', name: '单BPM扫相'},
-        {value: 'double', name: '双BPM扫相'}
+      bpm_mode_options: [
+        {value: 'single', name: '单BPM'},
+        {value: 'double', name: '双BPM'}
+      ],
+      bpm_harm_options: [
+        {value: 'single', name: '基频'},
+        {value: 'double', name: '二倍频'}
       ],
       selected: 'manual',
-      bpm_model_selected: 'double',
+      bpm_mode_selected: 'double',
+      bpm_harm_selected: 'double',
       amp_limit_file: null,
       amp_limit: 0,
       amp: 0,
@@ -293,186 +319,99 @@ export default {
       fit_records: [],
       coordRange: {},
       fail_times: 0,
-      series: [
+      selected_points: [],
+      chart_data:[
         {
-          name: "",
-          data: [],
+          x: [],
+          y: [],
+          mode: 'lines+markers'
         },
         {
-          name: "",
-          data: []
+          x: [],
+          y: [],
+          mode: 'lines+markers'
         },
         {
-          name: "",
-          data: [],
+          name: 'curve fit',
+          x: [],
+          y: [],
+          mode: 'lines+markers'
         },
         {
-          name: "",
-          data: [],
-        }
+          x: [],
+          y: [],
+          mode: 'lines+markers'
+        },
+
       ],
-      chart_option: {
-        chart: {
-          type: "line",
-          selection: {
-            enabled: true,
-            type: 'xy',
-          },
-          toolbar: {
-            show: true,
-            tools: {
-              selection: true,
-              zoom: false,
-              zoomin: false,
-              pan: false,
-              zoomout: false,
-              reset: false,
-              customIcons: [{
-                icon: '<img src='+fit_icon+' width="14" text-align="center" vertical-align="center">',
-                index: 1,
-                title: '拟合',
-                class: 'custom-icon',
-                click: function (chart, options, e) {
-                  console.log("clicked custom-icon")
-                }
-              },
-              {
-                icon: '<img src='+move_up_icon+' width="14" text-align="center" vertical-align="center">',
-                index: 2,
-                title: 'BPM相位加360度',
-                class: 'custom-icon',
-                click: function (chart, options, e) {
-                  console.log("clicked custom-icon")
-                }
-              },
-              {
-                icon: '<img src='+move_down_icon+' width="14" text-align="center" vertical-align="center">',
-                index: 3,
-                title: 'BPM相位减360度',
-                class: 'custom-icon',
-                click: function (chart, options, e) {
-                  console.log("clicked custom-icon")
-                }
-              },
-              {
-                icon: '<img src='+delete_icon+' width="14" text-align="center" vertical-align="center">',
-                index: 4,
-                title: '删除选中数据点',
-                class: 'custom-icon',
-                click: function (chart, options, e) {
-                  console.log("clicked custom-icon")
-                }
-              }
-              ],
-            }
-          },
-          events: {
-            selection: function(chartContext, { xaxis, yaxis}) {
-              if (Array.isArray(yaxis)) {
-                this.coordRange = [[xaxis.min, xaxis.max], [yaxis[0].min, yaxis[0].max]]
-              }
-          }
-          }
-        },
-        title: {
-          text: "腔体相位 vs BPM相位",
-          align: "center"
-        },
-        //tooltip: {
-        //  trigger: "axis",
-        //},
-        legend: {
-        },
-        //legend: {
-        //  orient: "vertical",
-        //  left: "right",
-        //  data: []
-        //},
-        stroke: {
-          curve: "straight",
-          width: 2
-        },
-        markers: {
-          size: 4,
-        },
+      layout: {
+        title: "腔体相位 vs BPM相位",
         xaxis: {
-          type: "numeric",
           title: {
             text: "腔体相位 [deg]"
           }
         },
         yaxis: {
-          type: "numeric",
           title: {
             text: "BPM相位 [deg]"
           }
-        },
-        //xAxis: {
-        //  name: '腔体相位 [deg]',
-        //  nameLocation: "middle",
-        //  nameGap: 30,
-        //  scale: true,
-        //  position: "bottom"
-        //},
-        //yAxis: {
-        //  name: 'BPM相位 [deg]',
-        //  nameLocation: "middle",
-        //  nameGap: 50,
-        //  scale: true,
-        //  position: "left",
-        //},
-        //toolbox: {
-        //  show: true,
-        //  feature: {
-        //    saveAsImage: {},
-        //    myCurveFit: {
-        //      show: true,
-        //      title: 'curve fit',
-        //      icon: "image://" + fit_icon + "",
-        //      onclick: async () => {
-        //        let res = await this.curve_fit()
-        //      }
-        //    },
-        //    myMoveUp: {
-        //      show: true,
-        //      title: 'move up 360deg',
-        //      icon: "image://" + move_up_icon + "",
-        //      onclick: () => {
-        //        this.process_points('move_up')
-        //      },
-        //    },
-        //    myMoveDown: {
-        //      show: true,
-        //      title: 'move up 360deg',
-        //      icon: "image://" + move_down_icon + "",
-        //      onclick: () => {
-        //        this.process_points('move_down')
-        //      }
-        //    },
-        //    myDelete: {
-        //      show: true,
-        //      title: 'delete',
-        //      icon: "image://" + delete_icon + "",
-        //      onclick: () => {
-        //        this.process_points('delete')
-        //      }
-        //    }
-        //  }
-        //},
-        //brush: {
-        //  toolbox: ['rect'],
-        //  xAxisIndex: 0
-        //},
+        }
+      },
+      config: {
+        modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d'],
+        modeBarButtonsToAdd: [
+          {
+            name: '拟合',
+            icon: fit_icon,
+            click: async (gd) => { 
+              let res = await this.curve_fit()
+            }
+          },
+          {
+            name: '减360度',
+            icon: down_icon,
+            click: () => {
+              this.manipulate_points('move_down')
+            }
+          },
+          {
+            name: '加360度',
+            icon: up_icon,
+            click: () => {
+              this.manipulate_points('move_up')
+            }
+          },
+          {
+            name: '删除',
+            icon: del_icon,
+            click: () => {
+              this.manipulate_points('delete')
+            }
+          },
+        ],
+        displaylogo: false
       }
-
     }
   },
   methods: {
+    reset_bpm() {
+      if (this.bpm_mode_selected === 'double') {
+        this.bpm_harm_selected = 'double'
+        this.bpm_select = this.bpm_options[0].value
+      }
+    },
     async init_bpm_and_amp() {
-      this.bpm_model_selected = this.cavity_infos[this.cavity_name]['bpm_mode']
+      this.bpm_mode_selected = this.cavity_infos[this.cavity_name]['bpm_mode']
+      this.bpm_options = ['bpm1_name', 'bpm2_name', 'bpm3_name'].map(e => {
+        return {
+          value: this.cavity_infos[this.cavity_name][e], 
+          name: this.cavity_infos[this.cavity_name][e]
+        }
+      }) 
+      this.bpm_select= this.bpm_options[0].name
       await this.init_pvs({
         cavity_name: this.cavity_name,
-        bpm_mode: this.bpm_model_selected
+        bpm_mode: this.bpm_mode_selected
       })
       await this.get_amp()
     },
@@ -511,42 +450,33 @@ export default {
         duration: 5 * 1000
       })
     },
-    process_points(kind) {
-      let exit_loop = false
-      this.series.every((s, index) => {
-        if (exit_loop) {
-          return false
-        }
-        if ([0, 1].includes(index)) {
-          let h_coord_range = this.coordRange[0]
-          let v_coord_range = this.coordRange[1]
-          s.data.forEach((e, i, arr) => {
-            if ((e[0] > h_coord_range[0]) && (e[0] < h_coord_range[1]) &&
-                (e[1] > v_coord_range[0]) && (e[1] < v_coord_range[1])) {
-              switch (kind) {
-                case 'move_up': {
-                  arr.splice(i, 1, [e[0], e[1] + 360])
-                  break
-                }
-                case 'move_down': {
-                  arr.splice(i, 1, [e[0], e[1] - 360])
-                  break
-                }
-                default: {
-                  let series_array = [0, 1, 2]
-                  series_array.forEach(series_index => {
-                    if (this.series[series_index].data.length !== 0) {
-                      this.series[series_index].data.splice(i, 1)
-                    }
-                  })
-                  exit_loop = true
-                }
+    manipulate_points(kind) {
+      let prev_point_index = this.selected_points.length 
+      this.selected_points.reverse().forEach(p => {
+        switch (kind) {
+          case 'move_up': {
+            this.chart_data[p.curveNumber]['y'][p.pointIndex] += 360
+            break
+          }
+          case 'move_down': {
+            this.chart_data[p.curveNumber]['y'][p.pointIndex] -= 360
+            break
+          }
+          default: {
+            if (p.pointIndex === prev_point_index) 
+              break
+            let series_array = [0, 1, 2]
+            series_array.forEach(series_index => {
+              if (this.chart_data[series_index].x.length !== 0) {
+                this.chart_data[series_index].x.splice(p.pointIndex, 1)
+                this.chart_data[series_index].y.splice(p.pointIndex, 1)
               }
-            }
-          })
+            prev_point_index = p.pointIndex
+            })
+          }
         }
-        return true
       })
+      Plotly.redraw(this.$refs.chart)
     },
     async load_cavity_infos() {
       let response = await request({
@@ -593,7 +523,7 @@ export default {
       //if (this.$storage.has('particle_type')) {
       //  this.particle_type = this.$storage.get('particle_type')
       //}
-      this.bpm_model_selected = this.cavity_infos[this.cavity_name]['bpm_mode']
+      this.bpm_mode_selected = this.cavity_infos[this.cavity_name]['bpm_mode']
     },
     async init_pvs(cavity_info) {
       const path = '/commissioning/phasescan/init-pvs';
@@ -623,18 +553,6 @@ export default {
       }
       return res
     },
-    //async start_monitor(millisec) {
-    //  const path = '/commissioning/phasescan/get-status'
-    //  let self = this.monitor
-    //  await this.fetch_ready_status(path)
-    //  async function interval()  {
-    //    if (self.monitor) {
-    //      setTimeout(interval, millisec);
-    //      await this.fetch_ready_status(path)
-    //    }
-    //  }
-    //  setTimeout(interval, millisec)
-    //},
 
     async start_monitor() {
       this.monitor = true
@@ -663,7 +581,6 @@ export default {
       this.monitor = false
     },
     async start_scan() {
-      console.log(fit_icon)
       this.scan_disabled = true
       let path = '/commissioning/phasescan/set-mode'
       await request({
@@ -676,7 +593,7 @@ export default {
       let res
 
       if (this.selected === "manual")  {
-        let exit_scan = await this.one_cavity_scan()
+        let exit_scan = await this.scan_per_cavity()
         if (exit_scan) {
           this.stop = false
         }
@@ -691,11 +608,6 @@ export default {
         const start_cavity_idx = cavity_array.indexOf(this.cavity_name)
         let cavity_range = this.cavity_options.slice(start_cavity_idx)
         for (const cav of cavity_range) {
-          await this.init_pvs({
-            cavity_name: this.cavity_name,
-            bpm_mode: this.bpm_model_selected
-          })
-
           let count = 0
           while (count < 3) {
             if (this.amp > this.amp_limit) {
@@ -707,7 +619,7 @@ export default {
               })
             }
             this.cavity_name = cav.value
-            let exit_scan = await this.one_cavity_scan()
+            let exit_scan = await this.scan_per_cavity()
             if (exit_scan) {
               this.stop = false
               return
@@ -777,18 +689,14 @@ export default {
         method: 'post',
       })
     },
-    async one_cavity_scan() {
-      console.log('start')
+    async scan_per_cavity() {
       this.clear_figure()
-      console.log('start2')
-
       let start_phase = parseFloat(this.start_phase)
       let stop_phase = parseFloat(this.stop_phase)
       let step = parseFloat(this.scan_step)
       const bpm_read_num = parseInt(this.bpm_read_num)
       const bpm_read_sep = parseFloat(this.bpm_read_sep)
       const cavity_info = this.cavity_infos[this.cavity_name]
-      console.log('start3')
       //const cavity_write_pv = cavity_info['phase_write_pv']
       //const cavity_rb_pv = cavity_info['phase_readback_pv']
       //const cavity_ready_pv = cavity_info['ready_pv']
@@ -804,7 +712,7 @@ export default {
       //  path = '/commissioning/phasescan/double-bpm-phase-set';
       //  this.chart_option.series[1].name = cavity_info['bpm2_name']
       //}
-      this.series[0].name = cavity_info['bpm1_name']
+      this.chart_data[0].name = cavity_info['bpm1_name']
       //const bpm1_pv = cavity_info['bpm1_pv']
       //const bpm2_pv = cavity_info['bpm2_pv']
 
@@ -819,15 +727,16 @@ export default {
       bypass_cavities.forEach((name) => {
         this.lattice[name].amp = 0
       })
-      console.log('start4')
       while ((phase < stop_phase)) {
 
         this.lattice[this.cavity_name].amp = this.amp
         this.lattice[this.cavity_name].phase = phase
         const payload = {
-          bpm_model: this.bpm_model_selected,
+          bpm_mode: this.bpm_mode_selected,
           lattice: this.lattice,
           rf_phase: phase,
+          bpm_index: this.bpm_options.map(e=>{return e.value}).indexOf(this.bpm_select),
+          bpm_harm: this.bpm_harm_selected,
           //bypass_cavities: bypass_cavities,
           //amp: this.amp,
           //phase: phase,
@@ -848,6 +757,7 @@ export default {
         let point1 = response['point1']
         let point2 = response['point2']
 
+        Plotly.redraw(this.$refs.chart)
         if (this.scan_unready) {
           while (!this.ready && !this.stop) {
             await new Promise(r => setTimeout(r, 1000));
@@ -858,10 +768,12 @@ export default {
 
         }
 
-        this.series[0].data.push([phase, point1['bpm_phase']])
+        this.chart_data[0].x.push(phase)
+        this.chart_data[0].y.push(point1['bpm_phase'])
         line1_errs.push(point1['err'])
-        if (this.bpm_model_selected === 'double') {
-          this.series[1].data.push([phase, point2['bpm_phase']])
+        if (this.bpm_mode_selected === 'double') {
+          this.chart_data[1].x.push(phase)
+          this.chart_data[1].y.push(point2['bpm_phase'])
           line2_errs.push(point2['err'])
         }
         phase += step
@@ -872,7 +784,6 @@ export default {
           this.stop_monitor()
           return true
         }
-        this.$refs["chart"].updateSeries(this.series)
       }
 
 
@@ -882,19 +793,21 @@ export default {
       let ys = []
 
       let y1s = []
-      this.series[0].data.forEach(e => {
-        xs.push(e[0])
-        y1s.push(e[1])
+      this.chart_data[0].x.forEach(e => {
+        xs.push(e)
+      })
+      this.chart_data[0].y.forEach(e => {
+        y1s.push(e)
       })
 
       ys.push(y1s)
 
       let errs = []
       errs.push(line1_errs)
-      if (this.bpm_model_selected === "double") {
+      if (this.bpm_mode_selected === "double") {
         let y2s = []
-        this.series[1].data.forEach(e => {
-          y2s.push(e[1])
+        this.chart_data[1].y.forEach(e => {
+          y2s.push(e)
         })
         ys.push(y2s)
         errs.push(line2_errs)
@@ -913,23 +826,33 @@ export default {
       xs = response['xs']
       ys = response['ys']
       const arr_len = xs.length
-      this.series[0].data = []
-      this.series[1].data = []
+      this.chart_data[0].x = []
+      this.chart_data[0].y = []
+      this.chart_data[1].x = []
+      this.chart_data[1].y = []
       for (let i=0; i !== arr_len; i++) {
-        this.series[0].data.push([xs[i], ys[0][i]])
-        if (this.bpm_model_selected === "double") {
-          this.series[1].data.push([xs[i], ys[1][i]])
-          this.series[2].data.push([xs[i], ys[1][i] - ys[0][i]])
+        this.chart_data[0].x.push(xs[i])
+        this.chart_data[0].y.push(ys[0][i])
+        if (this.bpm_mode_selected === "double") {
+          this.chart_data[1].x.push(xs[i])
+          this.chart_data[1].y.push(ys[1][i])
+          this.chart_data[2].x.push(xs[i])
+          this.chart_data[2].y.push(ys[1][i] - ys[0][i])
         }
       }
+      Plotly.redraw(this.$refs.chart)
       this.stop_monitor()
       return false
     },
     clear_figure() {
-      this.series[0].data = []
-      this.series[1].data = []
-      this.series[2].data = []
-      this.series[3].data = []
+      this.chart_data[0].x = []
+      this.chart_data[1].x = []
+      this.chart_data[2].x = []
+      this.chart_data[3].x = []
+      this.chart_data[0].y = []
+      this.chart_data[1].y = []
+      this.chart_data[2].y = []
+      this.chart_data[3].y = []
     },
     onPause() {
       this.pause = !this.pause
@@ -940,17 +863,17 @@ export default {
       }
     },
     async curve_fit() {
-      this.series[3].data = []
+      this.chart_data[3].x = []
+      this.chart_data[3].y = []
       const path = '/commissioning/phasescan/curve-fit'
       let xs = []
       let ys = []
-      this.series[0].data.forEach((e, i) => {
-        xs.push(e[0])
-        if (this.bpm_model_selected === "single") {
-          ys.push(e[1])
+      this.chart_data[0].x.forEach((e, i) => {
+        xs.push(e)
+        if (this.bpm_mode_selected === "single") {
+          ys.push(this.chart_data[0].y[i])
         } else {
-          ys.push([this.series[0].data[i][1],
-            this.series[1].data[i][1]])
+          ys.push([this.chart_data[0].y[i], this.chart_data[1].y[i]])
         }
       })
       const payload = {
@@ -961,7 +884,9 @@ export default {
         'm': parseFloat(particle_data[this.particle_type]["mass"]),
         'q': parseInt(particle_data[this.particle_type]["charge"]),
         'cavity_name': this.cavity_name,
-        'bpm_model': this.bpm_model_selected
+        'bpm_mode': this.bpm_mode_selected,
+        'bpm_harm': this.bpm_harm_selected === 'single' ? 1: 2,
+        'bpm_index': this.bpm_options.map(e => { return e.value }).indexOf(this.bpm_select),
       }
       const response = await request({
         url: path,
@@ -973,8 +898,10 @@ export default {
       for (let i=0; i !== fit_xs.length; i++) {
         let x = fit_xs[i]
         let y = fit_ys[i]
-        this.series[3].data.push([x, y])
+        this.chart_data[3].x.push(x)
+        this.chart_data[3].y.push(y)
       }
+      Plotly.redraw(this.$refs.chart)
       let fit_record = {}
       fit_record['cavity_name'] = this.cavity_name
       fit_record['phase'] = response.rf_phase.toFixed(2)
@@ -997,13 +924,19 @@ export default {
     })
   },
   beforeRouteLeave(to, from, next) {
-    if (!window.confirm("确定离开当前窗口吗？")) {
-      return;
-    }
+
+    //if (!window.confirm("确定离开当前窗口吗？")) {
+    //  return;
+    //}
     this.stop = true
     next()
   },
   async mounted() {
+    Plotly.newPlot(this.$refs.chart, this.chart_data, this.layout, this.config)
+    this.$refs.chart.on('plotly_selected', (eventData) => {
+      if (eventData !== undefined)
+        this.selected_points = eventData.points
+    })
     await this.load_cavity_infos()
     await this.init_bpm_and_amp()
   },

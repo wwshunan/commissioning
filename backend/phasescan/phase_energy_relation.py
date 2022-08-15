@@ -8,7 +8,7 @@ basedir = Path(__file__).resolve().parent
 
 class TofPhaseTransformer(object):
     def __init__(self, cavity_name, freq, mass):
-        self.tof_bpm_distance = 2.02635
+        self.tof_bpm_distance = 0.61315
         self.cavity_name = cavity_name
         self.tof_relations = pd.read_csv(basedir.joinpath('bpm_phase_tof.txt'), sep=r'\s+')
         self.tof_relation = self.tof_relations.loc[
@@ -38,7 +38,7 @@ class TofPhaseTransformer(object):
         return bpm_phase_diff
 
     def calc_tof_period(self, phase_diff, energy):
-        tof_max_periods = 10
+        tof_max_periods = 20
         phase_diffs = []
         for i in range(-tof_max_periods, tof_max_periods):
             phase_diffs.append(phase_diff + i * 360)

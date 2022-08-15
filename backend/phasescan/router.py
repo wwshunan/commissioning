@@ -46,7 +46,7 @@ async def config(cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis))
 async def init_pvs(cavity_info: CavityModel,
                    cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
     # monitor_cols = ['phase_write_pv', 'phase_readback_pv', 'ready_pv', 'bpm1_pv', 'bpm2_pv']
-    params_one_cavity = ['amp_limit_pv', 'bpm1_pv', 'bpm2_pv', 'current_ready', 'x', 'y']
+    params_one_cavity = ['amp_limit_pv', 'bpm1_pv', 'bpm2_pv', 'bpm3_pv', 'current_ready', 'x', 'y']
     # phases = pd.read_csv(basedir.joinpath('resources', 'synch_phases.txt'),
     #                     header=0, sep='\s+')
     pvs = pd.read_csv(basedir.joinpath('resources', 'config.txt'),
@@ -64,7 +64,12 @@ async def init_pvs(cavity_info: CavityModel,
     pv_controller.finished.put(json.dumps({cavity_info.cavity_name: False}))
     for label in params_one_cavity:
         pv_name = pvs.loc[cavity_info.cavity_name, label]
-        pv_controller.pvs_one_cavity[label] = PV(pv_name)
+        if '|' in pv_name:
+            pv_single, pv_double = pv_name.split('|')
+            pv_controller.pvs_one_cavity[label] = (PV(pv_single), PV(pv_double))
+        else:
+            pv_controller.pvs_one_cavity[label] = PV(pv_name)
+
     for cavity_name in pvs.index:
         pv_controller.amps[cavity_name] = PV(pvs.loc[cavity_name, 'amp_write_pv'])
         pv_controller.phases[cavity_name] = PV(pvs.loc[cavity_name, 'phase_write_pv'])
@@ -180,7 +185,7 @@ async def calibrated_amp(cavity: CavityAmp):
 async def read_bpm_phase(cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
     bpm_vals = []
     for i in range(6):
-        bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'].get()
+        bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'][0].get()
         bpm_vals.append(bpm1_val)
         await asyncio.sleep(1)
     bpm_name = await cache.get('bpm1_name')
@@ -240,9 +245,10 @@ async def phase_set(data: PhaseScanInfo,
     bpm1_vals = []
     bpm2_vals = []
 
+    harm_index = 0 if data.bpm_harm == 'single' else 1
     for _ in range(data.bpm_read_num):
-        bpm1_val = pv_controller.pvs_one_cavity['bpm1_pv'].get()
-        bpm2_val = pv_controller.pvs_one_cavity['bpm2_pv'].get()
+        bpm1_val = pv_controller.pvs_one_cavity[f'bpm{data.bpm_index+1}_pv'][harm_index].get()
+        bpm2_val = pv_controller.pvs_one_cavity['bpm2_pv'][harm_index].get()
         bpm1_vals.append(bpm1_val)
         bpm2_vals.append(bpm2_val)
         await asyncio.sleep(data.bpm_read_sep)
@@ -307,16 +313,17 @@ async def curve_fit(data: CurveFitInfo,
     synch_phase_fname = basedir.joinpath('resources', 'synch_phases.txt')
     df = pd.read_csv(synch_phase_fname, header=0, sep=r'\s+')
     synch_phase = df[df['cavity_name'] == cavity_name]['synch_phase'].item()
+    bpm_harm = data.bpm_harm
 
     config_fname = basedir.joinpath('resources', 'config.txt')
     config_infos = pd.read_csv(config_fname, header=0, sep='\s+')
     cavity_info = config_infos[config_infos['cavity_name'] == cavity_name]
 
-    payload = {'distance': cavity_info['distance'].item(),
+    payload = {'distance': cavity_info[f'distance{data.bpm_index+1}'].item(),
                'field_name': cavity_info['field_name'].item() + '.txt',
                'sync_phase': synch_phase,
                'freq': 162.5e6,
-               'bpm_harm': 1,
+               'bpm_harm': bpm_harm,
                'bpm_polarity': 1,
                'Epk_ref': cavity_info['Epk_ref'].item(),
                'rf_direction': cavity_info['rf_direction'].item()

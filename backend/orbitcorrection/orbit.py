@@ -153,13 +153,13 @@ class OrbitGather(object):
         orbit /= avg_num
         return orbit
 
-    def get_orbit(self):
+    def get_orbit(self, delay=1):
         m = len(self.bpms)
         orbit = np.zeros(2 * m)
         for i, bpm in enumerate(self.bpms):
             orbit[i] += bpm.x - bpm.x_ref
             orbit[i+m] += bpm.y - bpm.y_ref
-        time.sleep(1)
+        time.sleep(delay)
         return orbit
 
     def get_orbit_diff(self, cor_id):
@@ -234,7 +234,7 @@ class MeasureResponseMatrix(object):
             rb_val = self.prev_cor.current
             while abs(rb_val - self.prev_cor_current) > 0.2:
                 time.sleep(0.5)
-                rb_val = cor.current
+                rb_val = self.prev_cor.current
 
         rb_val = cor.current
 

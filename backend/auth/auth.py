@@ -18,7 +18,7 @@ class Auth():
 
     def encode_token(self, username):
         payload = {
-            'exp': datetime.utcnow() + timedelta(days=0, hours=6),
+            'exp': datetime.utcnow() + timedelta(days=30, hours=0),
             'iat': datetime.utcnow(),
             'scope': 'access_token',
             'sub': username
@@ -42,7 +42,7 @@ class Auth():
 
     def encode_refresh_token(self, username):
         payload = {
-            'exp': datetime.utcnow() + timedelta(days=0, hours=24),
+            'exp': datetime.utcnow() + timedelta(days=100, hours=0),
             'iat': datetime.utcnow(),
             'scope': 'refresh_token',
             'sub': username

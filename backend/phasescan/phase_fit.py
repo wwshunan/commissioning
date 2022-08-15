@@ -7,7 +7,7 @@ class PhaseFit(object):
         self.payload['bpm_phases'] = np.array(self.payload['bpm_phases'])
 
     def fit(self):
-        if self.payload['bpm_model'] == 'double':
+        if self.payload['bpm_mode'] == 'double':
             fit_obj = DoubleBPMFit(**self.payload)
             rf_phase, w_in, w_gain, amp, e, x_plot, y_plot = fit_obj.bpm_fit()
         else:

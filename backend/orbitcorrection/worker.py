@@ -1,5 +1,4 @@
-from .orbit import (OrbitGather, CorrectorGather, Orbit, Corrector,
-                    MeasureResponseMatrix, ResponseMatrix)
+from .orbit import OrbitGather, CorrectorGather, Orbit, MeasureResponseMatrix, ResponseMatrix
 from rq import get_current_job
 import numpy as np
 import time
@@ -15,34 +14,32 @@ def create_task(keys, rm_step, sc_step, rm_lim, sc_lim, alpha):
     angles = orbit.correct(alpha)
     return angles
 
-def test():
-    job = get_current_job()
-    job.meta['word'] = []
-    for i in range(60):
-        job.meta['word'].append(i)
-        job.save()
-        time.sleep(1)
-        print(i)
-
-
+#def test():
+#    job = get_current_job()
+#    job.meta['word'] = []
+#    for i in range(60):
+#        job.meta['word'].append(i)
+#        job.save()
+#        time.sleep(1)
+#        print(i)
 
 def set_corrector_strength(keys, strength):
     gathered_orbit = OrbitGather(keys)
     gathered_cors = CorrectorGather(keys)
     optimal_orbit = 0xFFFF
-    cor_objs = []
     optimal_correctors = []
 
     for cor_obj, cor in zip(gathered_cors.cors, strength):
         cor_obj.current = cor['value']
 
-    while True:
+    terminate = False
+    while not terminate:
         for i, cor in enumerate(strength):
             if abs(gathered_cors.cors[i].current - cor['value']) > 0.2:
                 break
         else:
-            break
-        orbit = gathered_orbit.get_orbit()
+            terminate = True
+        orbit = gathered_orbit.get_orbit(delay=0)
         if optimal_orbit > np.average(np.sum(orbit)):
             optimal_correctors = []
             for cor_obj in gathered_cors.cors:

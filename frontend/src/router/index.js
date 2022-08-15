@@ -81,6 +81,18 @@ export const asyncRoutes = [
         name: 'Snapshot',
         meta: { title: 'Snapshot', roles: ['admin', 'user'] },
       },
+	  {
+        path: 'hebt-match',
+        component: () => import('@/views/commissioning/hebt-match/index'), // Parent router-view
+        name: 'HEBT match',
+        meta: { title: 'HEBT match', roles: ['admin', 'user'] },
+      },
+	  {
+        path: 'manual',
+        component: () => import('@/views/commissioning/manual/index'), // Parent router-view
+        name: 'Manual',
+        meta: { title: 'Manual', roles: ['admin', 'user'] },
+      },	
 	  
     ]
   },
