@@ -25,4 +25,8 @@
     }
   }
 }
+
+.el-table__body tr.current-row > td {
+   background-color: #92cbf1 !important;
+}
 </style>

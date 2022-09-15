@@ -88,6 +88,12 @@ export const asyncRoutes = [
         meta: { title: 'HEBT match', roles: ['admin', 'user'] },
       },
 	  {
+        path: 'sequencer',
+        component: () => import('@/views/commissioning/sequencer/index'), // Parent router-view
+        name: 'Sequencer',
+        meta: { title: 'HEBT match', roles: ['admin', 'user'] },
+      },
+	  {
         path: 'manual',
         component: () => import('@/views/commissioning/manual/index'), // Parent router-view
         name: 'Manual',
