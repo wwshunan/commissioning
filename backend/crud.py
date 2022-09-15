@@ -8,6 +8,13 @@ from dateutil import tz
 import os
 import json
 
+results = {
+    'NOT_STARTED': "<span>NOT_STARTED</span>",
+    'FINISHED': "<span style='color: green; '>FINISHED</span>",
+    'FINISHED_FAULTY': "<span style='color: red; '>FINISHED_FAULTY</span>",
+    'SKIPPED': "<span style='color: yellow; '>SKIPPED</span>",
+}
+
 db_maps = {
     'buncher1': 'cavity 0',
     'buncher2': 'cavity 1',
@@ -66,6 +73,21 @@ def get_beam_time(db: Session, begin_time: datetime, end_time: datetime):
     return data
 
 
+def insert_tasks(session: Session):
+    with open(os.path.join(basedir, 'sequencer/resources/task_data.json')) as f:
+        data = json.load(f)
+    for task_name in data:
+        if data[task_name]["task_type"] == "seq":
+            sequence = Task(
+                task_type="seq",
+                name=data[task_name]["name"],
+                description=data[task_name]["description"],
+                task_level=0,
+                children=create_sequence(data, task_name, task_level=1)
+            )
+            session.add(sequence)
+    session.commit()
+
 def create_sequence(data: dict, sequence_name: str, task_level: int):
     children = []
     tasks = data[sequence_name]["tasks"]
@@ -88,27 +110,43 @@ def create_sequence(data: dict, sequence_name: str, task_level: int):
                 name=child["name"],
                 description=child["description"],
                 task_level=task_level,
-                children=Task.create_sequence(data, task_id, next_task_level)
+                children=create_sequence(data, task_id, next_task_level)
             )
             children.append(sequence)
     return children
 
+def get_tasks(seq):
+    sequence = {
+        'id': seq.id,
+        'type': seq.task_type,
+        'name': seq.name,
+        'description': seq.description,
+        'directive': 'RUN',
+        'result': results["NOT_STARTED"],
+        'children': []
+    }
+    for task in seq.children:
+        if task.task_type == 'task':
+            t = {
+                'id': task.id,
+                'type': task.task_type,
+                'name': task.name,
+                'description': task.description,
+                'directive': 'RUN',
+                'result': results["NOT_STARTED"],
+            }
+        else:
+            t = get_tasks(task)
+        sequence["children"].append(t)
+    return sequence
 
-def add_tasks(db: Session):
-    with open(os.path.join(basedir, 'sequencer/task_data.json')) as f:
-        data = json.load(f)
-    for task_name in data:
-        if data[task_name]["task_type"] == "seq":
-            sequence = Task(
-                task_type="seq",
-                name=data[task_name]["name"],
-                description=data[task_name]["description"],
-                task_level=0,
-                children=create_sequence(data, task_name, task_level=1)
-            )
-            db.add(sequence)
-    db.commit()
-
+def get_sequences(db: Session):
+    sequences = []
+    sequences_root = db.query(Task).filter((Task.task_type == 'seq')
+                                           & (Task.task_level == 0)).all()
+    for seq in sequences_root:
+        sequences.append(get_tasks(seq))
+    return sequences
 
 def log_lattice(db: Session, lattice_data: dict):
     lattice = Lattice()
@@ -311,4 +349,7 @@ def get_diffs(source, old_data, key=None, tolerance=0):
             diff_dict.update(get_diffs(s['children'], old_data, key, tolerance))
     return diff_dict
 
+def fetch_sequence(db: Session, seq_id: int):
+    seq = db.query(Task).filter(Task.id == seq_id).first()
+    return seq
 

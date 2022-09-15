@@ -98,7 +98,7 @@ class SnapshotAcquire(BaseModel):
     beginDate: datetime
     endDate: datetime
 
-class SnapshotId(BaseModel):
+class Id(BaseModel):
     id: int
 
 class HEBTMatch(BaseModel):

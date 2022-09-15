@@ -208,7 +208,3 @@ class PhasescanLog(Base):
     energy = Column(Float(32))
     scan_data = relationship('ScanData', backref='phase_scan_log')
 
-
-
-
-

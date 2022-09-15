@@ -6,7 +6,7 @@ from ..services.worker import conn
 from ..dependencies import JWTBearer, get_db
 from ..services.pv_handler import PhaseScanPVController
 from pathlib import Path
-from ..schemas import Snapshot, SnapshotAcquire, SnapshotId
+from ..schemas import Snapshot, SnapshotAcquire, Id
 from .snapshot import get_element_values
 from ..crud import save_snapshot, acquire_snapshot, restore_snapshot, compare_snapshot, remove_snapshot
 import json
@@ -26,10 +26,10 @@ async def get_config():
         'data': data
     }
 
+
 @router.post('/commissioning/snapshot/save',
              dependencies=[Depends(JWTBearer())])
-async def save(data: Snapshot,
-               db: Session = Depends(get_db)):
+async def save(data: Snapshot, db: Session = Depends(get_db)):
     fname = basedir.joinpath('resources', 'config.json')
     with open(fname) as f:
         source = json.load(f)
@@ -42,8 +42,7 @@ async def save(data: Snapshot,
 
 @router.post('/commissioning/snapshot/acquire',
              dependencies=[Depends(JWTBearer())])
-async def acquire(date_times: SnapshotAcquire,
-                  db: Session = Depends(get_db)):
+async def acquire(date_times: SnapshotAcquire, db: Session = Depends(get_db)):
     results = acquire_snapshot(db, date_times.beginDate, date_times.endDate)
     return {
         'code': 20000,
@@ -52,8 +51,7 @@ async def acquire(date_times: SnapshotAcquire,
 
 @router.post('/commissioning/snapshot/compare',
              dependencies=[Depends(JWTBearer())])
-async def compare(data: SnapshotId,
-                  db: Session = Depends(get_db)):
+async def compare(data: Id, db: Session = Depends(get_db)):
     fname = basedir.joinpath('resources', 'config.json')
     with open(fname) as f:
         source = json.load(f)
@@ -66,8 +64,7 @@ async def compare(data: SnapshotId,
 
 @router.post('/commissioning/snapshot/remove',
              dependencies=[Depends(JWTBearer())])
-async def remove(data: SnapshotId,
-                 db: Session = Depends(get_db)):
+async def remove(data: Id, db: Session = Depends(get_db)):
     remove_snapshot(db, data.id)
     return {
         'code': 20000
@@ -75,8 +72,7 @@ async def remove(data: SnapshotId,
 
 @router.post('/commissioning/snapshot/restore',
              dependencies=[Depends(JWTBearer())])
-async def restore(data: SnapshotId,
-                  db: Session = Depends(get_db)):
+async def restore(data: Id, db: Session = Depends(get_db)):
     fname = basedir.joinpath('resources', 'config.json')
     with open(fname) as f:
         source = json.load(f)

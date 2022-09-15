@@ -4,7 +4,7 @@ from rq import Queue
 from epics import PV
 from sqlalchemy.orm import Session
 from datetime import datetime
-from ..crud import log_epk_item, get_physic_amp, get_amp_limt, create_phase_scan_log
+from ..crud import log_epk_item, get_physic_amp, create_phase_scan_log
 from ..services.worker import conn
 from ..dependencies import JWTBearer, get_db
 from ..services.pv_handler import PhaseScanPVController

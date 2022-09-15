@@ -1,0 +1,1963 @@
+[
+  {
+    "id": "diag",
+    "label": "DIAG",
+    "children": [
+      {
+        "id": "BPM",
+        "label": "bpms",
+        "children": [
+          {
+            "id": "x",
+            "label": "X",
+            "children": [
+              {
+                "id": "bpm1-x",
+                "label": "bpm1",
+                "pv": "Bpm:1-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm2-x",
+                "label": "bpm2",
+                "pv": "Bpm:2-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm3-x",
+                "label": "bpm3",
+                "pv": "Bpm:3-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm4-x",
+                "label": "bpm4",
+                "pv": "Bpm:4-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm5-x",
+                "label": "bpm5",
+                "pv": "Bpm:5-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm6-x",
+                "label": "bpm6",
+                "pv": "Bpm:6-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm7-x",
+                "label": "bpm7",
+                "pv": "Bpm:7-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm8-x",
+                "label": "bpm8",
+                "pv": "Bpm:8-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm9-x",
+                "label": "bpm9",
+                "pv": "Bpm:9-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm10-x",
+                "label": "bpm10",
+                "pv": "Bpm:10-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm11-x",
+                "label": "bpm11",
+                "pv": "Bpm:11-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm12-x",
+                "label": "bpm12",
+                "pv": "Bpm:12-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm13-x",
+                "label": "bpm13",
+                "pv": "Bpm:13-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm14-x",
+                "label": "bpm14",
+                "pv": "Bpm:14-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm15-x",
+                "label": "bpm15",
+                "pv": "Bpm:15-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm16-x",
+                "label": "bpm16",
+                "pv": "Bpm:16-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm17-x",
+                "label": "bpm17",
+                "pv": "Bpm:17-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm18-x",
+                "label": "bpm18",
+                "pv": "Bpm:18-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm19-x",
+                "label": "bpm19",
+                "pv": "Bpm:19-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm20-x",
+                "label": "bpm20",
+                "pv": "Bpm:20-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm21-x",
+                "label": "bpm21",
+                "pv": "Bpm:21-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm22-x",
+                "label": "bpm22",
+                "pv": "Bpm:22-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm23-x",
+                "label": "bpm23",
+                "pv": "Bpm:23-X11",
+                "disabled": false
+              },
+              {
+                "id": "bpm24-x",
+                "label": "bpm24",
+                "pv": "Bpm:24-X11",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "y",
+            "label": "Y",
+            "children": [
+              {
+                "id": "bpm1-y",
+                "label": "bpm1",
+                "pv": "Bpm:1-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm2-y",
+                "label": "bpm2",
+                "pv": "Bpm:2-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm3-y",
+                "label": "bpm3",
+                "pv": "Bpm:3-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm4-y",
+                "label": "bpm4",
+                "pv": "Bpm:4-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm5-y",
+                "label": "bpm5",
+                "pv": "Bpm:5-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm6-y",
+                "label": "bpm6",
+                "pv": "Bpm:6-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm7-y",
+                "label": "bpm7",
+                "pv": "Bpm:7-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm8-y",
+                "label": "bpm8",
+                "pv": "Bpm:8-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm9-y",
+                "label": "bpm9",
+                "pv": "Bpm:9-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm10-y",
+                "label": "bpm10",
+                "pv": "Bpm:10-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm11-y",
+                "label": "bpm11",
+                "pv": "Bpm:11-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm12-y",
+                "label": "bpm12",
+                "pv": "Bpm:12-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm13-y",
+                "label": "bpm13",
+                "pv": "Bpm:13-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm14-y",
+                "label": "bpm14",
+                "pv": "Bpm:14-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm15-y",
+                "label": "bpm15",
+                "pv": "Bpm:15-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm16-y",
+                "label": "bpm16",
+                "pv": "Bpm:16-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm17-y",
+                "label": "bpm17",
+                "pv": "Bpm:17-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm18-y",
+                "label": "bpm18",
+                "pv": "Bpm:18-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm19-y",
+                "label": "bpm19",
+                "pv": "Bpm:19-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm20-y",
+                "label": "bpm20",
+                "pv": "Bpm:20-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm21-y",
+                "label": "bpm21",
+                "pv": "Bpm:21-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm22-y",
+                "label": "bpm22",
+                "pv": "Bpm:22-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm23-y",
+                "label": "bpm23",
+                "pv": "Bpm:23-Y11",
+                "disabled": false
+              },
+              {
+                "id": "bpm24-y",
+                "label": "bpm24",
+                "pv": "Bpm:24-Y11",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "p",
+            "label": "Phase",
+            "children": [
+              {
+                "id": "bpm1-p",
+                "label": "bpm1",
+                "pv": "Bpm:1-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm2-p",
+                "label": "bpm2",
+                "pv": "Bpm:2-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm3-p",
+                "label": "bpm3",
+                "pv": "Bpm:3-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm4-p",
+                "label": "bpm4",
+                "pv": "Bpm:4-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm5-p",
+                "label": "bpm5",
+                "pv": "Bpm:5-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm6-p",
+                "label": "bpm6",
+                "pv": "Bpm:6-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm7-p",
+                "label": "bpm7",
+                "pv": "Bpm:7-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm8-p",
+                "label": "bpm8",
+                "pv": "Bpm:8-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm9-p",
+                "label": "bpm9",
+                "pv": "Bpm:9-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm10-p",
+                "label": "bpm10",
+                "pv": "Bpm:10-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm11-p",
+                "label": "bpm11",
+                "pv": "Bpm:11-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm12-p",
+                "label": "bpm12",
+                "pv": "Bpm:12-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm13-p",
+                "label": "bpm13",
+                "pv": "Bpm:13-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm14-p",
+                "label": "bpm14",
+                "pv": "Bpm:14-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm15-p",
+                "label": "bpm15",
+                "pv": "Bpm:15-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm16-p",
+                "label": "bpm16",
+                "pv": "Bpm:16-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm17-p",
+                "label": "bpm17",
+                "pv": "Bpm:17-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm18-p",
+                "label": "bpm18",
+                "pv": "Bpm:18-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm19-p",
+                "label": "bpm19",
+                "pv": "Bpm:19-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm20-p",
+                "label": "bpm20",
+                "pv": "Bpm:20-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm21-p",
+                "label": "bpm21",
+                "pv": "Bpm:21-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm22-p",
+                "label": "bpm22",
+                "pv": "Bpm:22-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm23-p",
+                "label": "bpm23",
+                "pv": "Bpm:23-P11",
+                "disabled": false
+              },
+              {
+                "id": "bpm24-p",
+                "label": "bpm24",
+                "pv": "Bpm:24-P11",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "magnet",
+    "label": "MAGNET",
+    "children": [
+      {
+        "id": "lebt",
+        "label": "LEBT",
+        "children": [
+          {
+            "id": "quad",
+            "label": "QUAD",
+            "children": [
+              {
+                "id": "lebt-q1",
+                "label": "LEBT-Q1",
+                "write_pv": "IS-CTL:PS:Q1.DVAL",
+                "rb_pv": "IS-CTL:PS:Q1.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-q2",
+                "label": "LEBT-Q2",
+                "write_pv": "IS-CTL:PS:Q2.DVAL",
+                "rb_pv": "IS-CTL:PS:Q2.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-q3",
+                "label": "LEBT-Q3",
+                "write_pv": "IS-CTL:PS:Q3.DVAL",
+                "rb_pv": "IS-CTL:PS:Q3.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-q4",
+                "label": "LEBT-Q4",
+                "write_pv": "IS-CTL:PS:Q4.DVAL",
+                "rb_pv": "IS-CTL:PS:Q4.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-q5",
+                "label": "LEBT-Q5",
+                "write_pv": "IS-CTL:PS:Q5.DVAL",
+                "rb_pv": "IS-CTL:PS:Q5.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-q6",
+                "label": "LEBT-Q6",
+                "write_pv": "IS-CTL:PS:Q6.DVAL",
+                "rb_pv": "IS-CTL:PS:Q6.CURRENT",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "lebt-dch1",
+                "label": "LEBT-DCH1",
+                "write_pv": "IS-CTL:PS:CH1.DVAL",
+                "rb_pv": "IS-CTL:PS:CH1.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv1",
+                "label": "LEBT-DCV1",
+                "write_pv": "IS-CTL:PS:CV1.DVAL",
+                "rb_pv": "IS-CTL:PS:CV1.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch2",
+                "label": "LEBT-DCH2",
+                "write_pv": "IS-CTL:PS:CH2.DVAL",
+                "rb_pv": "IS-CTL:PS:CH2.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv2",
+                "label": "LEBT-DCV2",
+                "write_pv": "IS-CTL:PS:CV2.DVAL",
+                "rb_pv": "IS-CTL:PS:CV2.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch3",
+                "label": "LEBT-DCH3",
+                "write_pv": "IS-CTL:PS:CH3.DVAL",
+                "rb_pv": "IS-CTL:PS:CH3.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv3",
+                "label": "LEBT-DCV3",
+                "write_pv": "IS-CTL:PS:CV3.DVAL",
+                "rb_pv": "IS-CTL:PS:CV3.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch4",
+                "label": "LEBT-DCH4",
+                "write_pv": "IS-CTL:PS:CH4.DVAL",
+                "rb_pv": "IS-CTL:PS:CH4.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv4",
+                "label": "LEBT-DCV4",
+                "write_pv": "IS-CTL:PS:CV4.DVAL",
+                "rb_pv": "IS-CTL:PS:CV4.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch5",
+                "label": "LEBT-DCH5",
+                "write_pv": "IS-CTL:PS:CH5.DVAL",
+                "rb_pv": "IS-CTL:PS:CH5.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv5",
+                "label": "LEBT-DCV5",
+                "write_pv": "IS-CTL:PS:CV5.DVAL",
+                "rb_pv": "IS-CTL:PS:CV5.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch6",
+                "label": "LEBT-DCH6",
+                "write_pv": "IS-CTL:PS:CH6.DVAL",
+                "rb_pv": "IS-CTL:PS:CH6.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv6",
+                "label": "LEBT-DCV6",
+                "write_pv": "IS-CTL:PS:CV6.DVAL",
+                "rb_pv": "IS-CTL:PS:CV6.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch7",
+                "label": "LEBT-DCH7",
+                "write_pv": "IS-CTL:PS:CH7.DVAL",
+                "rb_pv": "IS-CTL:PS:CH7.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv7",
+                "label": "LEBT-DCV7",
+                "write_pv": "IS-CTL:PS:CV7.DVAL",
+                "rb_pv": "IS-CTL:PS:CV7.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dch8",
+                "label": "LEBT-DCH8",
+                "write_pv": "IS-CTL:PS:CH8.DVAL",
+                "rb_pv": "IS-CTL:PS:CH8.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-dcv8",
+                "label": "LEBT-DCV8",
+                "write_pv": "IS-CTL:PS:CV8.DVAL",
+                "rb_pv": "IS-CTL:PS:CV8.CURRENT",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "dipole",
+            "label": "DIPOLE",
+            "children": [
+              {
+                "id": "lebt-d1",
+                "label": "LEBT-D1",
+                "write_pv": "IS-CTL:PS:D1.DVAL",
+                "rb_pv": "IS-CTL:PS:D1.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-d2",
+                "label": "LEBT-D2",
+                "write_pv": "IS-CTL:PS:D2.DVAL",
+                "rb_pv": "IS-CTL:PS:D2.CURRENT",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "sol",
+            "label": "SOL",
+            "children": [
+              {
+                "id": "lebt-sol1",
+                "label": "LEBT-SOL1",
+                "write_pv": "IS-CTL:PS:SN1.DVAL",
+                "rb_pv": "IS-CTL:PS:SN1.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-sol2",
+                "label": "LEBT-SOL2",
+                "write_pv": "IS-CTL:PS:SN2.DVAL",
+                "rb_pv": "IS-CTL:PS:SN2.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-sol3",
+                "label": "LEBT-SOL3",
+                "write_pv": "IS-CTL:PS:SN3.DVAL",
+                "rb_pv": "IS-CTL:PS:SN3.CURRENT",
+                "disabled": false
+              },
+              {
+                "id": "lebt-sol4",
+                "label": "LEBT-SOL4",
+                "write_pv": "IS-CTL:PS:SN4.DVAL",
+                "rb_pv": "IS-CTL:PS:SN4.CURRENT",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "mebt",
+        "label": "MEBT",
+        "children": [
+          {
+            "id": "quad",
+            "label": "QUAD",
+            "children": [
+              {
+                "id": "mebt-q1",
+                "label": "MEBT-Q1",
+                "write_pv": "MEBT_PS:QUAD_01:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-q2",
+                "label": "MEBT-Q2",
+                "write_pv": "MEBT_PS:QUAD_02:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-q3",
+                "label": "MEBT-Q3",
+                "write_pv": "MEBT_PS:QUAD_03:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-q4",
+                "label": "MEBT-Q4",
+                "write_pv": "MEBT_PS:QUAD_04:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-q5",
+                "label": "MEBT-Q5",
+                "write_pv": "MEBT_PS:QUAD_05:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-q6",
+                "label": "MEBT-Q6",
+                "write_pv": "MEBT_PS:QUAD_06:CurSet",
+                "rb_pv": "MEBT_PS:QUAD_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "mebt-dch1",
+                "label": "MEBT-DCH1",
+                "write_pv": "MEBT_PS:DCH_01:CurSet",
+                "rb_pv": "MEBT_PS:DCH_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv1",
+                "label": "MEBT-DCV1",
+                "write_pv": "MEBT_PS:DCV_01:CurSet",
+                "rb_pv": "MEBT_PS:DCV_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dch2",
+                "label": "MEBT-DCH2",
+                "write_pv": "MEBT_PS:DCH_02:CurSet",
+                "rb_pv": "MEBT_PS:DCH_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv2",
+                "label": "MEBT-DCV2",
+                "write_pv": "MEBT_PS:DCV_02:CurSet",
+                "rb_pv": "MEBT_PS:DCV_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dch3",
+                "label": "MEBT-DCH3",
+                "write_pv": "MEBT_PS:DCH_03:CurSet",
+                "rb_pv": "MEBT_PS:DCH_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv3",
+                "label": "MEBT-DCV3",
+                "write_pv": "MEBT_PS:DCV_03:CurSet",
+                "rb_pv": "MEBT_PS:DCV_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dch4",
+                "label": "MEBT-DCH4",
+                "write_pv": "MEBT_PS:DCH_04:CurSet",
+                "rb_pv": "MEBT_PS:DCH_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv4",
+                "label": "MEBT-DCV4",
+                "write_pv": "MEBT_PS:DCV_04:CurSet",
+                "rb_pv": "MEBT_PS:DCV_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dch5",
+                "label": "MEBT-DCH5",
+                "write_pv": "MEBT_PS:DCH_05:CurSet",
+                "rb_pv": "MEBT_PS:DCH_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv5",
+                "label": "MEBT-DCV5",
+                "write_pv": "MEBT_PS:DCV_05:CurSet",
+                "rb_pv": "MEBT_PS:DCV_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dch6",
+                "label": "MEBT-DCH6",
+                "write_pv": "MEBT_PS:DCH_06:CurSet",
+                "rb_pv": "MEBT_PS:DCH_06:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "mebt-dcv6",
+                "label": "MEBT-DCV6",
+                "write_pv": "MEBT_PS:DCV_06:CurSet",
+                "rb_pv": "MEBT_PS:DCV_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cm1",
+        "label": "CM1",
+        "children": [
+          {
+            "id": "sol",
+            "label": "SOL",
+            "children": [
+              {
+                "id": "cm1-sol1",
+                "label": "CM1-SOL1",
+                "write_pv": "HCM1_PS:SOL_01:CurSet",
+                "rb_pv": "HCM1_PS:SOL_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-sol2",
+                "label": "CM1-SOL2",
+                "write_pv": "HCM1_PS:SOL_02:CurSet",
+                "rb_pv": "HCM1_PS:SOL_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-sol3",
+                "label": "CM1-SOL3",
+                "write_pv": "HCM1_PS:SOL_03:CurSet",
+                "rb_pv": "HCM1_PS:SOL_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-sol4",
+                "label": "CM1-SOL4",
+                "write_pv": "HCM1_PS:SOL_04:CurSet",
+                "rb_pv": "HCM1_PS:SOL_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-sol5",
+                "label": "CM1-SOL5",
+                "write_pv": "HCM1_PS:SOL_05:CurSet",
+                "rb_pv": "HCM1_PS:SOL_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-sol6",
+                "label": "CM1-SOL6",
+                "write_pv": "HCM1_PS:SOL_06:CurSet",
+                "rb_pv": "HCM1_PS:SOL_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "cm1-dch1",
+                "label": "CM1-DCH1",
+                "write_pv": "HCM1_PS:DCH_01:CurSet",
+                "rb_pv": "HCM1_PS:DCH_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv1",
+                "label": "CM1-DCV1",
+                "write_pv": "HCM1_PS:DCV_01:CurSet",
+                "rb_pv": "HCM1_PS:DCV_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dch2",
+                "label": "CM1-DCH2",
+                "write_pv": "HCM1_PS:DCH_02:CurSet",
+                "rb_pv": "HCM1_PS:DCH_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv2",
+                "label": "CM1-DCV2",
+                "write_pv": "HCM1_PS:DCV_02:CurSet",
+                "rb_pv": "HCM1_PS:DCV_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dch3",
+                "label": "CM1-DCH3",
+                "write_pv": "HCM1_PS:DCH_03:CurSet",
+                "rb_pv": "HCM1_PS:DCH_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv3",
+                "label": "CM1-DCV3",
+                "write_pv": "HCM1_PS:DCV_03:CurSet",
+                "rb_pv": "HCM1_PS:DCV_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dch4",
+                "label": "CM1-DCH4",
+                "write_pv": "HCM1_PS:DCH_04:CurSet",
+                "rb_pv": "HCM1_PS:DCH_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv4",
+                "label": "CM1-DCV4",
+                "write_pv": "HCM1_PS:DCV_04:CurSet",
+                "rb_pv": "HCM1_PS:DCV_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dch5",
+                "label": "CM1-DCH5",
+                "write_pv": "HCM1_PS:DCH_05:CurSet",
+                "rb_pv": "HCM1_PS:DCH_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv5",
+                "label": "CM1-DCV5",
+                "write_pv": "HCM1_PS:DCV_05:CurSet",
+                "rb_pv": "HCM1_PS:DCV_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dch6",
+                "label": "CM1-DCH6",
+                "write_pv": "HCM1_PS:DCH_06:CurSet",
+                "rb_pv": "HCM1_PS:DCH_06:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm1-dcv6",
+                "label": "CM1-DCV6",
+                "write_pv": "HCM1_PS:DCV_06:CurSet",
+                "rb_pv": "HCM1_PS:DCV_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cm2",
+        "label": "CM2",
+        "children": [
+          {
+            "id": "sol",
+            "label": "SOL",
+            "children": [
+              {
+                "id": "cm2-sol1",
+                "label": "CM2-SOL1",
+                "write_pv": "HCM2_PS:SOL_01:CurSet",
+                "rb_pv": "HCM2_PS:SOL_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-sol2",
+                "label": "CM2-SOL2",
+                "write_pv": "HCM2_PS:SOL_02:CurSet",
+                "rb_pv": "HCM2_PS:SOL_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-sol3",
+                "label": "CM2-SOL3",
+                "write_pv": "HCM2_PS:SOL_03:CurSet",
+                "rb_pv": "HCM2_PS:SOL_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-sol4",
+                "label": "CM2-SOL4",
+                "write_pv": "HCM2_PS:SOL_04:CurSet",
+                "rb_pv": "HCM2_PS:SOL_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-sol5",
+                "label": "CM2-SOL5",
+                "write_pv": "HCM2_PS:SOL_05:CurSet",
+                "rb_pv": "HCM2_PS:SOL_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-sol6",
+                "label": "CM2-SOL6",
+                "write_pv": "HCM2_PS:SOL_06:CurSet",
+                "rb_pv": "HCM2_PS:SOL_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "cm2-dch1",
+                "label": "CM2-DCH1",
+                "write_pv": "HCM2_PS:DCH_01:CurSet",
+                "rb_pv": "HCM2_PS:DCH_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv1",
+                "label": "CM2-DCV1",
+                "write_pv": "HCM2_PS:DCV_01:CurSet",
+                "rb_pv": "HCM2_PS:DCV_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dch2",
+                "label": "CM2-DCH2",
+                "write_pv": "HCM2_PS:DCH_02:CurSet",
+                "rb_pv": "HCM2_PS:DCH_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv2",
+                "label": "CM2-DCV2",
+                "write_pv": "HCM2_PS:DCV_02:CurSet",
+                "rb_pv": "HCM2_PS:DCV_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dch3",
+                "label": "CM2-DCH3",
+                "write_pv": "HCM2_PS:DCH_03:CurSet",
+                "rb_pv": "HCM2_PS:DCH_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv3",
+                "label": "CM2-DCV3",
+                "write_pv": "HCM2_PS:DCV_03:CurSet",
+                "rb_pv": "HCM2_PS:DCV_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dch4",
+                "label": "CM2-DCH4",
+                "write_pv": "HCM2_PS:DCH_04:CurSet",
+                "rb_pv": "HCM2_PS:DCH_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv4",
+                "label": "CM2-DCV4",
+                "write_pv": "HCM2_PS:DCV_04:CurSet",
+                "rb_pv": "HCM2_PS:DCV_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dch5",
+                "label": "CM2-DCH5",
+                "write_pv": "HCM2_PS:DCH_05:CurSet",
+                "rb_pv": "HCM2_PS:DCH_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv5",
+                "label": "CM2-DCV5",
+                "write_pv": "HCM2_PS:DCV_05:CurSet",
+                "rb_pv": "HCM2_PS:DCV_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dch6",
+                "label": "CM2-DCH6",
+                "write_pv": "HCM2_PS:DCH_06:CurSet",
+                "rb_pv": "HCM2_PS:DCH_06:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm2-dcv6",
+                "label": "CM2-DCV6",
+                "write_pv": "HCM2_PS:DCV_06:CurSet",
+                "rb_pv": "HCM2_PS:DCV_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cm3",
+        "label": "CM3",
+        "children": [
+          {
+            "id": "sol",
+            "label": "SOL",
+            "children": [
+              {
+                "id": "cm3-sol1",
+                "label": "CM3-SOL1",
+                "write_pv": "HCM3_PS:SOL_01:CurSet",
+                "rb_pv": "HCM3_PS:SOL_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-sol2",
+                "label": "CM3-SOL2",
+                "write_pv": "HCM3_PS:SOL_02:CurSet",
+                "rb_pv": "HCM3_PS:SOL_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-sol3",
+                "label": "CM3-SOL3",
+                "write_pv": "HCM3_PS:SOL_03:CurSet",
+                "rb_pv": "HCM3_PS:SOL_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-sol4",
+                "label": "CM3-SOL4",
+                "write_pv": "HCM3_PS:SOL_04:CurSet",
+                "rb_pv": "HCM3_PS:SOL_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-sol5",
+                "label": "CM3-SOL5",
+                "write_pv": "HCM3_PS:SOL_05:CurSet",
+                "rb_pv": "HCM3_PS:SOL_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-sol6",
+                "label": "CM3-SOL6",
+                "write_pv": "HCM3_PS:SOL_06:CurSet",
+                "rb_pv": "HCM3_PS:SOL_06:CurMon",
+                "disabled": false
+              }
+
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "cm3-dch1",
+                "label": "CM3-DCH1",
+                "write_pv": "HCM3_PS:DCH_01:CurSet",
+                "rb_pv": "HCM3_PS:DCH_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv1",
+                "label": "CM3-DCV1",
+                "write_pv": "HCM3_PS:DCV_01:CurSet",
+                "rb_pv": "HCM3_PS:DCV_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dch2",
+                "label": "CM3-DCH2",
+                "write_pv": "HCM3_PS:DCH_02:CurSet",
+                "rb_pv": "HCM3_PS:DCH_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv2",
+                "label": "CM3-DCV2",
+                "write_pv": "HCM3_PS:DCV_02:CurSet",
+                "rb_pv": "HCM3_PS:DCV_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dch3",
+                "label": "CM3-DCH3",
+                "write_pv": "HCM3_PS:DCH_03:CurSet",
+                "rb_pv": "HCM3_PS:DCH_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv3",
+                "label": "CM3-DCV3",
+                "write_pv": "HCM3_PS:DCV_03:CurSet",
+                "rb_pv": "HCM3_PS:DCV_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dch4",
+                "label": "CM3-DCH4",
+                "write_pv": "HCM3_PS:DCH_04:CurSet",
+                "rb_pv": "HCM3_PS:DCH_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv4",
+                "label": "CM3-DCV4",
+                "write_pv": "HCM3_PS:DCV_04:CurSet",
+                "rb_pv": "HCM3_PS:DCV_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dch5",
+                "label": "CM3-DCH5",
+                "write_pv": "HCM3_PS:DCH_05:CurSet",
+                "rb_pv": "HCM3_PS:DCH_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv5",
+                "label": "CM3-DCV5",
+                "write_pv": "HCM3_PS:DCV_05:CurSet",
+                "rb_pv": "HCM3_PS:DCV_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dch6",
+                "label": "CM3-DCH6",
+                "write_pv": "HCM3_PS:DCH_06:CurSet",
+                "rb_pv": "HCM3_PS:DCH_06:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm3-dcv6",
+                "label": "CM3-DCV6",
+                "write_pv": "HCM3_PS:DCV_06:CurSet",
+                "rb_pv": "HCM3_PS:DCV_06:CurMon",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cm4",
+        "label": "CM4",
+        "children": [
+          {
+            "id": "sol",
+            "label": "SOL",
+            "children": [
+              {
+                "id": "cm4-sol1",
+                "label": "CM4-SOL1",
+                "write_pv": "HCM4_PS:SOL_01:CurSet",
+                "rb_pv": "HCM4_PS:SOL_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-sol2",
+                "label": "CM4-SOL2",
+                "write_pv": "HCM4_PS:SOL_02:CurSet",
+                "rb_pv": "HCM4_PS:SOL_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-sol3",
+                "label": "CM4-SOL3",
+                "write_pv": "HCM4_PS:SOL_03:CurSet",
+                "rb_pv": "HCM4_PS:SOL_03:CurMon",
+                "disabled": true
+              },
+              {
+                "id": "cm4-sol4",
+                "label": "CM4-SOL4",
+                "write_pv": "HCM4_PS:SOL_04:CurSet",
+                "rb_pv": "HCM4_PS:SOL_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-sol5",
+                "label": "CM4-SOL5",
+                "write_pv": "HCM4_PS:SOL_05:CurSet",
+                "rb_pv": "HCM4_PS:SOL_05:CurMon",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "cm4-dch1",
+                "label": "CM4-DCH1",
+                "write_pv": "HCM4_PS:DCH_01:CurSet",
+                "rb_pv": "HCM4_PS:DCH_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dcv1",
+                "label": "CM4-DCV1",
+                "write_pv": "HCM4_PS:DCV_01:CurSet",
+                "rb_pv": "HCM4_PS:DCV_01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dch2",
+                "label": "CM4-DCH2",
+                "write_pv": "HCM4_PS:DCH_02:CurSet",
+                "rb_pv": "HCM4_PS:DCH_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dcv2",
+                "label": "CM4-DCV2",
+                "write_pv": "HCM4_PS:DCV_02:CurSet",
+                "rb_pv": "HCM4_PS:DCV_02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dch3",
+                "label": "CM4-DCH3",
+                "write_pv": "HCM4_PS:DCH_03:CurSet",
+                "rb_pv": "HCM4_PS:DCH_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dcv3",
+                "label": "CM4-DCV3",
+                "write_pv": "HCM4_PS:DCV_03:CurSet",
+                "rb_pv": "HCM4_PS:DCV_03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dch4",
+                "label": "CM4-DCH4",
+                "write_pv": "HCM4_PS:DCH_04:CurSet",
+                "rb_pv": "HCM4_PS:DCH_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dcv4",
+                "label": "CM4-DCV4",
+                "write_pv": "HCM4_PS:DCV_04:CurSet",
+                "rb_pv": "HCM4_PS:DCV_04:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dch5",
+                "label": "CM4-DCH5",
+                "write_pv": "HCM4_PS:DCH_05:CurSet",
+                "rb_pv": "HCM4_PS:DCH_05:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "cm4-dcv5",
+                "label": "CM4-DCV5",
+                "write_pv": "HCM4_PS:DCV_05:CurSet",
+                "rb_pv": "HCM4_PS:DCV_05:CurMon",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "hebt",
+        "label": "HEBT",
+        "children": [
+          {
+            "id": "quad",
+            "label": "QUAD",
+            "children": [
+              {
+                "id": "hebt-t0-q1",
+                "label": "MEBT-T0-Q1",
+                "write_pv": "HEBT_PS:T0_Q-01:CurSet",
+                "rb_pv": "HEBT_PS:T0_Q-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-q1",
+                "label": "HEBT-T2-Q1",
+                "write_pv": "HEBT_PS:T2_Q-01:CurSet",
+                "rb_pv": "HEBT_PS:T2_Q-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-q2",
+                "label": "HEBT-T2-Q2",
+                "write_pv": "HEBT_PS:T2_Q-02:CurSet",
+                "rb_pv": "HEBT_PS:T2_Q-02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-q3",
+                "label": "HEBT-T2-Q3",
+                "write_pv": "HEBT_PS:T2_Q-03:CurSet",
+                "rb_pv": "HEBT_PS:T2_Q-03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-q4",
+                "label": "HEBT-T2-Q4",
+                "write_pv": "HEBT_PS:T2_Q-04:CurSet",
+                "rb_pv": "HEBT_PS:T2_Q-04:CurMon",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "corrector",
+            "label": "CORRECTOR",
+            "children": [
+              {
+                "id": "hebt-t0-dch1",
+                "label": "MEBT-T0-DCH1",
+                "write_pv": "HEBT_PS:T0_CH-01:CurSet",
+                "rb_pv": "HEBT_PS:T0_CH-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t0-dcv1",
+                "label": "MEBT-T0-DCV1",
+                "write_pv": "HEBT_PS:T0_CV-01:CurSet",
+                "rb_pv": "HEBT_PS:T0_CV-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dch1",
+                "label": "HEBT-T2-DCH1",
+                "write_pv": "HEBT_PS:T2_CH-01:CurSet",
+                "rb_pv": "HEBT_PS:T2_CH-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dcv1",
+                "label": "HEBT-T2-dcv1",
+                "write_pv": "HEBT_PS:T2_CV-01:CurSet",
+                "rb_pv": "HEBT_PS:T2_CV-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dch2",
+                "label": "HEBT-T2-DCH2",
+                "write_pv": "HEBT_PS:T2_CH-02:CurSet",
+                "rb_pv": "HEBT_PS:T2_CH-02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dcv2",
+                "label": "HEBT-T2-dcv2",
+                "write_pv": "HEBT_PS:T2_CV-02:CurSet",
+                "rb_pv": "HEBT_PS:T2_CV-02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dch3",
+                "label": "HEBT-T2-DCH3",
+                "write_pv": "HEBT_PS:T2_CH-03:CurSet",
+                "rb_pv": "HEBT_PS:T2_CH-03:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-dcv3",
+                "label": "HEBT-T2-dcv3",
+                "write_pv": "HEBT_PS:T2_CV-03:CurSet",
+                "rb_pv": "HEBT_PS:T2_CV-03:CurMon",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "dipole",
+            "label": "DIPOLE",
+            "children": [
+              {
+                "id": "hebt-t0-d1",
+                "label": "HEBT-T0-D1",
+                "write_pv": "HEBT_PS:T0_D-01:CurSet",
+                "rb_pv": "HEBT_PS:T0_D-01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "hebt-t2-d1",
+                "label": "HEBT-T2-D1",
+                "write_pv": "HEBT_PS:T2_D-01:CurSet",
+                "rb_pv": "HEBT_PS:T2_D-01:CurMon",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ss",
+        "label": "SS",
+        "children": [
+          {
+            "id": "quad",
+            "label": "QUAD",
+            "children": [
+              {
+                "id": "ss-q1",
+                "label": "SS-Q1",
+                "write_pv": "SS_PS:Q01:CurSet",
+                "rb_pv": "SS_PS:Q01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "ss-q2",
+                "label": "SS-Q2",
+                "write_pv": "SS_PS:Q02:CurSet",
+                "rb_pv": "SS_PS:Q02:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "ss-q3",
+                "label": "SS-Q3",
+                "write_pv": "SS_PS:Q03:CurSet",
+                "rb_pv": "SS_PS:Q03:CurMon",
+                "disabled": false
+              }
+            ]
+
+          },
+          {
+            "id": "dipole",
+            "label": "DIPOLE",
+            "children": [
+              {
+                "id": "ss-d1",
+                "label": "SS-D1",
+                "write_pv": "SS_PS:D01:CurSet",
+                "rb_pv": "SS_PS:D01:CurMon",
+                "disabled": false
+              },
+              {
+                "id": "ss-d2",
+                "label": "SS-D2",
+                "write_pv": "SS_PS:D02:CurSet",
+                "rb_pv": "SS_PS:D02:CurMon",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cavity",
+    "label": "CAVITY",
+    "children": [
+      {
+        "id": "amp",
+        "label": "AMP",
+        "children": [
+          {
+            "id": "mebt",
+            "label": "MEBT",
+            "children": [
+              {
+                "id": "buncher1",
+                "label": "buncher1",
+                "pv": "MEBT_RF:LLRF_B01:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "buncher2",
+                "label": "buncher2",
+                "pv": "MEBT_RF:LLRF_B02:PhyCavVol",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm1",
+            "label": "CM1",
+            "children": [
+              {
+                "id": "cm1-1",
+                "label": "cm1-1",
+                "pv": "SCM01_RF:LLRF_01:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm1-2",
+                "label": "cm1-2",
+                "pv": "SCM01_RF:LLRF_02:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm1-3",
+                "label": "cm1-3",
+                "pv": "SCM01_RF:LLRF_03:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm1-4",
+                "label": "cm1-4",
+                "pv": "SCM01_RF:LLRF_04:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm1-5",
+                "label": "cm1-5",
+                "pv": "SCM01_RF:LLRF_05:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm1-6",
+                "label": "cm1-6",
+                "pv": "SCM01_RF:LLRF_06:PhyCavVol",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm2",
+            "label": "CM2",
+            "children": [
+              {
+                "id": "cm2-1",
+                "label": "cm2-1",
+                "pv": "SCM02_RF:LLRF_01:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm2-2",
+                "label": "cm2-2",
+                "pv": "SCM02_RF:LLRF_02:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm2-3",
+                "label": "cm2-3",
+                "pv": "SCM02_RF:LLRF_03:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm2-4",
+                "label": "cm2-4",
+                "pv": "SCM02_RF:LLRF_04:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm2-5",
+                "label": "cm2-5",
+                "pv": "SCM02_RF:LLRF_05:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm2-6",
+                "label": "cm2-6",
+                "pv": "SCM02_RF:LLRF_06:PhyCavVol",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm3",
+            "label": "CM3",
+            "children": [
+              {
+                "id": "cm3-1",
+                "label": "cm3-1",
+                "pv": "SCM03_RF:LLRF_01:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm3-2",
+                "label": "cm3-2",
+                "pv": "SCM03_RF:LLRF_02:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm3-3",
+                "label": "cm3-3",
+                "pv": "SCM03_RF:LLRF_03:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm3-4",
+                "label": "cm3-4",
+                "pv": "SCM03_RF:LLRF_04:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm3-5",
+                "label": "cm3-5",
+                "pv": "SCM03_RF:LLRF_05:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm3-6",
+                "label": "cm3-6",
+                "pv": "SCM03_RF:LLRF_06:PhyCavVol",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm4",
+            "label": "CM4",
+            "children": [
+              {
+                "id": "cm4-1",
+                "label": "cm4-1",
+                "pv": "SCM04_RF:LLRF_01:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm4-2",
+                "label": "cm4-2",
+                "pv": "SCM04_RF:LLRF_02:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm4-3",
+                "label": "cm4-3",
+                "pv": "SCM04_RF:LLRF_03:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm4-4",
+                "label": "cm4-4",
+                "pv": "SCM04_RF:LLRF_04:PhyCavVol",
+                "disabled": false
+              },
+              {
+                "id": "cm4-5",
+                "label": "cm4-5",
+                "pv": "SCM04_RF:LLRF_05:PhyCavVol",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "phase",
+        "label": "PHASE",
+        "children": [
+          {
+            "id": "mebt",
+            "label": "MEBT",
+            "children": [
+              {
+                "id": "buncher1",
+                "label": "buncher1",
+                "pv": "MEBT_RF:LLRF_B01:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "buncher2",
+                "label": "buncher2",
+                "pv": "MEBT_RF:LLRF_B02:PhyPhas",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm1",
+            "label": "CM1",
+            "children": [
+              {
+                "id": "cm1-1",
+                "label": "cm1-1",
+                "pv": "SCM01_RF:LLRF_01:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm1-2",
+                "label": "cm1-2",
+                "pv": "SCM01_RF:LLRF_02:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm1-3",
+                "label": "cm1-3",
+                "pv": "SCM01_RF:LLRF_03:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm1-4",
+                "label": "cm1-4",
+                "pv": "SCM01_RF:LLRF_04:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm1-5",
+                "label": "cm1-5",
+                "pv": "SCM01_RF:LLRF_05:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm1-6",
+                "label": "cm1-6",
+                "pv": "SCM01_RF:LLRF_06:PhyPhas",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm2",
+            "label": "CM2",
+            "children": [
+              {
+                "id": "cm2-1",
+                "label": "cm2-1",
+                "pv": "SCM02_RF:LLRF_01:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm2-2",
+                "label": "cm2-2",
+                "pv": "SCM02_RF:LLRF_02:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm2-3",
+                "label": "cm2-3",
+                "pv": "SCM02_RF:LLRF_03:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm2-4",
+                "label": "cm2-4",
+                "pv": "SCM02_RF:LLRF_04:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm2-5",
+                "label": "cm2-5",
+                "pv": "SCM02_RF:LLRF_05:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm2-6",
+                "label": "cm2-6",
+                "pv": "SCM02_RF:LLRF_06:PhyPhas",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm3",
+            "label": "CM3",
+            "children": [
+              {
+                "id": "cm3-1",
+                "label": "cm3-1",
+                "pv": "SCM03_RF:LLRF_01:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm3-2",
+                "label": "cm3-2",
+                "pv": "SCM03_RF:LLRF_02:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm3-3",
+                "label": "cm3-3",
+                "pv": "SCM03_RF:LLRF_03:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm3-4",
+                "label": "cm3-4",
+                "pv": "SCM03_RF:LLRF_04:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm3-5",
+                "label": "cm3-5",
+                "pv": "SCM03_RF:LLRF_05:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm3-6",
+                "label": "cm3-6",
+                "pv": "SCM03_RF:LLRF_06:PhyPhas",
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "cm4",
+            "label": "CM4",
+            "children": [
+              {
+                "id": "cm4-1",
+                "label": "cm4-1",
+                "pv": "SCM04_RF:LLRF_01:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm4-2",
+                "label": "cm4-2",
+                "pv": "SCM04_RF:LLRF_02:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm4-3",
+                "label": "cm4-3",
+                "pv": "SCM04_RF:LLRF_03:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm4-4",
+                "label": "cm4-4",
+                "pv": "SCM04_RF:LLRF_04:PhyPhas",
+                "disabled": false
+              },
+              {
+                "id": "cm4-5",
+                "label": "cm4-5",
+                "pv": "SCM04_RF:LLRF_05:PhyPhas",
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
