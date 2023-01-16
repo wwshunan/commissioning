@@ -94,6 +94,12 @@ export const asyncRoutes = [
         meta: { title: 'HEBT match', roles: ['admin', 'user'] },
       },
 	  {
+        path: 'magnet-validation',
+        component: () => import('@/views/commissioning/magnet-validation/index'), // Parent router-view
+        name: 'Magnet Validation',
+        meta: { title: 'Magnet Validation', roles: ['admin', 'user'] },
+      },
+	  {
         path: 'manual',
         component: () => import('@/views/commissioning/manual/index'), // Parent router-view
         name: 'Manual',

@@ -12,7 +12,7 @@ const service = axios.create({
   //baseURL: 'http://192.168.6.104:5000', // url = base url + request url
   baseURL: 'http://127.0.0.1:5000', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 20000 // request timeout
+  timeout: 80000 // request timeout
 })
 
 // request interceptor

@@ -172,8 +172,9 @@
           <div ref="chart"></div>
           <div class="scrollable">
             <fit-report v-for="(record, i) in fit_records" :key="record.cavity_name + i"
-              :cavity_name="record.cavity_name" :fit_phase="record.phase" :fit_amp="record.amp"
-              :fit_energy="record.energy"></fit-report>
+              :cavity_name="record.cavity_name" :fit_entr_phase="record.entr_phase" :fit_phase="record.phase" 
+              :fit_amp="record.amp" :fit_energy="record.energy">
+            </fit-report>
           </div>
         </el-col>
       </el-row>
@@ -182,11 +183,6 @@
 </template>
 
 <script>
-//import fit_icon from "@/assets/fit.svg";
-import move_up_icon from "@/assets/move-up.svg";
-import move_down_icon from "@/assets/move-down.svg";
-import delete_icon from "@/assets/delete.svg";
-
 import { Message } from 'element-ui'
 import request from '@/utils/request'
 
@@ -690,6 +686,7 @@ export default {
       })
     },
     async scan_per_cavity() {
+      let response
       this.clear_figure()
       let start_phase = parseFloat(this.start_phase)
       let stop_phase = parseFloat(this.stop_phase)
@@ -749,11 +746,29 @@ export default {
           bpm_read_num: bpm_read_num,
           bpm_read_sep: bpm_read_sep
         }
-        const response = await request({
-          url: path,
-          data: payload,
-          method: 'post',
-        })
+        try {
+          response = await request({
+            url: path,
+            data: payload,
+            method: 'post',
+            timeout: 10000
+          })
+        } catch (e) {
+            Message({
+              message: e.message || 'Error',
+              type: 'error',
+              duration: 5 * 1000
+            })
+            continue
+        } finally {
+          while (this.pause) {
+            await new Promise(r => setTimeout(r, 1000));
+          }
+          if (this.stop) {
+            this.stop_monitor()
+            return true
+          }
+        }
         let point1 = response['point1']
         let point2 = response['point2']
 
@@ -765,7 +780,6 @@ export default {
           this.scan_unready = false
           this.fail_times = 0
           if (!this.stop) continue
-
         }
 
         this.chart_data[0].x.push(phase)
@@ -777,13 +791,6 @@ export default {
           line2_errs.push(point2['err'])
         }
         phase += step
-        while (this.pause) {
-          await new Promise(r => setTimeout(r, 1000));
-        }
-        if (this.stop) {
-          this.stop_monitor()
-          return true
-        }
       }
 
 
@@ -818,7 +825,7 @@ export default {
         'errs': errs,
         'step': step
       }
-      const response = await request({
+      response = await request({
         url: path,
         data: payload,
         method: 'post',
@@ -907,6 +914,7 @@ export default {
       fit_record['phase'] = response.rf_phase.toFixed(2)
       fit_record['energy'] = response.w_out.toFixed(3)
       fit_record['amp'] = response.amp.toFixed(2)
+      fit_record['entr_phase'] = response.entr_phase.toFixed(2)
       this.synchPhase = response.rf_phase.toFixed(1)
       this.fit_records.push(fit_record)
       return response

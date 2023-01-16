@@ -9,8 +9,6 @@
           <div style="text-align: left; font-weight: bold">已装载任务序列</div>
           <el-table :data="tasks" ref="table" default-expand-all row-key="id" :tree-props="{children: 'children'}"
             style="width: 100%" max-height="700px" highlight-current-row @current-change="handleCurrentChange">
-            <el-table-column prop="id" label="序号" width="100">
-            </el-table-column>
             <el-table-column prop="name" label="任务名" width="180">
             </el-table-column>
             <el-table-column prop="description" label="描述" width="250">
@@ -23,9 +21,9 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column prop="id" label="执行">
+            <el-table-column prop="id, type" label="执行" width="100">
               <template slot-scope="scope">
-                <el-button size="mini" type="success" @click="exec_task(scope.row.id)">RUN</el-button>
+                <el-button v-if="scope.row.type !== 'seq'" size="mini" type="success" @click="exec_task(scope.row.id)">RUN</el-button>
               </template>
             </el-table-column>
             <el-table-column prop="result" label="结果">
@@ -36,9 +34,7 @@
           </el-table>
         </el-form-item>
         <el-form-item style="text-align: right">
-          <el-button type="success" @click="exec_task" text-aligh="right">单步</el-button>
-          <el-button type="warning" @click="skip" text-aligh="right">跳过</el-button>
-          <el-button type="primary" @click="exec_sequence" text-aligh="right">执行</el-button>
+          <el-button type="primary" @click="exec_sequence" text-aligh="right">自动执行</el-button>
           <el-button type="danger" @click="stop" text-aligh="right">停止</el-button>
         </el-form-item>
       </el-form>
@@ -160,67 +156,19 @@ export default {
       await this.get_status(res.tasks, 0)
     },
     async exec_task(task_id) {
-      if (this.current_row) {
-        if (this.current_row.type === 'seq') {
-          this.$refs.table.setCurrentRow(this.current_row.children[0])
-          Message({
-            message: "这是不可执行任务，自动跳至下一个任务",
-            type: 'info',
-            duration: 5 * 1000
-          })
-        } else {
-          const path = '/commissioning/sequencer/step';
-          const res = await request({
-            url: path,
-            data: { id: task_id },
-            method: 'post',
-          })
-          await this.get_status(res.tasks, 0)
-          Message({
-            message: "任务已执行，请等待",
-            type: 'success',
-            duration: 5 * 1000
-          })
-        }
-      } else {
-        Message({
-          message: "请选中待执行任务",
-          type: 'info',
-          duration: 5 * 1000
-        })
-      }
-    }
-    //async exec_task() {
-    //  if (this.current_row) {
-    //    if (this.current_row.type === 'seq') {
-    //      this.$refs.table.setCurrentRow(this.current_row.children[0])
-    //      Message({
-    //        message: "这是不可执行任务，自动跳至下一个任务",
-    //        type: 'info',
-    //        duration: 5 * 1000
-    //      })
-    //    } else {
-    //      const path = '/commissioning/sequencer/step';
-    //      const res = await request({
-    //        url: path,
-    //        data: { id: this.current_row.id },
-    //        method: 'post',
-    //      })
-    //      await this.get_status(res.tasks, 0)
-    //      Message({
-    //        message: "任务已执行，请等待",
-    //        type: 'success',
-    //        duration: 5 * 1000
-    //      })
-    //    }
-    //  } else {
-    //    Message({
-    //      message: "请选中待执行任务",
-    //      type: 'info',
-    //      duration: 5 * 1000
-    //    })
-    //  }
-    //}
+      const path = '/commissioning/sequencer/step';
+      const res = await request({
+        url: path,
+        data: { id: task_id },
+        method: 'post',
+      })
+      await this.get_status(res.tasks, 0)
+      Message({
+        message: "任务已执行，请等待",
+        type: 'success',
+        duration: 5 * 1000
+      })
+    } 
   }
 }
 </script>
