@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 from scipy.constants import c
 from scipy import interpolate
-import numpy as np
 from scipy.optimize import leastsq, curve_fit
 from .phase_energy_relation import TofPhaseTransformer
 from pathlib import Path
+from .cfit import (get_bpm_phases, single_bpm_sim_params, 
+                   simulate_energy, double_bpm_sim_params)
+
+import numpy as np
+
 
 basedir = Path(__file__).resolve().parent
 
@@ -27,10 +31,10 @@ class DataFitBase(object):
         self.cavity_name = kwargs['cavity_name']
 
         data = np.loadtxt(basedir.joinpath('resources', 'fields', self.field_name))
-        z = np.linspace(data[0, 0], data[-1, 0], 1001)
+        z = np.linspace(data[0, 0], data[-1, 0], 1501)
         f = interpolate.interp1d(data[:, 0], data[:, 3], kind='slinear')
         self.Ez = f(z)
-        self.dz = (data[-1, 0] - data[0, 0]) / 1000
+        self.dz = (data[-1, 0] - data[0, 0]) / 1500
 
         if self.rf_direction == 0:
             self.cav_phases_rad = -np.asarray(self.cav_phases_degree) * np.pi / 180
@@ -52,7 +56,6 @@ class SingleBPMFit(DataFitBase):
         phase_in = plsq[0][1]
 
         phase_opt = self.get_entr_phase(sync_phase, field_factor)
-
         computed_bpm_phases = [self.get_bpm_phases(field_factor, phase_in + delta)
                                for delta in self.cav_phases_rad]
 
@@ -65,14 +68,18 @@ class SingleBPMFit(DataFitBase):
 
         exit_energy = self.get_process_params(field_factor, phase_opt)[2]
         rf_phase = phase_wrapping(rf_phase)
-        return (rf_phase, exit_energy, field_factor * self.epk_ref, error,
+        entr_phase = (phase_in +delta_start) * 180 / np.pi
+        return (entr_phase, rf_phase, exit_energy, field_factor * self.epk_ref, error,
                 self.cav_phases_degree, computed_bpm_phases + plsq[0][2])
 
     def get_bpm_phases(self, field_factor, phase_in):
+        return get_bpm_phases(field_factor, phase_in, self.Win, self.freq, self.dz,
+                              self.distance, self.q, self.m, self.Ez, self.bpm_harm, self.bpm_polarity)
+        '''
         W = self.Win
         t = 0
-        a = 0
-        b = 0
+        #a = 0
+        #b = 0
         for i in range(len(self.Ez) - 1):
             phi = phase_in + 2 * np.pi * self.freq * t
             gamma = W / self.m + 1
@@ -80,12 +87,13 @@ class SingleBPMFit(DataFitBase):
             W = W + self.q * field_factor * 0.5 * (self.Ez[i] + self.Ez[i + 1]) * np.cos(phi) * self.dz
             gamma_exit = W / self.m + 1
             beta_exit = (1 - gamma_exit ** -2) ** 0.5
-            # a += c * Ez[i] * sin(phi) * dz
-            # b += c * Ez[i] * cos(phi) * dz
+            #a += c * Ez[i] * sin(phi) * dz
+            #b += c * self.Ez[i] * np.cos(phi) * self.dz
             t += self.dz / (0.5 * (beta + beta_exit) * c)
         t += self.distance / (beta_exit * c)
         # traceWin_phi = actan(a / b)
         return -(self.freq * t) * 180 * 2 * self.bpm_harm * self.bpm_polarity
+        '''
 
     def residuals(self, p):
         field_factor, phase_in, offset = p
@@ -94,18 +102,25 @@ class SingleBPMFit(DataFitBase):
             for delta in self.cav_phases_rad]
         return err
 
+    def sync_phase_diff(self, x, *args):
+        phi = x
+        field_factor, sync_phase = args
+        abs_diff = np.square(self.get_process_params(field_factor, phi)[0] - sync_phase)
+        return abs_diff
+
     def get_entr_phase(self, sync_phase, field_factor):
-        minimum = 0xffffffff
-        best_fit_phase = -np.pi
+        bnds = (-np.pi, np.pi)
+        from scipy.optimize import minimize_scalar
+        res = minimize_scalar(self.sync_phase_diff, 0, bounds=bnds, 
+                              args=(field_factor, sync_phase))
 
-        for phi in np.arange(-np.pi, np.pi, np.pi / 180):
-            err = abs(self.get_process_params(field_factor, phi)[0] - sync_phase)
-            if err < minimum:
-                minimum = err
-                best_fit_phase = phi
-
+        best_fit_phase = res.x
         return best_fit_phase
 
+    def get_process_params(self, field_factor, phase_in):
+        return single_bpm_sim_params(field_factor, phase_in, self.Win, self.freq, self.dz,
+                                         self.distance, self.q, self.m, self.Ez, self.bpm_harm, self.bpm_polarity)
+    '''
     def get_process_params(self, field_factor, phase_in):
         W = self.Win
         t = 0
@@ -130,13 +145,12 @@ class SingleBPMFit(DataFitBase):
 
         return entr_phase, a, b
 
+    '''
 
 class DoubleBPMFit(DataFitBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.tof_tool = TofPhaseTransformer(self.cavity_name,
-                                            self.freq,
-                                            self.m)
+        self.tof_tool = TofPhaseTransformer(self.cavity_name, self.freq, self.m)
         self.periods = self.get_tof_periods()
 
     def get_non_accel_index(self):
@@ -188,9 +202,14 @@ class DoubleBPMFit(DataFitBase):
 
         w_gain = self.get_process_params(w_in, field_factor, phase_opt)[2]
         rf_phase = phase_wrapping(rf_phase)
-        return (rf_phase, w_in, w_gain, field_factor * self.epk_ref,
+        entr_phase = (phase_in +delta_start) * 180 / np.pi
+        return (entr_phase, rf_phase, w_in, w_gain, field_factor * self.epk_ref,
                 error, self.cav_phases_degree, computed_phases)
 
+    def simulate_energy(self, w, field_factor, phase_in):
+        return simulate_energy(w, field_factor, phase_in, self.Ez, 
+                               self.freq, self.m, self.q, self.dz)
+    '''
     def simulate_energy(self, w, field_factor, phase_in):
         W = w
         t = 0
@@ -203,6 +222,7 @@ class DoubleBPMFit(DataFitBase):
             betaExit = (1 - gammaExit ** -2) ** 0.5
             t += self.dz / (0.5 * (beta + betaExit) * c)
         return W
+    '''
 
     def residuals(self, p):
         w, field_factor, phase_in = p
@@ -213,18 +233,24 @@ class DoubleBPMFit(DataFitBase):
             for delta in self.cav_phases_rad]
         return err
 
+    def sync_phase_diff(self, x, args):
+        phi = x
+        w_in, field_factor, sync_phase = args
+        return np.square(self.get_process_params(w_in, field_factor, phi)[0] - sync_phase)
+
     def get_entr_phase(self, w_in, sync_phase, field_factor):
-        minimum = 0xffffffff
-        best_fit_phase = -np.pi
+        bnds = (-np.pi, np.pi)
+        from scipy.optimize import minimize_scalar
+        res = minimize_scalar(self.sync_phase_diff, 0, bounds=bnds, 
+                              args=(w_in, field_factor, sync_phase))
 
-        for phi in np.arange(-np.pi, np.pi, np.pi / 360):
-            err = abs(self.get_process_params(w_in, field_factor, phi)[0] - sync_phase)
-            if (err < minimum):
-                minimum = err
-                best_fit_phase = phi
-
+        best_fit_phase = res.x
         return best_fit_phase
 
+    def get_process_params(self, W, field_factor, phase_in):
+        return double_bpm_sim_params(W, field_factor, phase_in, self.Ez, 
+                                     self.freq, self.m, self.q, self.dz)
+    '''
     def get_process_params(self, W, field_factor, phase_in):
         t = 0
         a = 0
@@ -246,6 +272,7 @@ class DoubleBPMFit(DataFitBase):
             entr_phase += np.pi
 
         return entr_phase, a, b
+    '''
 
 
 def phase_wrapping(inValue):

@@ -14,6 +14,14 @@ class PhaseScanPVController(object):
         self.mode = PV('CAFe2:CTL_01:Mode')
         self.current = PV('Bpm:1-S')
 
+    def get_ready_factory(self, which):
+        if which == 'orbit':
+            return self.get_orbit_ready() 
+        elif which == 'cavity':
+            return self.get_cavity_ready()
+        else:
+            return self.get_current_ready()
+
     def get_orbit_ready(self):
         if {'x', 'y'} <= set(self.pvs_one_cavity.keys()):
             return self.pvs_one_cavity['x'].get() < 6 and self.pvs_one_cavity['y'].get() < 6

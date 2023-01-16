@@ -1,21 +1,15 @@
 from epics import PV
+from ..exceptions import raise_exception
 import time
 import os
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-class ExecuteException(Exception):
-    def __init__(self, *args: object, error_info) -> None:
-        super().__init__(*args)
-        self.error_info = error_info
-
-    def __str__(self) -> str:
-        return self.error_info
 
 def open_fc1():
     time.sleep(5)
     if PV('Bpm:1-X11').get() > 2:
-        raise ExecuteException(error_info='BPM轨道超阈值')
+        raise_exception('BPM轨道超阈值')
     return 'FC1已打开'
 
 def open_fc2():

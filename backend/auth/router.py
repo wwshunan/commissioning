@@ -25,8 +25,8 @@ conf = ConnectionConfig(
     MAIL_FROM="shuning0316@163.com",
     MAIL_PORT=465,
     MAIL_SERVER="smtp.163.com",
-    MAIL_TLS=False,
-    MAIL_SSL=True,
+    MAIL_STARTTLS = False,
+    MAIL_SSL_TLS=True,
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True
 )

@@ -1,6 +1,8 @@
 from .sequence.task_impl import ADSSequence, ADSTask
 from .sequence.task_user_interface import TaskUserInterface
+from .exceptions import TaskException
 import importlib
+
 
 class UserCode(TaskUserInterface):
     def __init__(self, task):
@@ -16,10 +18,15 @@ class UserCode(TaskUserInterface):
                 'key': 'OK',
                 'detail': 'FINISHED'
             }
-        except Exception as e:
+        except TaskException as e:
             result = {
                 'key': 'FAILURE',
-                'detail': e.error_info
+                'detail': e.detail
+            }
+        except:
+            result = {
+                'key': 'FAILURE',
+                'detail': 'FINISHED_FAULTY'
             }
         finally:
             return result

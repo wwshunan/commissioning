@@ -241,44 +241,55 @@ async def phase_set(data: PhaseScanInfo,
             pv_controller.set_cavity_bypass(cavity_name, 1)
         else:
             pv_controller.set_cavity_bypass(cavity_name, 0)
+
     await asyncio.sleep(data.cavity_res_time)
     bpm1_vals = []
     bpm2_vals = []
 
     harm_index = 0 if data.bpm_harm == 'single' else 1
     for _ in range(data.bpm_read_num):
-        bpm1_val = pv_controller.pvs_one_cavity[f'bpm{data.bpm_index+1}_pv'][harm_index].get()
-        bpm2_val = pv_controller.pvs_one_cavity['bpm2_pv'][harm_index].get()
+        bpm1_val = pv_controller.pvs_one_cavity[f'bpm{data.bpm_index+1}_pv'][harm_index].get(timeout=3)
+        bpm2_val = pv_controller.pvs_one_cavity['bpm2_pv'][harm_index].get(timeout=3)
         bpm1_vals.append(bpm1_val)
         bpm2_vals.append(bpm2_val)
         await asyncio.sleep(data.bpm_read_sep)
 
-    bpm1_val = np.average(bpm1_vals)
-    bpm1_err = np.std(bpm1_vals)
-    bpm2_val = np.average(bpm2_vals)
-    bpm2_err = np.std(bpm2_vals)
-    await cache.lpush('rf_phases', data.rf_phase)
-    await cache.lpush('bpm1_phases', bpm1_val.item())
-    await cache.lpush('bpm1_errors', bpm1_err.item())
-    await cache.lpush('bpm2_phases', bpm2_val.item())
-    await cache.lpush('bpm2_errors', bpm2_err.item())
+    if None in bpm1_vals + bpm2_vals:
+        return dict(code=600, message="PV失去连接!")
+    else: 
+        bpm1_val = np.average(bpm1_vals)
+        bpm1_err = np.std(bpm1_vals)
+        bpm2_val = np.average(bpm2_vals)
+        bpm2_err = np.std(bpm2_vals)
+        await cache.lpush('rf_phases', data.rf_phase)
+        await cache.lpush('bpm1_phases', bpm1_val.item())
+        await cache.lpush('bpm1_errors', bpm1_err.item())
+        await cache.lpush('bpm2_phases', bpm2_val.item())
+        await cache.lpush('bpm2_errors', bpm2_err.item())
 
-    return {
-        'code': 20000,
-        'point1': dict(bpm_phase=bpm1_val, err=bpm1_err),
-        'point2': dict(bpm_phase=bpm2_val, err=bpm2_err)
-    }
+        return {
+            'code': 20000,
+            'point1': dict(bpm_phase=bpm1_val, err=bpm1_err),
+            'point2': dict(bpm_phase=bpm2_val, err=bpm2_err)
+        }
 
 
 @router.get('/commissioning/phasescan/get-status',
             dependencies=[Depends(JWTBearer())])
 async def get_status():
-    if not pv_controller.get_cavity_ready():
-        return dict(code=600, message="腔体未准备好")
-    if not pv_controller.get_current_ready():
-        return dict(code=600, message="束流未准备好")
-    if not pv_controller.get_orbit_ready():
-        return dict(code=600, message="束流轨道偏离超过5mm")
+    system_checks = {
+        'cavity': "腔体未准备好",
+        'current': "没有束流",
+        'orbit': "束流轨道偏离超过5mm"
+    }
+
+    for s in system_checks: 
+        system_ready = pv_controller.get_ready_factory(s)
+        if system_ready is None:
+            return dict(code=600, message="PV失去连接")
+        elif not system_ready:
+            return dict(code=600, message=system_checks[s])
+
     return dict(code=20000)
 
 
@@ -335,7 +346,7 @@ async def curve_fit(data: CurveFitInfo,
     await cache.set('synch_phase', synch_phase)
     await cache.set('rf_amp', fit_result['amp'].item())
     await cache.set('rf_phase', fit_result['rf_phase'].item())
-    await cache.set('energy', fit_result['w_out'].item())
+    await cache.set('energy', fit_result['w_out'])
     # scan_data = dict((key, value) for key, value in data.dict()
     #                 if key in ['cavity_phases', 'bpm_phases'])
     return dict(code=20000, **fit_result)

@@ -9,6 +9,7 @@ from backend.redis_config import register_redis
 from backend.orbitcorrection import router as orbit_correction_router
 from backend.hebt_match import router as hebt_match_router
 from backend.sequencer import router as sequencer_router
+from backend.magnet_validation import router as magnet_validation_router
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import fastapi_plugins
@@ -31,6 +32,7 @@ app.include_router(snapshot_router.router)
 app.include_router(manual_router.router)
 app.include_router(hebt_match_router.router)
 app.include_router(sequencer_router.router)
+app.include_router(magnet_validation_router.router)
 
 origins = ["*"]
 app.add_middleware(
@@ -53,4 +55,4 @@ async def root_get(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0', port=5000, debug=True)
+    uvicorn.run(app, host='0.0.0.0', port=5000)

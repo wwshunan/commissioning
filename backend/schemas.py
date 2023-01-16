@@ -87,6 +87,18 @@ class CorrectorStrength(BaseModel):
     keys: List[str]
     strength: list
 
+class OneCorrector(BaseModel):
+    name: Optional[str]
+    set_pv: str
+    get_pv: Optional[str]
+    step: float
+    limit: Optional[float]
+
+class Correctors(BaseModel):
+    section_data: dict
+    step: float
+    limit: float
+
 class Snapshot(BaseModel):
     keys: List[str]
     particle_type: str
@@ -110,3 +122,16 @@ class HEBTMatch(BaseModel):
     freq: float
     ssfc_stop_current: float
     ssfc_modify_factor: float
+
+class Orbit(BaseModel):
+    section_data: dict
+
+class SavedFile(BaseModel):
+    filename: str
+
+class SavedBpmVar(BaseModel):
+    corr: str
+    step: float
+    bpm_names: List[str]
+    bpm_var_xs: List[float]
+    bpm_var_ys: List[float]
