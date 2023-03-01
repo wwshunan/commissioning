@@ -20,6 +20,10 @@ class EnergyModel(BaseModel):
     distance: float = Field(..., gt=0)
     mass: float = Field(..., gt=0)
 
+class BpmLimitModel(BaseModel):
+    bpm_sum_limit: float
+    orbit_offset_limit: float
+
 class PhaseScanInfo(BaseModel):
     bpm_mode: str
     lattice: dict
@@ -29,6 +33,8 @@ class PhaseScanInfo(BaseModel):
     bpm_read_sep: float
     bpm_harm: str
     bpm_index: int
+    orbit_offset_limit: float
+    bpm_sum_limit: float
 
 class CurveFitInfo(BaseModel):
     cavity_phases: List[float]
@@ -110,9 +116,6 @@ class SnapshotAcquire(BaseModel):
     beginDate: datetime
     endDate: datetime
 
-class Id(BaseModel):
-    id: int
-
 class HEBTMatch(BaseModel):
     target: str
     opti_param: str
@@ -135,3 +138,13 @@ class SavedBpmVar(BaseModel):
     bpm_names: List[str]
     bpm_var_xs: List[float]
     bpm_var_ys: List[float]
+
+class Timing(BaseModel):
+    timing_repeat: int
+    timing_width: int
+
+class Id(BaseModel):
+    id: int
+
+class Name(BaseModel):
+    label: str

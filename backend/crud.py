@@ -83,6 +83,7 @@ def insert_tasks(session: Session):
                 name=data[task_name]["name"],
                 description=data[task_name]["description"],
                 task_level=0,
+                interactive=data[task_name]["interactive"],
                 children=create_sequence(data, task_name, task_level=1)
             )
             session.add(sequence)
@@ -95,6 +96,7 @@ def create_sequence(data: dict, sequence_name: str, task_level: int):
     for task in tasks:
         task_id = task["task_id"]
         child = data[task_id]
+        print(child['interactive'])
         if child["task_type"] == "task":
             children.append(Task(
                 task_type="task",
@@ -109,6 +111,7 @@ def create_sequence(data: dict, sequence_name: str, task_level: int):
                 task_type="seq",
                 name=child["name"],
                 description=child["description"],
+                interactive=child["interactive"],
                 task_level=task_level,
                 children=create_sequence(data, task_id, next_task_level)
             )
@@ -121,6 +124,7 @@ def get_tasks(seq):
         'type': seq.task_type,
         'name': seq.name,
         'description': seq.description,
+        'interactive': seq.interactive,
         'directive': 'RUN',
         'result': results["NOT_STARTED"],
         'children': []
@@ -132,6 +136,7 @@ def get_tasks(seq):
                 'type': task.task_type,
                 'name': task.name,
                 'description': task.description,
+                'interactive': task.interactive,
                 'directive': 'RUN',
                 'result': results["NOT_STARTED"],
             }

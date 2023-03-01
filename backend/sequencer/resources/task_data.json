@@ -3,48 +3,336 @@
     "name": "Ramping",
     "description": "提高占空比",
     "task_type": "seq",
+    "interactive": false,
     "tasks": [
       {
-        "task_id": "lebt_check"
+        "task_id": "machine_checking"
       },
       {
-        "task_id": "close_fc2"
+        "task_id": "timing_setting"
       },
       {
-        "task_id": "open_fc1"
+        "task_id": "timing_setting_reset"
       },
       {
-        "task_id": "rfq_transit_check"
+        "task_id": "open_lfc_ramping"
       },
       {
-        "task_id": "open_fc2"
-      },
-      {
-        "task_id": "sequence2"
+        "task_id": "raise_occupy"
       }
     ]
   },
   "sequence2": {
-    "name": "Machine check",
-    "description": "机器状态检测",
+    "name": "Intercept",
+    "description": "切束",
+    "interactive": false,
     "task_type": "seq",
     "tasks": [
       {
-        "task_id": "mebt_check"
-      },
-      {
-        "task_id": "sc_check"
-      },
-      {
-        "task_id": "hebt_check"
-      },
-      {
-        "task_id": "valve_check"
-      },
-      {
-        "task_id": "intercept_check"
+        "task_id": "close_lfc"
       }
     ]
+  },
+  "tof_configure": {
+    "name": "Intercept",
+    "description": "切束",
+    "interactive": true,
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "drop_T0D1_current"
+      },
+      {
+        "task_id": "switchAC"
+      },
+      {
+        "task_id": "mps_bypass"
+      },
+      {
+        "task_id": "dipole_status_checking"
+      },
+      {
+        "task_id": "lebt_collimator_setting"
+      },
+      {
+        "task_id": "dipole_checking"
+      },
+      {
+        "task_id": "open_lebt_dump_hebt"
+      }
+    ]
+  },
+  "sequence3": {
+    "name": "SwitchEnergy",
+    "description": "切换能量",
+    "interactive": false,
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "close_lebt_dump"
+      },
+      {
+        "task_id": "tof_configure"
+      },
+      {
+        "task_id": "close_lebt_dump_hebt"
+      },
+      {
+        "task_id": "move_fcs"
+      },
+      {
+        "task_id": "diag_gain_setting"
+      },
+      {
+        "task_id": "open_lebt_dump"
+      },
+      {
+        "task_id": "mfc_current_checking"
+      },
+      {
+        "task_id": "freq_setting"
+      },
+      {
+        "task_id": "open_mfc"
+      },
+      {
+        "task_id": "t2fc_current_checking"
+      },
+      {
+        "task_id": "open_t2fc"
+      },
+      {
+        "task_id": "restore_lebt_collimator"
+      },
+      {
+        "task_id": "bpm_gain_setting"
+      },
+      {
+        "task_id": "restore_mps"
+      },
+      {
+        "task_id": "close_lebt_dump"
+      },
+      {
+        "task_id": "open_ssfc"
+      }
+    ]
+  },
+  "close_lebt_dump": {
+    "name": "Insert LEBT DUMP",
+    "task_type": "task",
+    "description": "插入LEBT DUMP",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "close_lebt_dump"
+  },
+  "close_lebt_dump_hebt": {
+    "name": "Insert LEBT DUMP",
+    "task_type": "task",
+    "description": "插入LEBT DUMP",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "close_lebt_dump_hebt"
+  },
+  "dipole_status_checking": {
+    "name": "HEBT Dipole Status Checking",
+    "task_type": "task",
+    "description": "HEBT二极铁电源检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "dipole_status_checking"
+  },
+  "drop_T0D1_current": {
+    "name": "Drop T0D1 Current",
+    "task_type": "task",
+    "description": "T0D1电流归零",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "drop_T0D1_current"
+  },
+  "switch_commissioning_mode": {
+    "name": "Switch Commissiong Mode",
+    "task_type": "task",
+    "description": "转入加速器模式",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "switch_commissioning_mode"
+  },
+  "pulse_checking": {
+    "name": "Timing System Checking",
+    "task_type": "task",
+    "description": "定时参数检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "pulse_checking"
+  },
+  "switchAC": {
+    "name": "Switch AC Mode",
+    "task_type": "task",
+    "description": "定时切换AC触发",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "switchAC"
+  },
+  "mps_bypass": {
+    "name": "MPS Bypass",
+    "task_type": "task",
+    "description": "MPS Bypass",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "mps_bypass"
+  },
+  "dipole_checking": {
+    "name": "T0D1 Checking",
+    "task_type": "task",
+    "description": "T0D1电流为零检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "dipole_checking"
+  },
+  "lebt_collimator_setting": {
+    "name": "LEBT Collimator Setting",
+    "task_type": "task",
+    "description": "LEBT光阑设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "lebt_collimator_setting"
+  },
+  "open_lebt_dump": {
+    "name": "Open LEBT Dump",
+    "task_type": "task",
+    "description": "打开LEBT Dump",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_lebt_dump"
+  },
+  "open_lebt_dump_hebt": {
+    "name": "Open LEBT Dump",
+    "task_type": "task",
+    "description": "打开LEBT Dump",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_lebt_dump_hebt"
+  },
+  "move_fcs": {
+    "name": "Insert FCS",
+    "task_type": "task",
+    "description": "插入法拉第筒",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "move_fcs"
+  },
+  "diag_gain_setting": {
+    "name": "Diag Gain Setting",
+    "task_type": "task",
+    "description": "束诊增益设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "diag_gain_setting"
+  },
+  "mfc_current_checking": {
+    "name": "MFC Current Checking",
+    "task_type": "task",
+    "description": "MFC电流检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "mfc_current_checking"
+  },
+  "freq_setting": {
+    "name": "Frequency setting",
+    "task_type": "task",
+    "description": "重复频率设定",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "freq_setting"
+  },
+  "open_mfc": {
+    "name": "Open MFC",
+    "task_type": "task",
+    "description": "打开MFC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_mfc"
+  },
+  "t2fc_current_checking": {
+    "name": "T2 FC Current Checking",
+    "task_type": "task",
+    "description": "T2 FC电流检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "t2fc_current_checking"
+  },
+  "open_t2fc": {
+    "name": "Open T2 FC",
+    "task_type": "task",
+    "description": "打开T2 FC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_t2fc"
+  },
+  "restore_lebt_collimator": {
+    "name": "restore LEBT Collimator",
+    "task_type": "task",
+    "description": "还原LEBT光阑参数",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "restore_lebt_collimator"
+  },
+  "bpm_gain_setting": {
+    "name": "BPM Gain Setting",
+    "task_type": "task",
+    "description": "BPM增益设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "bpm_gain_setting"
+  },
+  "restore_mps": {
+    "name": "restore MPS",
+    "task_type": "task",
+    "description": "还原MPS设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "restore_mps"
+  },
+  "open_ssfc": {
+    "name": "Open SS FC",
+    "task_type": "task",
+    "description": "打开SS FC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_ssfc"
+  },
+  "switch_target_mode": {
+    "name": "Switch Target Mode",
+    "task_type": "task",
+    "description": "转入终端模式",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "switch_target_mode"
+  },
+  "open_lfc": {
+    "name": "Open LFC",
+    "task_type": "task",
+    "description": "打开LFC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_lfc"
+  },
+  "open_lfc_ramping": {
+    "name": "Open LFC",
+    "task_type": "task",
+    "description": "打开LFC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "open_lfc_ramping"
+  },
+  "close_lfc": {
+    "name": "close LFC",
+    "task_type": "task",
+    "description": "关闭LFC",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "close_lfc"
   },
   "open_fc1": {
     "name": "fc1",
@@ -70,7 +358,6 @@
     "interactive": false,
     "user_code": "close_fc2"
   },
-
   "rfq_transit_check": {
     "name": "rfq transition check",
     "task_type": "task",
@@ -126,5 +413,37 @@
     "skippable": false,
     "interactive": false,
     "user_code": "intercept_status_check"
+  },
+  "timing_setting_reset": {
+    "name": "Timing setting reset",
+    "task_type": "task",
+    "description": "初始化定时参数",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "timing_setting_reset"
+  },
+  "timing_setting": {
+    "name": "Timing setting",
+    "task_type": "task",
+    "description": "设置目标定时参数",
+    "skippable": false,
+    "interactive": true,
+    "user_code": "timing_setting"
+  },
+  "machine_checking": {
+    "name": "Machine check",
+    "task_type": "task",
+    "description": "机器状态检测",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "machine_checking"
+  },
+  "raise_occupy": {
+    "name": "Raise occupy",
+    "task_type": "task",
+    "description": "提高占空比",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "raise_occupy"
   }
 }

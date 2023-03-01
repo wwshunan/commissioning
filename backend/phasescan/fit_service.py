@@ -6,7 +6,7 @@ from .phase_energy_relation import TofPhaseTransformer
 from pathlib import Path
 from .cfit import (get_bpm_phases, single_bpm_sim_params, 
                    simulate_energy, double_bpm_sim_params)
-
+from scipy.optimize import minimize_scalar
 import numpy as np
 
 
@@ -110,7 +110,6 @@ class SingleBPMFit(DataFitBase):
 
     def get_entr_phase(self, sync_phase, field_factor):
         bnds = (-np.pi, np.pi)
-        from scipy.optimize import minimize_scalar
         res = minimize_scalar(self.sync_phase_diff, 0, bounds=bnds, 
                               args=(field_factor, sync_phase))
 

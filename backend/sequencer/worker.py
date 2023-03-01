@@ -6,7 +6,7 @@ import importlib
 
 class UserCode(TaskUserInterface):
     def __init__(self, task):
-        self.module = 'backend.sequencer.user_codes.tasks'
+        self.module = 'backend.sequencer.user_codes.cafe_tasks'
         self.task = task
 
     def execUserCode(self):

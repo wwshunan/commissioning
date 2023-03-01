@@ -125,8 +125,16 @@ def factory(opt_target, repeat, step, correct_factor):
     else:
         target = ssfc_sub_halo_max(repeat, step, correct_factor)
     return target
-        
+
+def repeat_calc(freq):
+    mfc1 = 50
+    std_var = 0.004*mfc1
+    var = factory("T2FC Max", 100, 1 / freq, 0)
+    repeat = min(round(var/std_var)+1, 600)
+    return repeat
+  
 def hebt_q_match(opt_target, opti_param, freq, repeat, correct_factor=2, iter_max=100, ssfc_min=65, w=2):
+    repeat = repeat_calc(freq)
     xbest = []
     ybest = -1000 
     step = 1 / freq
@@ -140,7 +148,15 @@ def hebt_q_match(opt_target, opti_param, freq, repeat, correct_factor=2, iter_ma
     job.save()
     for i in range(iter_max+1):
         y = factory(opt_target, repeat, step, correct_factor)
-        iter_result = dict(zip(configs[opti_param]['log_names'], [i+1] + x + [round(y, 4)]))
+        if i>0 and y/yold<0.9:
+            x[idx] = xold
+            print(xold)
+            pvs[idx].put(x[idx])
+            time.sleep(2)
+            y = factory(opt_target, repeat, step, correct_factor)
+        if i>0 and y/ybest>1.1:
+            y = factory(opt_target, repeat, step, correct_factor)
+        iter_result = dict(zip(configs[opti_param]['log_names'], [i] + x + [round(y, 4)]))
         results.append(iter_result)
         if y > ybest:
             ybest = y
@@ -158,8 +174,14 @@ def hebt_q_match(opt_target, opti_param, freq, repeat, correct_factor=2, iter_ma
         pvs[idx].put(x[idx] + dx)
         time.sleep(2)
         y2 = factory(opt_target, repeat, step, correct_factor)
+        ssfc_pv = PV(SSFC)
+        while ssfc_pv.get() < ssfc_min and not job.meta.get('stop'):
+            time.sleep(5)
+            y2 = factory(opt_target, repeat, step, correct_factor)
+        xold = x[idx]
+        yold = y
         job.refresh()
-        if job.meta.get('stop') or PV(SSFC).get() < ssfc_min:
+        if job.meta.get('stop'):
             break
         x[idx] = np.clip(round(x[idx] + dx * w * (y2 - y), 2), 
                          configs[opti_param]['lb'][idx], 

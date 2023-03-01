@@ -11,7 +11,7 @@ from ..services.pv_handler import PhaseScanPVController
 import pandas as pd
 from pathlib import Path
 from ..schemas import (PhaseScanInfo, CurveFitInfo, SmoothData, CavityFinished,
-                       CavityModel, SynchPhaseModel, CavityAmp)
+                       CavityModel, SynchPhaseModel, CavityAmp, BpmLimitModel)
 from .phase_fit import PhaseFit
 from .smooth import smooth_data
 import fastapi_plugins
@@ -157,10 +157,10 @@ async def synch_phase_set(data: SynchPhaseModel,
     general_data = {}
     general_keys = ['cavity_name', 'start_time', 'physics_amp', 'rf_amp', 'synch_phase',
                     'rf_phase', 'bpm1_name', 'bpm2_name', 'energy']
-    bpm_phase_check = pv_controller.pvs_one_cavity["bpm1_pv"].get()
+    bpm_phase_check = pv_controller.pvs_one_cavity["bpm1_pv"][0].get()
     for k in general_keys:
         general_data[k] = await cache.get(k)
-        general_data[k] = general_data[k].decode('utf-8')
+        #general_data[k] = general_data[k].decode('utf-8')
     general_data['start_time'] = datetime.fromisoformat(general_data['start_time'])
     general_data['bpm_phase_check'] = bpm_phase_check
     raw_data_keys = ['rf_phases', 'bpm1_phases', 'bpm1_errors', 'bpm2_phases', 'bpm2_errors']
@@ -212,7 +212,7 @@ async def get_amp(cavity: CavityModel,
     cavity = get_physic_amp(db, cavity_name, section)
     if not cavity:
         raise HTTPException(status_code=403, detail="没有上传lattice")
-    physics_amp = cavity.amp
+    physics_amp = abs(cavity.amp)
     await cache.set('cavity_name', cavity_name)
     await cache.set('physics_amp', physics_amp)
 
@@ -228,6 +228,12 @@ async def get_amp(cavity: CavityModel,
         "physics_amp": physics_amp,
         "amp_limit": amp_limit
     }
+
+@router.post('/commissioning/phasescan/set-bpm-sum-offset-limit',
+             dependencies=[Depends(JWTBearer())])
+def set_bpm_sum_offset_limit(data: BpmLimitModel):
+    pv_controller.set_bpm_sum_and_offset_limit(data.bpm_sum_limit, data.orbit_offset_limit)
+    return dict(code=20000)
 
 @router.post('/commissioning/phasescan/phase-set',
              dependencies=[Depends(JWTBearer())])
@@ -304,15 +310,6 @@ async def finish(data: CavityFinished,
 @router.post('/commissioning/phasescan/set-mode',
              dependencies=[Depends(JWTBearer())])
 def set_mode(data: CavityModel):
-    #config_fname = basedir.joinpath('resources', 'config.txt')
-    #config_infos = pd.read_csv(config_fname, header=0, sep='\s+')
-    #cavities = config_infos['cavity_name'].to_list()
-    #start_cavity_idx = cavities.index(data.cavity_name)
-    #for i, cavity_name in enumerate(cavities):
-    #    finished = False
-        #if i >= start_cavity_idx:
-        #    finished = False
-    #    pv_controller.finished.put(json.dumps({cavity_name: finished}))
     pv_controller.mode.put(0x020C0)
     return dict(code=20000)
 

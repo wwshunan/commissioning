@@ -71,7 +71,7 @@ class ADSTask(AbstractTaskImpl, CallableTask):
 
     def setTaskDescription(self, description):
         self.description = description
-        return this
+        return self
 
     def getCallingSequence(self):
         return self.sequence

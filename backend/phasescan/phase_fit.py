@@ -17,7 +17,7 @@ class PhaseFit(object):
         self.clear_up(rf_phase, w_in, w_gain, amp, x_plot, y_plot)
         w_out = w_in + w_gain
         return dict(entr_phase=entr_phase, rf_phase=rf_phase, w_gain=w_gain, w_out=w_out, 
-                    amp=abs(amp), x_plot=x_plot, y_plot=y_plot.tolist())
+                    amp=amp, x_plot=x_plot, y_plot=y_plot.tolist())
 
     def clear_up(self, rf_phase, w_in, w_gain, amp, x_plot, y_plot):
         pass

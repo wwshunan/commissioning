@@ -389,6 +389,23 @@ pvdb = {
     'MPS_Core:VAC_CM02:InST': {},
     'MPS_Core:VAC_CM03:InST': {},
     'MPS_Core:VAC_CM04:InST': {},
+    'LEBT_VAC:VG:Pres': {},
+    'MEBT_VAC:VG:Pres': {},
+    'LEBT:vLogic_FC:Close': {},
+    'LEBT_ACCE:vCalc_Amm:Vol_Rd': {},
+    'Silicon:RFQ:LLRF:Power1_Cavity': {},
+    'MEBT_PS:CH01:Cur_Rd': {},
+    'MEBT_PS:CH02:Cur_Rd': {},
+    'MEBT_PS:CH03:Cur_Rd': {},
+    'LEBT:vLogic_FC:Open': {},
+    'LEBT:vLogic_PVV:Open': {},
+    'LEBT_BI:FC:Run_Wr': {},
+    'LEBT_VAC:PVV:Run_Wr': {},
+    'MEBT_VAC:PVV:Run_Wr': {},
+    'H_INJECT_BD:bFCSingleConstantEnable1_W': {},
+    'SCR_STRG:SDG01:CH1_WIDTH': {},
+    'SCR_STRG:SDG:FRQ': {},
+    'TARGET_VAC:VG:Pres': {}
 }
 
 

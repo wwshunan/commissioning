@@ -1,0 +1,92 @@
+label pv default
+LEBT_dump_in MPS_Core:LEBT_Dump:InST 0
+timing_freq EVG1:PRF 1
+timing_chopper EVG1:Chop_Width 20
+timing_trigger EVG1.TRIGSRC 1
+timing_bpm SCR_STRG:SDG02:CH2_WIDTH 200
+ACCT_current H_INJECTOR_BD:CHAN1_AVG_SUB_OST_VAL 0
+MFC_current H_INJECTOR_BD:CHAN0_AVG_SUB_OST_VAL 0
+t2fc SS_BD:CHAN0_AVG_SUB_OST_VAL 0
+MFC_out MEBT_BD:MFC1:InHome_R 0
+Ldump_driver MPS_Core:LEBT_Dump:Opr 0
+dipole_put HEBT_PS:T0_D-01:CurSet 0
+dipole_get HEBT_PS:T0_D-01:CurMon 0
+dipole_status HEBT_PS:T0_D-01:RunSMonT 1
+hebt_ring_bypass MPS_Core:BD_DDCCT:Opr_Byp 1
+mfc_bypass MPS_Soft:MEBT_BD_MFC1:BYPASS 1
+T2_FC_bypass MPS_Soft:T2_BD_FC1:BYPASS 1
+SS_VS_bypass MPS_Soft:SS_BD_VS:BYPASS 1
+SS_FC_bypass MPS_Soft:SS_BD_FC1:BYPASS 1
+cm1_set LEBT:Set_Pos5_W 1
+cm1_get LEBT:Real_Pos5_R 1
+cm1_action LEBT:Cmd_Abv5_W 1
+cm2_set LEBT:Set_Pos6_W 1
+cm2_get LEBT:Real_Pos6_R 1
+cm2_action LEBT:Cmd_Abv6_W 1
+cm3_set LEBT:Set_Pos7_W 1
+cm3_get LEBT:Real_Pos7_R 1
+cm3_action LEBT:Cmd_Abv7_W 1
+mps_status MPS_Core:FSM_ST 1
+ss_fc_in_set SS_BD:FC1:bFCSingleConstantEnable3_W 1
+ss_fc_get SS_BD:FC1:InHome_R 1
+ss_fc_out_set SS_BD:FC1:bFCSingleHomeEnable3_W 1
+t2_fc_in_set T2_BD:FC1:bFCSingleConstantEnable1_W 1
+t2_fc_out_set T2_BD:FC1:bFCSingleHomeEnable1_W 1
+t2_fc_get T2_BD:FC1:ActPos_R 1
+t2_hr_set SS_BD:HR:bFCSingleHomeEnable2_W 1
+t2_hr_get T2_BD:HR:InHome_R 1
+mfc_gain MEBT_BD:IV_FC1 1
+t2hr_gain SS_BD:IV_S1 1
+t2fc_gain SS_BD:IV_FC1 1
+ssfc_gain SS_BD:IV_FC2 1
+sshr1_gain HEBT_BD:IV_S1 1
+sshr2_gain HEBT_BD:IV_S2 1
+sshr3_gain HEBT_BD:IV_S3 1
+sshr4_gain HEBT_BD:IV_S4 1
+sshr5_gain HEBT_BD:IV_S5 1
+mfc_window_width MEBT_BD.ZNUM0 80
+mfc_start MEBT_BD.START0 250
+mfc_width MEBT_BD.LENGTH0 200
+mfc_noise_start MEBT_BD.OSTSTART0 900
+mfc_noise_width MEBT_BD.OSTLEN0 200
+mfc_action MEBT_BD:SETOK 1
+t2hr_window_width SS_BD.ZNUM0 80
+t2hr_start SS_BD.START0 250
+t2hr_width SS_BD.LENGTH0 200
+t2hr_noise_start SS_BD.OSTSTART0 900
+t2hr_noise_width SS_BD.OSTLEN0 200
+t2hr_action HEBT_BD:SETOK 1
+sshr_window_width HEBT_BD.ZNUM4 80
+sshr_start HEBT_BD.START0 250
+sshr_width HEBT_BD.LENGTH0 200
+sshr_noise_start HEBT_BD.OSTSTART0 900
+sshr_noise_width HEBT_BD.OSTLEN0 200
+sshr_action SS_BD:SETOK 1
+mfc MEBT_BD:CHAN2_AVG_SUB_OST_VAL 1
+t2bpm2_window_width T2BPM2.DURATION_CONTROL 2
+t2bpm2_start T2BPM2.START 100
+t2bpm2_width T2BPM2.LENGTH 300
+t2bpm3_window_width T2BPM3.DURATION_CONTROL 2
+t2bpm3_start T2BPM3.START 100
+t2bpm3_width T2BPM3.LENGTH 300
+ssbpm_window_width SSBPM.DURATION_CONTROL 2
+ssbpm_start SSBPM.START 100
+ssbpm_width SSBPM.LENGTH 300
+mfc_out_set MEBT_BD:bFCSingleHomeEnable1_W 1
+mfc_get MEBT_BD:MFC1:InHome_R 1
+mfc_in_set MEBT_BD:bFCSingleConstantEnable1_W 1
+T2_BPM2_Gain T2BPM2.GAIN_CONTROL 1
+T2_BPM3_Gain T2BPM3.GAIN_CONTROL 1
+SS_BPM_Gain SSBPM.GAIN_CONTROL 1
+
+
+
+
+
+
+
+
+
+
+
+

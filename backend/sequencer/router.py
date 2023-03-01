@@ -1,24 +1,26 @@
-from re import S
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..dependencies import JWTBearer, get_db
 from ..services.pv_handler import PhaseScanPVController
 from ..services.worker import q
-from ..schemas import  Id
+from ..schemas import  Id, Name, Timing
 from pathlib import Path
 from ..crud import get_sequences, fetch_sequence
 from .worker import TaskExecutor
+import aioredis
+import fastapi_plugins
 
 router = APIRouter()
 basedir = Path(__file__).resolve().parent
 pv_controller = PhaseScanPVController()
 task_executor = TaskExecutor(q)
 
-@router.get('/commissioning/sequencer/load-sequences',
-            dependencies=[Depends(JWTBearer())])
-def load_sequences(db: Session = Depends(get_db)):
+@router.post('/commissioning/sequencer/load-sequences',
+             dependencies=[Depends(JWTBearer())])
+def load_sequences(seq_name: Name, db: Session = Depends(get_db)):
     sequences = get_sequences(db)
-    sequences.pop(1)
+    sequences = list(filter(lambda x: x['name'].upper() == seq_name.label.upper(), sequences))
+    #sequences.pop(1)
     return {
         'code': 20000,
         'sequences': sequences
@@ -31,6 +33,16 @@ def sequence_init(data: Id, db: Session = Depends(get_db)):
     task_executor.initialize_sequence(seq)
     return {
         'code': 20000,
+    }
+
+@router.post('/commissioning/sequencer/timing-setting',
+             dependencies=[Depends(JWTBearer())])
+async def timing_setting(timing: Timing,
+                         cache: aioredis.Redis = Depends(fastapi_plugins.depends_redis)):
+    await cache.set('timing_repeat', timing.timing_repeat)
+    await cache.set('timing_width', timing.timing_width)
+    return {
+        'code': 20000
     }
 
 @router.get('/commissioning/sequencer/{task_id}',
