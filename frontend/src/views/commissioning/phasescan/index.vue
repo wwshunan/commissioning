@@ -7,6 +7,23 @@
       <el-row :gutter="40">
         <el-col :span="8">
           <el-form @submit.prevent="onSubmit" enctype="multipart/form-data" size="mini">
+            <el-form-item>
+              <div style="text-align: left; font-weight: bold">阈值设定</div>
+              <el-row :gutter="10">
+                <el-col :span="5">
+                  <span>轨道小于</span>
+                </el-col>
+                <el-col :span="6">
+                  <el-input v-model="orbit_offset_limit" @keyup.enter.native="setBpmSumAndOrbitLimit"></el-input>
+                </el-col>
+                <el-col :span="5">
+                  <span>BPM2 SUM大于</span>
+                </el-col>
+                <el-col :span="6">
+                  <el-input v-model="bpm_sum_limit" @keyup.enter.native="setBpmSumAndOrbitLimit"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
             <el-form-item label="扫相模式">
               <el-radio-group v-model="selected">
                 <el-radio v-for="item in options" :label="item.value" :key="item.value">
@@ -270,6 +287,8 @@ export default {
         {value: "55Mn17+", text: "55Mn17+"},
       ],
       in_energy: 4,
+      orbit_offset_limit: 5,
+      bpm_sum_limit: 1000,
       cavity_name: '',
       cavity_options: [],
       bpm_select: '',
@@ -390,6 +409,17 @@ export default {
     }
   },
   methods: {
+    async setBpmSumAndOrbitLimit() {
+      const path =  '/commissioning/phasescan/set-bpm-sum-offset-limit'
+      await request({
+        url: path,
+        data: {
+          bpm_sum_limit: this.bpm_sum_limit,
+          orbit_offset_limit: this.orbit_offset_limit
+        },
+        method: 'post',
+      })
+    },
     reset_bpm() {
       if (this.bpm_mode_selected === 'double') {
         this.bpm_harm_selected = 'double'
@@ -734,17 +764,11 @@ export default {
           rf_phase: phase,
           bpm_index: this.bpm_options.map(e=>{return e.value}).indexOf(this.bpm_select),
           bpm_harm: this.bpm_harm_selected,
-          //bypass_cavities: bypass_cavities,
-          //amp: this.amp,
-          //phase: phase,
-          //cavity_write_pv: cavity_write_pv,
-          //cavity_rb_pv: cavity_rb_pv,
-          //cavity_ready_pv: cavity_ready_pv,
-          //bpm1_phase_pv: bpm1_pv,
-          //bpm2_phase_pv: bpm2_pv,
           cavity_res_time: parseFloat(this.cavity_res_time),
           bpm_read_num: bpm_read_num,
-          bpm_read_sep: bpm_read_sep
+          bpm_read_sep: bpm_read_sep,
+          orbit_offset_limit: this.orbit_offset_limit,
+          bpm_sum_limit: this.bpm_sum_limit
         }
         try {
           response = await request({
@@ -755,12 +779,13 @@ export default {
           })
         } catch (e) {
             Message({
-              message: e.message || 'Error',
+              message: e.message+'fuck' || 'Error',
               type: 'error',
               duration: 5 * 1000
             })
             continue
         } finally {
+          console.log('finally')
           while (this.pause) {
             await new Promise(r => setTimeout(r, 1000));
           }

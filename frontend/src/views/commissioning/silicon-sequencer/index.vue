@@ -6,6 +6,14 @@
     <el-main>
       <el-form ref="form" :model="form" size="mini">
         <el-form-item>
+          <el-button type="primary" @click="loadSequence('commissioning')" text-aligh="left">调束</el-button>
+          <el-button type="primary" @click="loadSequence('positionCheck')" text-aligh="left">打膜</el-button>
+          <el-button type="primary" @click="loadSequence('currentCheck')" text-aligh="left">流强确认</el-button>
+          <el-button type="primary" @click="loadSequence('vaccBreak')" text-aligh="left">破真空</el-button>
+          <el-button type="primary" @click="loadSequence('Intercept')" text-aligh="left">切束</el-button>
+          <el-button type="primary" @click="loadSequence('ramping')" text-aligh="left">提占空比</el-button>
+        </el-form-item>
+        <el-form-item>
           <div style="text-align: left; font-weight: bold">已装载任务序列</div>
           <el-table :data="tasks" ref="table" default-expand-all row-key="id" :tree-props="{children: 'children'}"
             style="width: 100%" max-height="700px" highlight-current-row @current-change="handleCurrentChange">
@@ -21,9 +29,16 @@
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column prop="id, type" label="执行" width="100">
+            <el-table-column prop="interactive" label="参数设置" width="100">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.type !== 'seq'" size="mini" type="success" @click="exec_task(scope.row.id)">RUN</el-button>
+                <el-button v-if="scope.row.interactive" size="mini" type="info" 
+                @click="setParams">SET</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column prop="id, type, interactive" label="执行" width="100">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.type !== 'seq' && !scope.row.interactive" size="mini" type="success" 
+                @click="exec_task(scope.row.id, scope.row.interactive)">RUN</el-button>
               </template>
             </el-table-column>
             <el-table-column prop="result" label="结果">
@@ -39,11 +54,13 @@
         </el-form-item>
       </el-form>
     </el-main>
+    <timing-dialog ref="dialog" @timing-msg="caputureTimingData"></timing-dialog>
   </el-container>
 </template>
 
 <script>
 import request from '@/utils/request'
+import TimingDialog from '@/components/TimingDialog/index'
 import { Message } from 'element-ui'
 
 
@@ -101,20 +118,41 @@ export default {
       tasks: [],
     }
   },
+  components: {
+    TimingDialog
+  },
   async mounted() {
-    await this.get_sequences()
-    await this.init_sequence()
-    this.$refs.table.setCurrentRow(this.tasks[0])
+    await this.loadSequence('commissioning')
   },
   methods: {
+    async loadSequence(seqName) {
+      await this.get_sequences(seqName)
+      await this.init_sequence()
+      this.$refs.table.setCurrentRow(this.tasks[0])
+    },
     handleCurrentChange(val) {
       this.current_row = val
     },
-    async get_sequences() {
+    setParams() {
+      this.$refs.dialog.show()
+    },
+    async caputureTimingData(repeat, width) {
+      const path = '/commissioning/sequencer/timing-setting';
+      const res = await request({
+        url: path,
+        method: 'post',
+        data: {
+          timing_repeat: repeat,
+          timing_width: width
+        }
+      })
+    },
+    async get_sequences(seqName) {
       const path = '/commissioning/sequencer/load-sequences';
       const res = await request({
         url: path,
-        method: 'get',
+        method: 'post',
+        data: {label: seqName}
       })
       this.tasks = res.sequences
     },
@@ -155,11 +193,13 @@ export default {
       })
       await this.get_status(res.tasks, 0)
     },
-    async exec_task(task_id) {
+    async exec_task(task_id, interactive) {
       const path = '/commissioning/sequencer/step';
       const res = await request({
         url: path,
-        data: { id: task_id },
+        data: { 
+          id: task_id
+        },
         method: 'post',
       })
       await this.get_status(res.tasks, 0)

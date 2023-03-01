@@ -89,7 +89,7 @@ export const asyncRoutes = [
       },
 	  {
         path: 'sequencer',
-        component: () => import('@/views/commissioning/sequencer/index'), // Parent router-view
+        component: () => import('@/views/commissioning/cafe-sequencer/index'), // Parent router-view
         name: 'Sequencer',
         meta: { title: 'HEBT match', roles: ['admin', 'user'] },
       },
