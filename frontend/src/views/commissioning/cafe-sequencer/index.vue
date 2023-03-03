@@ -12,7 +12,7 @@
           <div style="text-align: left; font-weight: bold">已装载任务序列</div>
           <el-table :data="tasks" ref="table" default-expand-all row-key="id" :tree-props="{children: 'children'}"
             style="width: 100%" max-height="700px" highlight-current-row @current-change="handleCurrentChange">
-            <el-table-column prop="name" label="任务名" width="200">
+            <el-table-column prop="name" label="任务名" width="250">
             </el-table-column>
             <el-table-column prop="description" label="描述" width="250">
             </el-table-column>
@@ -32,10 +32,10 @@
               </template>
             </el-table-column>
             -->
-            <el-table-column prop="id, type, interactive" label="执行" width="100">
-              <template slot-scope="scope">
-                <el-button v-if="scope.row.type !== 'seq' && !scope.row.interactive" size="mini" type="success" 
-                @click="exec_task(scope.row.id, scope.row.interactive)">RUN</el-button>
+            <el-table-column prop="id, type" label="执行" width="100">
+              <template slot-scope="scope" v-if="scope.row.id !== 6">
+                <el-button size="mini" type="success" 
+                @click="exec_task(scope.row.id, scope.row.type)">RUN</el-button>
               </template>
             </el-table-column>
             <el-table-column prop="result" label="结果">
@@ -85,6 +85,23 @@ function create_info(key, detail) {
   return msg
 }
 
+function reset_task_status(tasks, target_id, status, show=false) {
+  tasks.forEach(e => {
+    if (show || e.id === target_id) {
+      e.result = create_info(status.key, status.detail)
+    }
+    if ('children' in e) {
+      if (e.id === target_id) show = true
+      reset_task_status(e.children, target_id, status, show)
+      show = false
+    }
+    if (e.id === target_id) {
+      return
+    }
+  })
+
+}
+
 function update_task_status(tasks, target_id, status) {
   let result = false
   tasks.forEach(e => {
@@ -102,6 +119,8 @@ export default {
     return {
       task_status: 'RUN',
       current_row: null,
+      allow_execute: true,
+      stop_execute: false,
       options: [
         { 
           value: 'RUN',
@@ -160,9 +179,12 @@ export default {
           url: path,
           method: 'get'
         })
+        console.log(res)
         const taskStatus = res.data.task_status;
         if (taskStatus === 'finished' || taskStatus === 'failed') {
           update_task_status(this.tasks, tasks[id].id, res.data.task_result)
+          if (res.data.task_result.key === 'OK') this.allow_execute = true
+          if (res.data.task_result.key === 'FAILURE') this.stop_execute = true
         }
         if (taskStatus === 'finished' && id + 1 === tasks.length || taskStatus === 'failed') return false
         if (taskStatus === 'finished' && id <= tasks.length) id++
@@ -190,22 +212,46 @@ export default {
       })
       await this.get_status(res.tasks, 0)
     },
-    async exec_task(task_id, interactive) {
-      console.log(task_id, tasks)
+    getChildren(searchArray, targetId) {
+      for (let e of searchArray) {
+        if (e.id === targetId) {
+          return e.children
+        } else if (e.type === "seq") {
+          return this.getChildren(e.children, targetId)
+        }
+      }
+    },
+    async exec_task(task_id, type) {
+      reset_task_status(this.tasks, task_id, {key: 'OK', detail: '任务开始，请等待!'})
       const path = '/commissioning/sequencer/step';
-      const res = await request({
-        url: path,
-        data: { 
-          id: task_id
-        },
-        method: 'post',
-      })
-      await this.get_status(res.tasks, 0)
-      Message({
-        message: "任务已执行，请等待",
-        type: 'success',
-        duration: 5 * 1000
-      })
+      console.log(task_id, type)
+      if (type === "seq") {
+        //path = '/commissioning/sequencer/execute';
+        const children = this.getChildren(this.tasks, task_id)
+        for (let task of children) {
+          if (this.allow_execute) {
+            this.allow_execute = false
+            this.stop_execute = false
+            await this.exec_task(task.id, task.type)
+          }
+          await new Promise(res => setTimeout(res, 1000));
+          if (this.stop_execute) break
+        }
+      } else {
+        const res = await request({
+          url: path,
+          data: { 
+            id: task_id
+          },
+          method: 'post',
+        })
+        await this.get_status(res.tasks, 0)
+        Message({
+          message: "任务已执行，请等待",
+          type: 'success',
+          duration: 5 * 1000
+        })
+      }
     } 
   }
 }
