@@ -34,8 +34,8 @@
     ]
   },
   "tof_configure": {
-    "name": "Intercept",
-    "description": "切束",
+    "name": "TOF preconfig",
+    "description": "TOF测量前配置",
     "interactive": true,
     "task_type": "seq",
     "tasks": [
@@ -62,21 +62,12 @@
       }
     ]
   },
-  "sequence3": {
-    "name": "SwitchEnergy",
-    "description": "切换能量",
-    "interactive": false,
+  "hebt_optimize_configure": {
+    "name": "HEBT optimize preconfig",
+    "description": "HEBT优化前配置",
+    "interactive": true,
     "task_type": "seq",
     "tasks": [
-      {
-        "task_id": "close_lebt_dump"
-      },
-      {
-        "task_id": "tof_configure"
-      },
-      {
-        "task_id": "close_lebt_dump_hebt"
-      },
       {
         "task_id": "move_fcs"
       },
@@ -102,21 +93,77 @@
         "task_id": "open_t2fc"
       },
       {
+        "task_id": "bpm_gain_setting_opt"
+      }
+    ]
+  },
+  "target_configure": {
+    "name": "Target preconfig",
+    "description": "终端打靶前配置",
+    "interactive": true,
+    "task_type": "seq",
+    "tasks": [
+      {
         "task_id": "restore_lebt_collimator"
       },
       {
-        "task_id": "bpm_gain_setting"
+        "task_id": "bpm_gain_setting_target"
+      },
+      {
+        "task_id": "diag_gain_setting_target"
       },
       {
         "task_id": "restore_mps"
       },
       {
-        "task_id": "close_lebt_dump"
+        "task_id": "close_lebt_dump_target"
       },
       {
         "task_id": "open_ssfc"
       }
     ]
+  },
+  "sequence3": {
+    "name": "SwitchEnergy",
+    "description": "切换能量",
+    "interactive": false,
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "close_lebt_dump"
+      },
+      {
+        "task_id": "tof_configure"
+      },
+      {
+        "task_id": "close_lebt_dump_hebt"
+      },
+      {
+        "task_id": "hebt_optimize_configure"
+      },
+      {
+        "task_id": "hebt_optimize"
+      },
+      {
+        "task_id": "target_configure"
+      }
+    ]
+  },
+  "switch_safe_mode": {
+    "name": "Switch Accelerator Mode",
+    "task_type": "task",
+    "description": "切换至加速器模式",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "switch_safe_mode"
+  },
+  "hebt_optimize": {
+    "name": "HEBT Optimize",
+    "task_type": "task",
+    "description": "HEBT传输效率优化",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "hebt_eff_opt"
   },
   "close_lebt_dump": {
     "name": "Insert LEBT DUMP",
@@ -134,8 +181,16 @@
     "interactive": false,
     "user_code": "close_lebt_dump_hebt"
   },
+  "close_lebt_dump_target": {
+    "name": "Insert LEBT DUMP",
+    "task_type": "task",
+    "description": "插入LEBT DUMP",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "close_lebt_dump_target"
+  },
   "dipole_status_checking": {
-    "name": "HEBT Dipole Status Checking",
+    "name": "HEBT Dipole Checking",
     "task_type": "task",
     "description": "HEBT二极铁电源检测",
     "skippable": false,
@@ -149,14 +204,6 @@
     "skippable": false,
     "interactive": false,
     "user_code": "drop_T0D1_current"
-  },
-  "switch_commissioning_mode": {
-    "name": "Switch Commissiong Mode",
-    "task_type": "task",
-    "description": "转入加速器模式",
-    "skippable": false,
-    "interactive": false,
-    "user_code": "switch_commissioning_mode"
   },
   "pulse_checking": {
     "name": "Timing System Checking",
@@ -230,6 +277,14 @@
     "interactive": false,
     "user_code": "diag_gain_setting"
   },
+  "diag_gain_setting_target": {
+    "name": "Halo Gain Setting",
+    "task_type": "task",
+    "description": "刮束环增益设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "diag_gain_setting_target"
+  },
   "mfc_current_checking": {
     "name": "MFC Current Checking",
     "task_type": "task",
@@ -278,13 +333,21 @@
     "interactive": false,
     "user_code": "restore_lebt_collimator"
   },
-  "bpm_gain_setting": {
+  "bpm_gain_setting_target": {
     "name": "BPM Gain Setting",
     "task_type": "task",
     "description": "BPM增益设置",
     "skippable": false,
     "interactive": false,
-    "user_code": "bpm_gain_setting"
+    "user_code": "bpm_gain_setting_target"
+  },
+  "bpm_gain_setting_opt": {
+    "name": "BPM Gain Setting",
+    "task_type": "task",
+    "description": "BPM增益设置",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "bpm_gain_setting_opt"
   },
   "restore_mps": {
     "name": "restore MPS",

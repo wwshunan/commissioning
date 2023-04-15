@@ -66,7 +66,9 @@ def get_status(task_id: str):
 
 @router.post('/commissioning/sequencer/execute',
              dependencies=[Depends(JWTBearer())])
-def execute():
+def execute(data: Id, db: Session = Depends(get_db)):
+    seq = fetch_sequence(db, data.id)
+    task_executor.initialize_sequence(seq)
     tasks = task_executor.execute_sequence()
     return {
         'code': 20000,

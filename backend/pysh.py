@@ -294,6 +294,29 @@ pvdb = {
     'MEBT_PS:DCV04:CurMon': {},
     'MEBT_PS:DCV05:CurMon': {},
     'MEBT_PS:DCV06:CurMon': {},
+    'HEBT_PS:T0_Q-01:CurSet': {},
+    'HEBT_PS:T0_Q-02:CurSet': {},
+    'HEBT_PS:T0_D-01:CurSet': {},
+    'HEBT_PS:T0_CH-01:CurSet': {},
+    'HEBT_PS:T0_CH-02:CurSet': {},
+    'HEBT_PS:T0_CV-01:CurSet': {},
+    'HEBT_PS:T0_CV-02:CurSet': {},
+    'HEBT_PS:T1_Q-01:CurSet': {},
+    'HEBT_PS:T1_Q-02:CurSet': {},
+    'HEBT_PS:T1_Q-03:CurSet': {},
+    'HEBT_PS:T1_Q-04:CurSet': {},
+    'HEBT_PS:T0_D-02:CurSet': {},
+    'HEBT_PS:T1_CH-01:CurSet': {},
+    'HEBT_PS:T1_CH-02:CurSet': {},
+    'HEBT_PS:T1_CH-03:CurSet': {},
+    'HEBT_PS:T1_CH-04:CurSet': {},
+    'HEBT_PS:T1_CV-01:CurSet': {},
+    'HEBT_PS:T1_CV-02:CurSet': {},
+    'HEBT_PS:T1_CV-03:CurSet': {},
+    'HEBT_PS:T1_CV-04:CurSet': {},
+    'HEBT_PS:T2_CH-03:CurSet': {},
+    'HEBT_PS:T2_Q-02:CurSet': {},
+    'HEBT_PS:T2_Q-03:CurSet': {},
     'HEBT_PS:T0_Q-01:CurMon': {},
     'HEBT_PS:T0_Q-02:CurMon': {},
     'HEBT_PS:T0_D-01:CurMon': {},
@@ -314,6 +337,9 @@ pvdb = {
     'HEBT_PS:T1_CV-02:CurMon': {},
     'HEBT_PS:T1_CV-03:CurMon': {},
     'HEBT_PS:T1_CV-04:CurMon': {},
+    'HEBT_PS:T2_CH-03:CurMon': {},
+    'HEBT_PS:T2_Q-02:CurMon': {},
+    'HEBT_PS:T2_Q-03:CurMon': {},
     'LEBT_BD:FC_01:In': {},
     'LEBT_BD:FC_01:Rem': {},
     'ADS:ACCT1': {},
@@ -405,7 +431,17 @@ pvdb = {
     'H_INJECT_BD:bFCSingleConstantEnable1_W': {},
     'SCR_STRG:SDG01:CH1_WIDTH': {},
     'SCR_STRG:SDG:FRQ': {},
-    'TARGET_VAC:VG:Pres': {}
+    'TARGET_VAC:VG:Pres': {},
+    'T2BPM2.X_AVERAGE_1': {},
+    'T2BPM3.X_AVERAGE_1': {},
+    'T2BPM2.Y_AVERAGE_1': {},
+    'T2BPM3.Y_AVERAGE_1': {},
+    'SS_BD:CHAN2_AVG_SUB_OST_VAL': {},
+    'HEBT_BD:CHAN2_AVG_SUB_OST_VAL': {},
+    'HEBT_BD:CHAN3_AVG_SUB_OST_VAL': {},
+    'HEBT_BD:CHAN7_AVG_SUB_OST_VAL': {},
+    'HEBT_BD:CHAN5_AVG_SUB_OST_VAL': {},
+    'HEBT_BD:CHAN6_AVG_SUB_OST_VAL': {},
 }
 
 
@@ -424,7 +460,7 @@ class myDriver(Driver):
         return status
 
     def read(self, reason):
-        if reason.startswith('Bpm'):
+        if "BPM" in reason.upper() or 'BD' in reason:
             value = random.random() * 4
         else:
             value = self.getParam(reason)
