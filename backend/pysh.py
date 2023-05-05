@@ -432,16 +432,27 @@ pvdb = {
     'SCR_STRG:SDG01:CH1_WIDTH': {},
     'SCR_STRG:SDG:FRQ': {},
     'TARGET_VAC:VG:Pres': {},
-    'T2BPM2.X_AVERAGE_1': {},
+    'T2BPM2.X_AVERAGE_1': { 'scan': 1 },
     'T2BPM3.X_AVERAGE_1': {},
     'T2BPM2.Y_AVERAGE_1': {},
     'T2BPM3.Y_AVERAGE_1': {},
     'SS_BD:CHAN2_AVG_SUB_OST_VAL': {},
+    'SS_BD:CHAN0_AVG_SUB_OST_VAL': {},
     'HEBT_BD:CHAN2_AVG_SUB_OST_VAL': {},
     'HEBT_BD:CHAN3_AVG_SUB_OST_VAL': {},
     'HEBT_BD:CHAN7_AVG_SUB_OST_VAL': {},
     'HEBT_BD:CHAN5_AVG_SUB_OST_VAL': {},
     'HEBT_BD:CHAN6_AVG_SUB_OST_VAL': {},
+    'LEBT:Set_Pos5_W': {},
+    'LEBT:Real_Pos5_R': {},
+    'LEBT:Cmd_Abv5_W': {},
+    'LEBT:Set_Pos6_W': {},
+    'LEBT:Real_Pos6_R': {},
+    'LEBT:Cmd_Abv6_W': {},
+    'LEBT:Set_Pos7_W': {},
+    'LEBT:Real_Pos7_R': {},
+    'LEBT:Cmd_Abv7_W': {},
+
 }
 
 
@@ -453,17 +464,20 @@ class myDriver(Driver):
         status = True
         # take proper actions
         self.setParam(reason, value)
-        if 'set' in reason.lower():
+        if 'set' in reason.lower() and 'LEBT' not in reason:
             self.setParam(reason.replace('Set', 'Mon'), value)
+        if reason == 'HEBT_PS:T0_CH-01:CurSet':
+            self.setParam('T2BPM2.X_AVERAGE_1', abs(value)+10*random.random())
+
         self.updatePVs()
 
         return status
 
     def read(self, reason):
-        if "BPM" in reason.upper() or 'BD' in reason:
-            value = random.random() * 4
-        else:
-            value = self.getParam(reason)
+        #if "BPM" in reason.upper() or 'BD' in reason:
+        #    value = random.random() * 4
+        #else:
+        value = self.getParam(reason)
         self.updatePVs()
         return value
 

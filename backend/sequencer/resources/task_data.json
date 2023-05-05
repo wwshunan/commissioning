@@ -40,6 +40,9 @@
     "task_type": "seq",
     "tasks": [
       {
+        "task_id": "close_lebt_dump"
+      },
+      {
         "task_id": "drop_T0D1_current"
       },
       {
@@ -69,6 +72,12 @@
     "task_type": "seq",
     "tasks": [
       {
+        "task_id": "close_lebt_dump_hebt"
+      },
+      {
+        "task_id": "load_T0D1_current"
+      },
+      {
         "task_id": "move_fcs"
       },
       {
@@ -97,6 +106,23 @@
       }
     ]
   },
+  "hebt_optimize": {
+    "name": "HEBT optimize",
+    "description": "HEBT优化前配置",
+    "interactive": true,
+    "task_type": "seq",
+    "tasks": [
+      {
+        "task_id": "hebt_orbit_correction"
+      },
+      {
+        "task_id": "hebt_ssfc_opt"
+      },
+      {
+        "task_id": "hebt_halo_ring_opt"
+      }
+    ]
+  },
   "target_configure": {
     "name": "Target preconfig",
     "description": "终端打靶前配置",
@@ -104,7 +130,7 @@
     "task_type": "seq",
     "tasks": [
       {
-        "task_id": "restore_lebt_collimator"
+        "task_id": "set_beam_current"
       },
       {
         "task_id": "bpm_gain_setting_target"
@@ -119,7 +145,7 @@
         "task_id": "close_lebt_dump_target"
       },
       {
-        "task_id": "open_ssfc"
+        "task_id": "open_ssfc_t2fc"
       }
     ]
   },
@@ -130,13 +156,7 @@
     "task_type": "seq",
     "tasks": [
       {
-        "task_id": "close_lebt_dump"
-      },
-      {
         "task_id": "tof_configure"
-      },
-      {
-        "task_id": "close_lebt_dump_hebt"
       },
       {
         "task_id": "hebt_optimize_configure"
@@ -157,13 +177,29 @@
     "interactive": false,
     "user_code": "switch_safe_mode"
   },
-  "hebt_optimize": {
-    "name": "HEBT Optimize",
+  "hebt_orbit_correction": {
+    "name": "Orbit Correction",
     "task_type": "task",
-    "description": "HEBT传输效率优化",
+    "description": "HEBT轨道优化",
     "skippable": false,
     "interactive": false,
-    "user_code": "hebt_eff_opt"
+    "user_code": "hebt_orbit_correction"
+  },
+  "hebt_ssfc_opt": {
+    "name": "SSFC Optimization",
+    "task_type": "task",
+    "description": "SSFC流强优化",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "hebt_ssfc_opt"
+  },
+  "hebt_halo_ring_opt": {
+    "name": "Halo Ring Optimization",
+    "task_type": "task",
+    "description": "刮束环流强优化",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "hebt_hr_opt"
   },
   "close_lebt_dump": {
     "name": "Insert LEBT DUMP",
@@ -204,6 +240,14 @@
     "skippable": false,
     "interactive": false,
     "user_code": "drop_T0D1_current"
+  },
+  "load_T0D1_current": {
+    "name": "Load T0D1 Current",
+    "task_type": "task",
+    "description": "加载T0D1电流",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "load_T0D1_current"
   },
   "pulse_checking": {
     "name": "Timing System Checking",
@@ -325,6 +369,14 @@
     "interactive": false,
     "user_code": "open_t2fc"
   },
+  "set_beam_current": {
+    "name": "Set Beam Current",
+    "task_type": "task",
+    "description": "设置束流流强",
+    "skippable": false,
+    "interactive": false,
+    "user_code": "set_beam_current"
+  },
   "restore_lebt_collimator": {
     "name": "restore LEBT Collimator",
     "task_type": "task",
@@ -357,13 +409,13 @@
     "interactive": false,
     "user_code": "restore_mps"
   },
-  "open_ssfc": {
-    "name": "Open SS FC",
+  "open_ssfc_t2fc": {
+    "name": "Open SS and T2 FC",
     "task_type": "task",
-    "description": "打开SS FC",
+    "description": "打开SS和T2 FC",
     "skippable": false,
     "interactive": false,
-    "user_code": "open_ssfc"
+    "user_code": "open_ssfc_t2fc"
   },
   "switch_target_mode": {
     "name": "Switch Target Mode",

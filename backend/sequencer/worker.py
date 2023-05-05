@@ -9,11 +9,11 @@ class UserCode(TaskUserInterface):
         self.module = 'backend.sequencer.user_codes.cafe_tasks'
         self.task = task
 
-    def execUserCode(self):
+    def execUserCode(self, **kwargs):
         mod = importlib.import_module(self.module)
         user_code = getattr(mod, self.task.user_code)
         try:
-            user_code()
+            user_code(**kwargs)
             result = {
                 'key': 'OK',
                 'detail': 'FINISHED'
@@ -56,7 +56,7 @@ class TaskExecutor(object):
     def execute_sequence(self):
         return self.sequence.execUserCode(self.executor)
 
-    def execute_task(self, task_id):
+    def execute_task(self, task_id, **kwargs):
         tasks = self.sequence.getFlattenedTaskList()
         task = next(filter(lambda x: x.id==task_id, tasks), None)
         #for i, t in enumerate(tasks):
@@ -64,4 +64,4 @@ class TaskExecutor(object):
         #        task = t
         #        next_task_id = tasks[i+1].id if i < len(tasks) - 1 else tasks[i].id
         #        break
-        return task.execUserCode(self.executor)
+        return task.execUserCode(self.executor, **kwargs)

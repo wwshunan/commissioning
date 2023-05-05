@@ -145,6 +145,7 @@ class Timing(BaseModel):
 
 class Id(BaseModel):
     id: int
+    kwargs: Optional[dict]
 
 class Name(BaseModel):
     label: str

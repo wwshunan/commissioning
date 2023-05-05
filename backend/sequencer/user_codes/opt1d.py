@@ -1,83 +1,105 @@
 from epics import PV
+from scipy.optimize import brent
 import numpy as np
 import time
 
 
 class Opt1d(object):
     def __init__(self, x_setting: list, x_reading: list, target_name: list, x_limit: float,
-                 x_step_max: float, read_num: int, epsilon: float, learning_rate: float) -> None:
+                 x_step_max: float, read_num: int, xtol: float) -> None:
         self.x_limit = x_limit
         self.x_step_max = x_step_max
         self.x_setting = [PV(x) for x in x_setting] 
         self.x_reading = [PV(x) for x in x_reading]
         self.target = [PV(x) for x in target_name] 
         self.read_num = read_num
-        self.target_original = self.get_target_val(0.1)
-        self.learning_rate = learning_rate
-        self.epsilon = epsilon
+        self.xtol = xtol
+        self.prev_dx = np.inf
+        self.x_setting_original = [x.get() for x in self.x_setting]
 
     def get_target_val(self, interval):
+        #bpm_xs = []
         target_vals = []
         for i in range(self.read_num):
             if len(self.target) == 1:
                 target_val = self.target[0].get()
             else:
-                target_val = self.target[0].get() - sum([v.get() for v in self.target[1:]])
+                #weights = np.array([6, 18, 18, 18, 18, 18]) / 16
+                weights = np.array([0.1815, 0.4956, 0.5658, 0.3773, 0.2345, 0.0]) 
+                target_val = self.target[0].get() * 0.2579 - np.array([v.get() for v in self.target[1:]])*weights
             target_vals.append(target_val)
             time.sleep(interval)
         return np.median(target_vals)
 
-    def optimize(self, delta: float, target: str, epoches: int, direction: str = 'homo'):
-        epoch = 0
-        x_current = [x.get() for x in self.x_setting]
-        if x_current[0] + delta > self.x_limit:
-            delta = -delta
+    def check_current_load(self, rb_pv, target):
+        if abs(rb_pv.get() - target) > self.xtol * 1.2:
+            return False
+        return True
 
-        grad = 10000
-        while abs(grad) > self.epsilon and epoch < epoches:
-            if epoch <= 5:
-                x_step_max = self.x_step_max
-            elif epoch <= 10:
-                x_step_max = self.x_step_max / 3
-            elif epoch <= 15:
-                x_step_max = self.x_step_max / 10
+    def target_func(self, dx, direction, target):
+        print(dx, 'dx')
+         
+        if abs(dx-self.prev_dx) < self.xtol:
+            raise StopIteration
+        self.prev_dx = dx
+        large_val = 1e5 
+        if len(self.x_setting) == 1:
+            x_val = self.x_setting_original[0] + dx
+            if abs(x_val) < self.x_limit:
+                self.x_setting[0].put(round(x_val, 2))
+                while not self.check_current_load(self.x_reading[0], x_val):
+                    time.sleep(1)
             else:
-                x_step_max = self.x_step_max / 30
-
-
-            grad, delta = self.update(
-                x_current, delta, x_step_max, target, direction)
-            epoch += 1
-        return self.target_original
-
-    def update(self, x_current, delta, x_step_max, target, direction):
-        #x_current = round(x_current+delta, 1)
-        if abs(x_current[0]+delta) > self.x_limit:
-            delta = np.sign(x_current[0]) * self.x_limit - x_current[0]
-        x_current[0] = round(x_current[0] + delta, 1)
-
-        if len(x_current) == 2 and direction == 'homo':
-            x_current[1] = round(x_current[1] + delta, 1)
-
-        if len(x_current) == 2 and direction == 'hetero':
-            x_current[1] = round(x_current[1] - delta, 1)
-
-        [x_setting.put(x) for x_setting, x in zip(self.x_setting, x_current)]
-
-        for i, x_reading in enumerate(self.x_reading):
-            while abs(x_reading.get() - x_current[i]) > 1:
-                time.sleep(1)
-
-        target_current = self.get_target_val(0.1)
-        var = abs(target_current) - abs(self.target_original)
-        grad = var / delta
-        print(var, delta, grad)
-        if target == 'min':
-            delta = np.clip(-self.learning_rate *
-                            grad, -x_step_max, x_step_max)
+                return large_val
         else:
-            delta = np.clip(self.learning_rate * grad, -x_step_max, x_step_max)
+            for i, (x_set_pv, x_rb_pv, x_original) in enumerate(zip(self.x_setting, self.x_reading, self.x_setting_original)):
+                if direction == 'homo':
+                    x_val = x_original + dx
+                else:
+                    x_val = x_original + (-1)**i * dx
+                if abs(x_val) < self.x_limit:
+                    x_set_pv.put(round(x_val, 2))
+                    while not self.check_current_load(x_rb_pv, x_val):
+                        time.sleep(1)
+                else:
+                    return large_val
 
-        self.target_original = target_current
-        print('delta', delta)
-        return grad, delta
+        target_val = self.get_target_val(0.1)
+        return abs(target_val) if target == 'min' else -target_val
+
+    def optimize(self, target: str, direction: str = 'homo'):
+        try:
+            brent(self.target_func, args=(direction, target), brack=(0.5, self.x_step_max), maxiter=10)
+        except StopIteration:
+            pass
+
+def check_pv_setting(get_pvs, targets, tol):
+    for rb, t in zip(get_pvs, targets):
+        if abs(rb.get() - t) > tol:
+            return False
+    return True
+
+def t2fc_target_func(x, put_pvs, action_pvs, get_pvs, target_pv, target):
+    set_vals = []
+    for i, (s, act) in enumerate(zip(put_pvs, action_pvs)):
+        if i == 1:
+            set_val = x - 5
+        else:
+            set_val = x
+        set_vals.append(set_val)
+        s.put(round(set_val, 1))
+        act.put(1)
+
+    while True:
+        if check_pv_setting(get_pvs, set_vals, 0.1):
+            break
+        time.sleep(1)
+    
+    targets = []
+    for _ in range(50):
+        t = target_pv.get()
+        time.sleep(0.1)
+        targets.append(t)
+    return (np.median(targets) - target) ** 2
+
+    

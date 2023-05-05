@@ -165,10 +165,10 @@ class ADSTask(AbstractTaskImpl, CallableTask):
     def execPreUserCode(self):
         pass
 
-    def execUserCode(self, executor):
+    def execUserCode(self, executor, **kwargs):
         task = {}
         task['id'] = self.id
-        task['task'] = executor.enqueue(self.userCode.execUserCode, job_timeout='30m')
+        task['task'] = executor.enqueue(self.userCode.execUserCode, **kwargs, job_timeout='30m')
         return task
 
     def execPostUserCode(self):

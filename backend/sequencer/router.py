@@ -78,7 +78,10 @@ def execute(data: Id, db: Session = Depends(get_db)):
 @router.post('/commissioning/sequencer/step',
              dependencies=[Depends(JWTBearer())])
 def step(task: Id):
-    task = task_executor.execute_task(task.id)
+    if task.kwargs:
+        task = task_executor.execute_task(task.id, **task.kwargs)
+    else:
+        task = task_executor.execute_task(task.id)
     return {
         'code': 20000,
         'tasks': [{'id': task['id'], 'task': task['task'].get_id()}]
